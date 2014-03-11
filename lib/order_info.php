@@ -20,7 +20,6 @@ class OrderInfo {
    * referring_site
    * total_price
    * total_discounts
-   * discount_codes
    */
 }
 
