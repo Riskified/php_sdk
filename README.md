@@ -1,4 +1,8 @@
-php_sdk
-=======
+Riskified PHP SDK
+=================
 
-Will store the PHP SDK for Riskified
+This repository will store the code for the Riskified PHP SDK.
+
+The wiki will contain the software overview and requirements for the SDK.
+
+
