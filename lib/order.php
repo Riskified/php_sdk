@@ -6,14 +6,46 @@ class Order {
    * The parent class the contains the other subclasses.
    */
 
-  public $order_info;       // Order Info class.
-  public $customer;         // Customer class.
-  public $shipping_address; // Address class.
-  public $billing_address;  // Address class.
-  public $line_item_array;  // A list of LineItem.
-  public $payment_info;     // PaymentDetails class.
-  public $discount_codes;   // A list of DiscountCode objects
-  public $shipping_lines;   // A list of ShippingLine objects
-
+    public $orderInfo;       // Order Info class.
+    public $customer;         // Customer class.
+    public $shippingAddress; // Address class.
+    public $billingAddress;  // Address class.
+    public $lineItemArray;  // A list of LineItem.
+    public $paymentInfo;     // PaymentDetails class.
+    public $discountCodes;   // A list of DiscountCode objects
+    public $shippingLines;   // A list of ShippingLine objects
+    
+    
+    
+    public function setOrderInfo( OrderInfo $orderInfo ) {
+        
+    }
+    
+    public function setLineItems() {
+        
+    }
+    
+    public function setShippingLines( ShippingLine $shippingLines) {
+        
+    }
+    
+    public function setPaymentDetails( PaymentDetails $paymentInfo) {
+        
+    }
+    
+    public function setCustomer( Customer  $customer) {
+        
+    }
+    
+    public function setShippingAddress( Address  $shippingAddress) {
+        
+    }
+    
+    public function setBillingAddress( Address  $billingAddress) {
+        
+    }
+    
+    
+    
 }
 

@@ -61,8 +61,8 @@
     */
     
     //shipping details
-    $shipping_lines = array()
-    $spipping_lines[0] = new ShippingLine() 
+    $shipping_lines = array();
+    $spipping_lines[0] = new ShippingLine(); 
     /*
     $data ['shipping_lines'][]['price']   = 10;
     $data ['shipping_lines'][]['title']   = "Overnight shipping";
