@@ -1,41 +1,46 @@
 <?php
-
-class Order extends Base{
+class OrderInfo extends Base{
 
   /**
-   * The parent class the contains the other subclasses.
+   * 
+   * REQUIRED 
+   * 
+   *
+   * The OrderInfo class should contain the following fields:
+   * id
+   * name
+   * email
+   * total_spent
+   * cancel_reason
+   * created_at
+   * closed_at
+   * currency
+   * updated_at
+   * gateway
+   * browser_ip
+   * cart_token
+   * note
+   * referring_site
+   * total_price
+   * total_discounts
    */
   
-  
-  
-    protected $id;               #required - string
-    protected $name;             #???
-    protected $email;            #required - string  
+    protected $id;              #required - string
+    protected $name;            #???
+    protected $email;           #required - string  
     protected $total_spent;      # ----------------------  not appear in integration_spec !!! ------------------
     protected $cancel_reason;    #optional - string
     protected $created_at;       #required - date
     protected $closed_at;        #optional - date
-    protected $currency;         #required - string
+    protected $currency;        #required - string
     protected $updated_at;       #required - date
-    protected $gateway;          #required - string
+    protected $gateway;         #required - string
     protected $browser_ip;       #required - string
     protected $cart_token;       #optional - string
-    protected $note;             #???
+    protected $note;            #???
     protected $reffering_site;   # ----------------------  not appear in integration_spec !!! ------------------
     protected $total_price;      #required - float
     protected $total_discounts;  #optional - float
-
-    protected $customer;          # Customer class
-    protected $shipping_address;  # Address class
-    protected $billing_address;   # Address class
-    protected $line_items;        # A list of LineItem
-    protected $payment_details;   # PaymentDetails class
-    protected $discount_codes;    # A list of DiscountCode objects
-    protected $shipping_lines;    # A list of ShippingLine objects
-    protected $isSet = false;
-    
-    
-    
     
     
     public function setId($id) {
@@ -64,12 +69,8 @@ class Order extends Base{
     public function setCreatedAt($created_at) {
         if(!$created_at)
             throw new Exception('The Order Info - Created At - is required field');
-        else{
-            if(!Base::validateDate($created_at,$format='Y-m-d h:i:s'))
-                throw new Exception('The Order Info - Created At - is in wrong format');
-            else
-                $this->created_at = $created_at;
-        }
+        else
+        $this->created_at = $created_at;
     }
     
     public function setClosedAt($closed_at) {
@@ -181,48 +182,7 @@ class Order extends Base{
         return $this->total_discounts;
     }
     
-    
-    
-    public function setLineItems($lineItems) {
-        $this->line_items = $lineItems;
-        $this->isSet = true;
-    }
-    
-    public function setShippingLines( $shippingLines ) {
-        $this->shipping_lines = $shippingLines;
-        $this->isSet = true;
-    }
-    
-    public function setPaymentDetails( $paymentDetails ) {
-        $this->payment_details = $paymentDetails;
-    }
-    
-    public function setDiscountCodes( $discountCodes ) {
-        $this->discount_codes = $discountCodes;
-        $this->isSet = true;
-    }
-    
-    public function setCustomer( $customer ) {
-        $this->customer = $customer;
-        $this->isSet = true;
-    }
-    
-    public function setShippingAddress( $shippingAddress ) {
-        $this->shipping_address = $shippingAddress;
-        $this->isSet = true;
-    }
-    
-    public function setBillingAddress( $billingAddress ) {
-        $this->billing_address = $billingAddress;
-        $this->isSet = true;
-    }
-    
-    
-    public function isValid() {
-        
-        return $this->isSet;
-        
-    }
+   
     
 }
 

@@ -3,13 +3,17 @@
 class DiscountCode extends Base{
 
   /**
+   * 
+   * OPTIONAL
+   * 
    * The Discount code class should contain the following fields:
    * code
    * amount
+   * 
    */
-  
-    protected $code;
-    protected $amount;
+    
+    protected $code;    #optional - string
+    protected $amount;  #optional - float
     
     
     public function setCode($code) {

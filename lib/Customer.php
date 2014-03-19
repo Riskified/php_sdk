@@ -1,8 +1,11 @@
 <?php
 
-class Customer {
+class Customer extends Base{
 
   /**
+   * 
+   * REQUIRED
+   * 
    * The Customer class should contain the following fields:
    * created_at
    * email
@@ -13,51 +16,64 @@ class Customer {
    * orders_count
    */ 
    
-    protected $createdAt;
-    protected $email;
-    protected $firstName;
-    protected $lastName;
-    protected $id;
-    protected $note;
-    protected $ordersCount;
+    protected $created_at;            #optional - date
+    protected $email;                #required - string
+    protected $first_name;            #required - string
+    protected $last_name;             #required - string
+    protected $id;                   #required - string
+    protected $note;                 #optional - string
+    protected $orders_count;          #optional - number
+    //protected $verified_email;        #???????   optional - boolean   -- appear in integration_spec
    
     
     public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
+        $this->created_at = $createdAt;
     }
     public function setEmail($email) {
-        $this->email = $email;
+        if(!$email)
+            throw new Exception('The Customer - Email field is required.');
+        else    
+            $this->email = $email;
     }
     public function setFirstName($firstName) {
-        $this->firstName = $firstName;
+        if(!$firstName)
+            throw new Exception('The Customer - First Name field is required.');
+        else
+            $this->first_name = $firstName;
     }
     public function setLastName($lastName) {
-        $this->lastName = $lastName;
+        if(!$lastName)
+            throw new Exception('The Customer - Last Name field is required.');
+        else
+            $this->last_name = $lastName;
     }
     public function setId($id) {
-        $this->id = $id;
+        if(!$id)
+            throw new Exception('The Customer - Id field is required.');
+        else
+            $this->id = $id;
     }
     public function setNote($note) {
         $this->note = $note;
     }
     public function setOrdersCount($ordersCount) {
-        $this->ordersCount = $ordersCount;
+        $this->orders_count = $ordersCount;
     }
     
     
     
     
     public function getCreatedAt() {
-        return $this->createdAt;   
+        return $this->created_at;   
     }
     public function getEmail() {
         return $this->email;   
     }
     public function getFirstName() {
-        return $this->firstName;   
+        return $this->first_name;   
     }
     public function getlastName() {
-        return $this->lastName;   
+        return $this->last_name;   
     }
     public function getId() {
         return $this->id;   
@@ -66,29 +82,10 @@ class Customer {
         return $this->note;   
     }
     public function getOrdersCount() {
-        return $this->ordersCount;   
+        return $this->orders_count;   
     }
     
-    public function toArray() {
-        return $this->processArray(get_object_vars($this));
-    }
-   
-    private function processArray($array) {
-        foreach($array as $key => $value) {
-            if (is_object($value)) {
-                $array[$key] = $value->toArray();
-            }
-            if (is_array($value)) {
-                $array[$key] = $this->processArray($value);
-            }
-        }
-        // If the property isn't an object or array, leave it untouched
-        return $array;
-    }
-   
-    public function __toString() {
-        return json_encode($this->toArray());
-    }
+    
    
    
 }

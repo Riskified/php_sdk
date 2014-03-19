@@ -3,6 +3,9 @@
 class Address extends Base{
 
   /**
+   * 
+   * REQUIRED
+   * 
    * The address class should contain the following fields:
    * - first_name
    * - last_name
@@ -19,25 +22,31 @@ class Address extends Base{
    * - phone
    */
   
-    protected $firstName;
-    protected $lastName;
-    protected $name;
-    protected $company;
-    protected $addressOne;
-    protected $addressTwo;
-    protected $city;
-    protected $countryCode;
-    protected $country;
-    protected $province;
-    protected $provinceCode;
-    protected $zip;
-    protected $phone;
+    protected $first_name;   #required - string
+    protected $last_name;    #required - string
+    protected $name;        #optional - string
+    protected $company;     #required - string - for billing   //\\    optional - string - for shipping
+    protected $address1;  #required - string
+    protected $address2;  #optional - string
+    protected $city;        #required - string
+    protected $country_code; #required - string
+    protected $country;     #required - string
+    protected $province;    #optional - string
+    protected $province_code;#optional - string
+    protected $zip;         #optional - string
+    protected $phone;       #required - string
     
     public function setFirstName($firstName){
-        $this->firstName = $firstName;
+        if(!$firstName)
+            throw new Exception('The - Address - First Name field is required.');
+        else
+        $this->first_name = $firstName;
     }
     public function setLastName($lastName){
-        $this->lastName = $lastName;
+        if(!$lastName)
+            throw new Exception('The - Address - Last Name  field is required');
+        else    
+            $this->last_name = $lastName;
     }
     public function setName($name){
         $this->name = $name;
@@ -46,48 +55,59 @@ class Address extends Base{
         $this->company = $company;
     }
     public function setAddressOne($addressOne){
-        $this->addressOne = $addressOne;
+        if(!$addressOne)
+            throw new Exception('The - Address - Address 1  field is required');
+        else
+            $this->address1 = $addressOne;
     }
     public function setAddressTwo($addressTwo){
-        $this->addressTwo = $addressTwo;
+        $this->address2 = $addressTwo;
     }
     public function setCity($city){
-        $this->city = $city;
+        if(!$city)
+            throw new Exception('The - Address - City  field is required');
+        else
+            $this->city = $city;
     }
     public function setCountryCode($countryCode){
-        $this->countryCode = $countryCode;
+        if(!$countryCode)
+            throw new Exception('The - Address - Country Code  field is required');
+        else
+            $this->country_code = $countryCode;
     }
     public function setCountry($country){
-        $this->country = $country;
+        if(!$country)
+            throw new Exception('The - Address - Country  field is required');
+        else
+            $this->country = $country;
     }
     public function setProvince($province){
         $this->province = $province;
     }
     public function setProvinceCode($provinceCode){
-        $this->provinceCode = $provinceCode;
+        $this->province_code = $provinceCode;
     }
     public function setZip($zip){
         $this->zip = $zip;
     }
     public function setPhone($phone){
-        $this->phone = $phone;
+        if(!$phone)
+            throw new Exception('The - Address - Phone  field is required');
+        else
+            $this->phone = $phone;
     }
     
     
     public function getFirstName(){
-        return $this->firstName;
+        return $this->first_name;
     }
     
     public function getLastName(){
-        return $this->lastName;
+        return $this->last_name;
     }
     
     public function getName(){
         return $this->name;
-    }
-    
-    public function getFirsName(){
-        return $this->firstName;
     }
     
     public function getCompany(){
@@ -95,11 +115,11 @@ class Address extends Base{
     }
     
     public function getAddressOne(){
-        return $this->addressOne;
+        return $this->address1;
     }
     
     public function getAddressTwo(){
-        return $this->addressTwo;
+        return $this->address2;
     }
     
     public function getCity(){
@@ -107,7 +127,7 @@ class Address extends Base{
     }
     
     public function getCountryCode(){
-        return $this->countryCode;
+        return $this->country_code;
     }
     
     public function getCountry(){
@@ -119,7 +139,7 @@ class Address extends Base{
     }
     
     public function getProvinceCode(){
-        return $this->provinceCode;
+        return $this->province_code;
     }
     public function getZip(){
         return $this->zip;

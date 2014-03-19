@@ -3,6 +3,10 @@
 class LineItem extends Base{
 
   /** 
+   * 
+   * REQUIRED 
+   *
+   * 
    * The LineItem class should contain the following fields:
    * price
    * product_id
@@ -12,31 +16,45 @@ class LineItem extends Base{
    * public_url
    */ 
    
-    protected $price;
-    protected $productId;
-    protected $quantity;
-    protected $sku;
-    protected $title;
-    protected $publicUrl;
+    protected $price;       #required - string
+    protected $product_id;   #optional - string
+    protected $quantity;    #required - string
+    protected $sku;         #optional - string
+    protected $title;       #required - string
+    protected $public_url;   # ----------------------  not appear in integration_spec !!! ------------------
     
     
     public function setPrice($price) {
-        $this->price = $price;
+        if(!$price)
+            throw new Exception('The LineItem - Price field is required');
+        else    
+            $this->price = $price;
     }
+    
     public function setProductId($productId) {
-        $this->productId = $productId;
+        $this->product_id = $productId;
     }
+    
     public function setQuantity($quantity) {
-        $this->quantity = $quantity;
+        if(!$quantity)
+            throw new Exception('The LineItem - Quantity field is required');
+        else
+            $this->quantity = $quantity;
     }
+    
     public function setSku($sku) {
         $this->sku = $sku;
     }
+    
     public function setTitle($title) {
-        $this->title = $title;
+        if(!$title)
+            throw new Exception('The LineItem - Title field is required');
+        else
+            $this->title = $title;
     }
+    
     public function setPublicUrl($publicUrl) {
-        $this->publicUrl = $publicUrl;
+        $this->public_url = $publicUrl;
     }
     
     
@@ -44,7 +62,7 @@ class LineItem extends Base{
         return $this->price;
     }
     public function getProductId() {
-        return $this->productId;
+        return $this->product_id;
     }
     public function getQuantity() {
         return $this->quantity;
@@ -56,7 +74,7 @@ class LineItem extends Base{
         return $this->title;
     }
     public function getPublicUrl() {
-        return $this->publicUrl;
+        return $this->public_url;
     }
     
   

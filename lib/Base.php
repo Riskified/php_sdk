@@ -31,20 +31,28 @@ abstract class Base {
     }
     
     private function  array_to_xml($order, &$xml_order_info) {
-            foreach($order as $key => $value) {
-                if(is_array($value)) {
-                    if(!is_numeric($key)){
-                        $subnode = $xml_order_info->addChild("$key");
-                        $this->array_to_xml($value, $subnode);
-                    }
-                    else{
-                        $subnode = $xml_order_info->addChild("item$key");
-                        $this->array_to_xml($value, $subnode);
-                    }
+            
+        foreach($order as $key => $value) {
+            if(is_array($value)) {
+                if(!is_numeric($key)){
+                    $subnode = $xml_order_info->addChild("$key");
+                    $this->array_to_xml($value, $subnode);
                 }
-                else {
-                    $xml_order_info->addChild("$key",htmlspecialchars("$value"));
+                else{
+                    $subnode = $xml_order_info->addChild("item$key");
+                    $this->array_to_xml($value, $subnode);
                 }
             }
+            else {
+                $xml_order_info->addChild("$key",htmlspecialchars("$value"));
+            }
         }
+    }
+    
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        //return $d && $d->format($format) == $date;
+        return true;
+    }
 }
