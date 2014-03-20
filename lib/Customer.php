@@ -16,17 +16,25 @@ class Customer extends Base{
    * orders_count
    */ 
    
-    protected $created_at;            #optional - date
+    protected $created_at;           #optional - date
     protected $email;                #required - string
-    protected $first_name;            #required - string
-    protected $last_name;             #required - string
+    protected $first_name;           #required - string
+    protected $last_name;            #required - string
     protected $id;                   #required - string
     protected $note;                 #optional - string
-    protected $orders_count;          #optional - number
-    //protected $verified_email;        #???????   optional - boolean   -- appear in integration_spec
+    protected $orders_count;         #optional - number
+    //protected $verified_email;     #???????   optional - boolean   -- appear in integration_spec
    
     
     public function setCreatedAt($createdAt) {
+        if($createdAt) {
+            if($this->validateDate($createdAt))
+            {
+                $this->created_at = $createdAt;
+            }
+            else 
+                throw new Exception('The Customer - Created At field is in wrong format.');
+        }
         $this->created_at = $createdAt;
     }
     public function setEmail($email) {
@@ -57,6 +65,12 @@ class Customer extends Base{
         $this->note = $note;
     }
     public function setOrdersCount($ordersCount) {
+        
+        if($ordersCount) {
+            if(!is_numeric($ordersCount))
+                throw new Exception('The Customer - OrdersCount is not numeric.'); 
+        }
+        
         $this->orders_count = $ordersCount;
     }
     

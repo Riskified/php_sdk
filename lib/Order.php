@@ -1,5 +1,4 @@
 <?php
-
 class Order extends Base{
 
   /**
@@ -36,11 +35,9 @@ class Order extends Base{
     
     
     
-    
-    
     public function setId($id) {
         if(!$id)
-            throw new Exception('The Order Info - Id - is required field');
+            throw new Exception('The Order Info - Id - is required field.');
         else    
             $this->id = $id;
     }
@@ -49,7 +46,7 @@ class Order extends Base{
     }
     public function setEmail($email) {
         if(!$email)
-            throw new Exception('The Order Info - Email - is required field');
+            throw new Exception('The Order Info - Email - is required field.');
         else
             $this->email = $email;
     }
@@ -61,62 +58,100 @@ class Order extends Base{
         $this->cancel_reason = $cancel_reason;
     }
     
-    public function setCreatedAt($created_at) {
-        if(!$created_at)
-            throw new Exception('The Order Info - Created At - is required field');
+    public function setCreatedAt($createdAt) {
+        if(!$createdAt)
+            throw new Exception('The Order - Created At - is required field.');
         else{
-            if(!Base::validateDate($created_at,$format='Y-m-d h:i:s'))
-                throw new Exception('The Order Info - Created At - is in wrong format');
-            else
-                $this->created_at = $created_at;
+            if($this->validateDate($createdAt))
+            {
+                $this->created_at = $createdAt;
+            }
+            else 
+                throw new Exception('The Order - Created At field is in wrong format.');
         }
     }
     
     public function setClosedAt($closed_at) {
+        if($closed_at) {
+            
+            if($this->validateDate($closed_at))
+            {
+                $this->closed_at = $closed_at;
+            }
+            else 
+                throw new Exception('The Order - Closed At field is in wrong format.');
+        }
         $this->closed_at = $closed_at;
     }
     
     public function setCurrency($currency) {
         if(!$currency)
-            throw new Exception('The Order Info - Currency - is required field');
+            throw new Exception('The Order - Currency - is required field.');
         else
             $this->currency = $currency;
     }
+    
     public function setUpdatedAt($updated_at) {
         if(!$updated_at)
-            throw new Exception('The Order Info - Updated At - is required field');
-        else
-            $this->updated_at = $updated_at;
+            throw new Exception('The Order - Updated At - is required field.');
+        else {
+                    
+                if($this->validateDate($updated_at))
+                {
+                    $this->updated_at = $updated_at;
+                }
+                else 
+                    throw new Exception('The Order - Updated At field is in wrong format.');            
+
+        }
     }
+    
     public function setGateway($gateway) {
         if(!$gateway)
-            throw new Exception('The Order Info - Gateway - is required field');
+            throw new Exception('The Order - Gateway - is required field.');
         else
             $this->gateway = $gateway;
     }
+
     public function setBrowserIp($browser_ip) {
         if(!$browser_ip)
-            throw new Exception('The Order Info - Browser Ip - is required field');
+            throw new Exception('The Order - Browser Ip - is required field.');
         else
             $this->browser_ip = $browser_ip;
     }
+
     public function setCartToken($cart_token) {
         $this->cart_token = $cart_token;
     }
+    
     public function setNote($note) {
         $this->note = $note;
-    }               
+    }  
+                 
     public function setRefferingSite($reffering_site) {
         $this->reffering_site = $reffering_site;
     }
+    
     public function setTotalPrice($total_price) {
         if(!$total_price)
-            throw new Exception('The Order Info - Total Price - is required field');
-        else
-        $this->total_price = $total_price;
+            throw new Exception('The Order - Total Price - is required field.');
+        else {
+            if(!is_float($total_price))
+                throw new Exception('The Order - Total Price - field is not float.');
+            else
+                $this->total_price = $total_price;
+        }
     }
+
     public function setTotalDiscounts($total_discounts) {
-        $this->total_discounts = $total_discounts;
+        if($total_discounts) {
+            if(!is_float($total_discounts))
+                throw new Exception('The Order - Total Discounts - field is not float.');
+            else
+                $this->total_discounts = $total_discounts;
+        }
+        else 
+            $this->total_discounts = $total_discounts;
     }
     
     

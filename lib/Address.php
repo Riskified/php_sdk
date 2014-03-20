@@ -24,17 +24,17 @@ class Address extends Base{
   
     protected $first_name;   #required - string
     protected $last_name;    #required - string
-    protected $name;        #optional - string
-    protected $company;     #required - string - for billing   //\\    optional - string - for shipping
-    protected $address1;  #required - string
-    protected $address2;  #optional - string
-    protected $city;        #required - string
+    protected $name;         #optional - string
+    protected $company;      #required - string - for billing   //\\    optional - string - for shipping
+    protected $address1;     #required - string
+    protected $address2;     #optional - string
+    protected $city;         #required - string
     protected $country_code; #required - string
-    protected $country;     #required - string
-    protected $province;    #optional - string
+    protected $country;      #required - string
+    protected $province;     #optional - string
     protected $province_code;#optional - string
-    protected $zip;         #optional - string
-    protected $phone;       #required - string
+    protected $zip;          #optional - string
+    protected $phone;        #required - string
     
     public function setFirstName($firstName){
         if(!$firstName)

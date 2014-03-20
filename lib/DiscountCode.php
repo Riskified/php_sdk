@@ -21,6 +21,11 @@ class DiscountCode extends Base{
     }
     
     public function setAmount($amount) {
+        if($amount) {
+            if(!is_float($amount))
+                throw new Exception('The DiscountCode - Amount field in not float.');
+                
+        }
         $this->amount = $amount;
     }
     

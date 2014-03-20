@@ -21,7 +21,6 @@ class LineItem extends Base{
     protected $quantity;    #required - string
     protected $sku;         #optional - string
     protected $title;       #required - string
-    protected $public_url;   # ----------------------  not appear in integration_spec !!! ------------------
     
     
     public function setPrice($price) {
@@ -53,9 +52,6 @@ class LineItem extends Base{
             $this->title = $title;
     }
     
-    public function setPublicUrl($publicUrl) {
-        $this->public_url = $publicUrl;
-    }
     
     
     public function getPrice() {
@@ -72,9 +68,6 @@ class LineItem extends Base{
     }
     public function getTitle() {
         return $this->title;
-    }
-    public function getPublicUrl() {
-        return $this->public_url;
     }
     
   

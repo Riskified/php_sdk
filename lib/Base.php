@@ -49,10 +49,16 @@ abstract class Base {
         }
     }
     
-    function validateDate($date, $format = 'Y-m-d H:i:s')
+    public function getHashHmac($dataString, $authToken) {
+        return hash_hmac('sha256', $dataString, $authToken);
+    }
+    
+    public function validateDate($datetime)
     {
-        $d = DateTime::createFromFormat($format, $date);
-        //return $d && $d->format($format) == $date;
-        return true;
+        $timeStamp = strtotime($datetime);
+        if($timeStamp)
+            return true;
+        else
+            return false;
     }
 }

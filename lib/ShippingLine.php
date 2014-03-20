@@ -17,9 +17,14 @@ class ShippingLine extends Base{
     
     public function setPrice($price) {
         if(!$price)
-            throw new Exception('The Price field is required');
-        else
-            $this->price = $price;
+            throw new Exception('The ShippingLine - Price - field is required');
+        else {
+            if(!is_float($price)) {
+                throw new Exception('The ShippingLine - Price - field is not float.');
+            }
+            else
+                $this->price = $price;
+        }
     }
     
     public function setTitle($title) {
@@ -28,6 +33,9 @@ class ShippingLine extends Base{
         else
             $this->title = $title;
     }
+    public function setCode($code) {
+         $this->code = $code;
+    }
     
     public function getPrice() {
         return $this->price;
@@ -35,6 +43,9 @@ class ShippingLine extends Base{
     
     public function getTitle() {
         return $this->title;
+    }
+    public function getCode() {
+        return $this->code;
     }
     
    

@@ -1,5 +1,4 @@
 <?php
-    
     //header('Content-Type: text/xml');
     
     
@@ -15,9 +14,9 @@
     $domain = "busteco.com";
     
     # Use here the 'auth token' as listed in the Riskified web app under the 'Settings' Tab
-    $auth_token = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
+    $authToken = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
     
-    $riskified_url = "sandbox.riskified.com";
+    $riskifiedUrl = "sandbox.riskified.com";
     
     
     $errors = array();
@@ -29,150 +28,293 @@
     $customer = new Customer();
     $billingAddress = new Address();
     $shippingAddress  = new Address();
+    $transport = new Transport();
     
 
 # OrderInfo    
     try {
         $order->setId(118);
-        $order->setName('Order #111');
-        $order->setEmail('great.customer@example.com');
-        $order->setTotalSpent('200');
-        $order->setCancelReason('inventory');
-        $order->setCreatedAt('2014-03-32 14:58:04');
-        $order->setClosedAt('2014-03-19 14:58:05');
-        $order->setCurrency('USD');
-        $order->setUpdatedAt('2014-10-13 14:58:04');
-        $order->setGateway('mypaymentprocessor');
-        $order->setBrowserip('124.185.86.55');
-        $order->setCartToken('1sdaf23j212');
-        $order->setNote('Shipped to my hotel.');
-        $order->setRefferingSite('google.com');
-        $order->setTotalPrice(113.23);
-        $order->setTotalDiscounts(5);
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
     }
-    catch(Exception $e) {
-        //echo 'Caught exception in OrderInfo: '.$e->getMessage()."\n";
+    try {
+        $order->setName('Order #111');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $order->setEmail('great.customer@example.com');
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
     
+    try {
+        $order->setTotalSpent('200');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
     
+    try {
+        $order->setCreatedAt('2014-02-31 14:58:04');
+    }
+    catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    
+    try {
+        $order->setClosedAt('2014-03-31 14:58:05');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    
+    try {
+        $order->setCurrency('USD');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    
+    try {
+        $order->setUpdatedAt('2014-02-31 14:58:04');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }    
+    try {
+        $order->setGateway('mypaymentprocessor');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }    
+    try {
+        $order->setBrowserip('124.185.86.55');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }    
+    try {
+        $order->setTotalPrice(113.23);
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }    
+    try {
+       $order->setTotalDiscounts(5.0);
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }    
+        
+    $order->setCancelReason('inventory');
+    $order->setCartToken('1sdaf23j212');
+    $order->setNote('Shipped to my hotel.');
+    $order->setRefferingSite('google.com');
+    
+    
+    
+   
 # LineItems   
     try {
         $lineItems->setPrice(100);
-        $lineItems->setProductId(101);
-        $lineItems->setQuantity(1);
-        $lineItems->setSku('ABCD');
-        $lineItems->setTitle('ACME Widget');
-        $lineItems->setPublicUrl('publicurl.com');
-    }
-    catch(Exception $e) {
-        //echo 'Caught exception in LineItems: '.$e->getMessage()."\n";
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
-    }
+    } 
+    try {
+        $lineItems->setQuantity(1);
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    } 
+    try {
+        $lineItems->setTitle('ACME Widget');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    } 
+        
+    $lineItems->setProductId(101);
+    $lineItems->setSku('ABCD');
+        
+   
     
     
 # DiscountCodes    
     try {
-        $discountCode->setCode(12);
-        $discountCode->setAmount('19.95');
-    }
-    catch(Exception $e) {
-        //echo 'Caught exception in DiscountCodes: '.$e->getMessage()."\n";
+        $discountCode->setAmount(19.95);
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
+    $discountCode->setCode(12);
+    
     
     
 # ShippingLines    
     try {
-        $shippingLines->setPrice('123');
-        $shippingLines->setTitle('Free'); 
-    }
-    catch(Exception $e) {
-        //echo 'Caught exception in ShippingLines: '.$e->getMessage()."\n";
+        $shippingLines->setPrice(123.00);
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
+    try {
+        $shippingLines->setTitle('Free'); 
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    $shippingLines->setCode(NULL); 
     
     
 # PaymentDetais    
     try {
         $paymentDetails->setCreditCardBin('370002');
-        $paymentDetails->setAvsResultCode('Y');
-        $paymentDetails->setCvvResultCode('N');
-        $paymentDetails->setCreditCardNumber('xxxx-xxxx-xxxx-1234');
-        $paymentDetails->setCreditCardCompany('VISA');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
     }
-    catch(Exception $e) {
-        //echo 'Caught exception in PaymentDetails: '.$e->getMessage()."\n";
+    try {
+        $paymentDetails->setAvsResultCode('Y');
+        
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $paymentDetails->setCvvResultCode('N');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $paymentDetails->setCreditCardNumber('xxxx-xxxx-xxxx-1234');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $paymentDetails->setCreditCardCompany('VISA');
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
     
     
 # Customer   
     try {
-        $customer->setCreatedAt('31/1/2012');
         $customer->setEmail('email@address.com');
-        $customer->setFirstName('Firstname');
-        $customer->setLastName('Lastname');
-        $customer->setId(1233);
-        $customer->setNote(NULL);
-        $customer->setOrdersCount(6);    
-    }
-    catch(Exception $e) {
-        //echo 'Caught exception in Customer: '.$e->getMessage()."\n";
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
+    try {
+        $customer->setFirstName('Firstname');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $customer->setLastName('Lastname');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $customer->setId(1233);
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $customer->setCreatedAt('2012/01/15 11:22:11');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $customer->setOrdersCount('6');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    
+    $customer->setNote(NULL);
     
     
 # BillingAddress    
     try {
         $billingAddress->setFirstName('John');
-        $billingAddress->setLastName('Doe');
-        $billingAddress->setName('John Doe');
-        $billingAddress->setAddressOne('108 Main Street');
-        $billingAddress->setAddressTwo('Apartment 12');
-        $billingAddress->setCompany('Kansas Computers');
-        $billingAddress->setCountry('United States');
-        $billingAddress->setCountryCode('US');
-        $billingAddress->setPhone('1234567');
-        $billingAddress->setProvince('New York');
-        $billingAddress->setProvinceCode('NY');
-        $billingAddress->setCity('NYCity');
-        $billingAddress->setZip('64155');
-        
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
     }
-    catch(Exception $e) {
-        //echo 'Caught exception in BillingAddress: '. $e->getMessage()."\n";
+    try {
+        $billingAddress->setLastName('Doe');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setAddressOne('108 Main Street');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setCompany('Kansas Computers');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setCountry('United States');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setCountryCode('US');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setPhone('1234567');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $billingAddress->setCity('NYCity');
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
   
+        $billingAddress->setName('John Doe');
+        $billingAddress->setAddressTwo('Apartment 12');
+        $billingAddress->setProvince('New York');
+        $billingAddress->setProvinceCode('NY');
+        $billingAddress->setZip('64155');
 
 # ShippingAddress    
     try {
         $shippingAddress->setFirstName('John');
-        $shippingAddress->setLastName('Doe');
-        $shippingAddress->setName('John Doe');
-        $shippingAddress->setAddressOne('108 Main Street');
-        $shippingAddress->setAddressTwo('Apartment 12');
-        $shippingAddress->setCompany('Kansas Computers');
-        $shippingAddress->setCountry('United States');
-        $shippingAddress->setCountryCode('US');
-        $shippingAddress->setPhone('1234567');
-        $shippingAddress->setProvince('New York');
-        $shippingAddress->setProvinceCode('NY');
-        $shippingAddress->setCity('NYCity');
-        $shippingAddress->setZip('64155');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
     }
-    catch(Exception $e) {
-        //echo 'Caught exception ShippingAddress: '. $e->getMessage()."\n";
+    try {
+        $shippingAddress->setLastName('Doe');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $shippingAddress->setAddressOne('108 Main Street');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $shippingAddress->setCountry('United States');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $shippingAddress->setCountryCode('US');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $shippingAddress->setPhone('1234567');
+    }catch(Exception $e) {
+        $errors[] = $e->getMessage();
+    }
+    try {
+        $shippingAddress->setCity('NYCity');
+    }catch(Exception $e) {
         $errors[] = $e->getMessage();
     }
 
-// echo "<pre>";
-// print_r($errors);
+        $shippingAddress->setName('John Doe');
+        $shippingAddress->setAddressTwo('Apartment 12');
+        $shippingAddress->setCompany('Kansas Computers');
+        $shippingAddress->setProvince('New York');
+        $shippingAddress->setProvinceCode('NY');
+        $shippingAddress->setZip('64155');
+
+
 
 if(empty($errors)) {
+    
     # ORDER
-      
     try {
         $order->setLineItems( $lineItems );
         $order->setShippingLines( $shippingLines );
@@ -189,29 +331,15 @@ if(empty($errors)) {
     
     if($order->isValid()) {
         
-        $data_string = '';
+        $dataString = '';
         # available methods:__toXml(),__toJson()
-        $data_string = $order->__toJson();
+        $dataString = $order->__toJson();
         
-        //echo $data_string."<br>";
-        $hash_code = hash_hmac('sha256', $data_string, $auth_token);
+        # echo $data_string."<br>";
         
-        // Send the request
-        $ch = curl_init("http://$riskified_url/webhooks/merchant_order_created");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                                                   'Content-Type: application/json',
-                                                   'Content-Length: ' . strlen($data_string),
-                                                   'X_RISKIFIED_SHOP_DOMAIN:'.$domain,
-                                                   'X_RISKIFIED_SUBMIT_NOW:true',
-                                                   'X_RISKIFIED_HMAC_SHA256:'.$hash_code)
-                    );
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        
+        # Send the request
+        $result = $transport->sendRequest($dataString, $riskifiedUrl, $domain, $authToken);
         echo("Sending request...\n");
-        $result = curl_exec($ch);
         echo("Result is $result\n");
         
         $decodedResponse = json_decode($result);
@@ -222,16 +350,20 @@ if(empty($errors)) {
             echo("Order $orderId status is $status\n");
         }
         
-        
     }
 
-    
-
+}
+else {
+    echo "<ul>";
+        foreach($errors as $err) {
+            echo "<li>". $err. "</li>";
+        }
+    echo "</ul>";
+	
 }
 
 
-
-// load classes from /lib
+# load classes from /lib
 function __autoload($class_name) {
     $classPath = '../lib/'.$class_name . '.php';    
     if(file_exists($classPath)) {
