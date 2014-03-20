@@ -1,52 +1,11 @@
 <?php
-
 class ShippingLine extends Base{
 
-  /**
-   * 
-   * REQUIRED
-   * 
-   * The ShippingLine class should contain the following fields:
-   * price
-   * title 
-   */ 
-    
-    protected $price;   #required - float
-    protected $title;   #required - string
-    protected $code;    #optional - string     ----- is this required? (appear in integration_spec)
-    
-    public function setPrice($price) {
-        if(!$price)
-            throw new Exception('The ShippingLine - Price - field is required');
-        else {
-            if(!is_float($price)) {
-                throw new Exception('The ShippingLine - Price - field is not float.');
-            }
-            else
-                $this->price = $price;
-        }
-    }
-    
-    public function setTitle($title) {
-        if(!$title)
-            throw new Exception('The Title field is required');
-        else
-            $this->title = $title;
-    }
-    public function setCode($code) {
-         $this->code = $code;
-    }
-    
-    public function getPrice() {
-        return $this->price;
-    }
-    
-    public function getTitle() {
-        return $this->title;
-    }
-    public function getCode() {
-        return $this->code;
-    }
-    
+	protected $_fields = array(
+		'price' => 'number', 
+		'title' => 'string', 
+		'code' => '' 
+	);
    
 }
+?>
