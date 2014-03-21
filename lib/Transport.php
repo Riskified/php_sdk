@@ -1,10 +1,24 @@
-<?php
+<?php namespace riskified\sdk {
 abstract class Transport {
 
-	abstract public function sendRequest($dataString, $url, $domain, $authToken);
+	protected $url;
+	protected $domain;
+	protected $authToken;
 	
-	public function getHashHmac($dataString, $authToken) {
-		return hash_hmac('sha256', $dataString, $authToken);
+	abstract public function sendRequest($order);
+	
+	public function __construct($url, $domain, $authToken) {
+		$this->url = $url;
+		$this->domain = $domain;
+		$this->authToken = $authToken;
+	}
+
+	protected function calc_hmac($dataString) {
+		return hash_hmac('sha256', $dataString, $this->authToken);
+	}
+	
+	protected function error_response($code, $message) {
+		return array( 'error' => array( 'code' => $code, 'message' => $message ) );
 	}
 }
-?>
+}?>

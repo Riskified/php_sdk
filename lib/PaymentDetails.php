@@ -1,5 +1,5 @@
-<?php
-class PaymentDetails extends Base{
+<?php namespace riskified\sdk {
+class PaymentDetails extends Base {
 
 	protected $_fields = array(
 		'credit_card_bin' => 'string', 
@@ -10,4 +10,4 @@ class PaymentDetails extends Base{
 	);
 
 }
-?>
+}?>

@@ -1,14 +1,14 @@
-<?php
-class LineItem extends Base{
+<?php namespace riskified\sdk {
+class LineItem extends Base {
 
 	protected $_fields = array(
 		'price' => 'string', 
-		'product_id' => '',
+		'product_id' => 'string optional',
 		'quantity' => 'number',
-		'sku' => '',
+		'sku' => 'string optional',
 		'title' => 'string',
-		'public_url' => ''
+		'public_url' => 'string optional'
 	);
 
 }
-?>
+}?>

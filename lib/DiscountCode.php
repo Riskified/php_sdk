@@ -1,5 +1,5 @@
-<?php
-class DiscountCode extends Base{
+<?php namespace riskified\sdk {
+class DiscountCode extends Base {
 
 	protected $_fields = array(
 		'code' => 'string', 
@@ -7,4 +7,4 @@ class DiscountCode extends Base{
 	);
 
 }
-?>
+}?>

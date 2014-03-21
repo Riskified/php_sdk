@@ -1,18 +1,22 @@
 <?php
 // A simple example of creating an order from the command line.
-// Run using php sample.php
+// Usage: php sample.php
 
-# Use here the 'shop domain' of your account in Riskified
+include '../init.php';
+use riskified\sdk as rs;
+
+# Replace with the 'shop domain' of your account in Riskified
 $domain = "busteco.com";
 
-# Use here the 'auth token' as listed in the Riskified web app under the 'Settings' Tab
+# Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
 $authToken = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
 
+# Change to wh.riskified.com for production
 $riskifiedUrl = "sandbox.riskified.com";
-// $riskifiedUrl = "localhost:3000";
+
 
 # Order
-$order = new Order();
+$order = new rs\Order();
 $order->id = 118;
 $order->name = 'Order #111';
 $order->email = 'great.customer@example.com';
@@ -31,29 +35,36 @@ $order->note = 'Shipped to my hotel.';
 $order->referring_site = 'google.com';
 
 # LineItems   
-$lineItems = new LineItem();
-$lineItems->price = 100;
-$lineItems->quantity = 1;
-$lineItems->title ='ACME Widget';        
-$lineItems->product_id = 101;
-$lineItems->sku = 'ABCD';
-$order->line_items = $lineItems;
+$lineItem1 = new rs\LineItem();
+$lineItem1->price = 100;
+$lineItem1->quantity = 1;
+$lineItem1->title ='ACME Widget';        
+$lineItem1->product_id = 101;
+$lineItem1->sku = 'ABCD';
+
+$lineItem2 = new rs\LineItem();
+$lineItem2->price = 200;
+$lineItem2->quantity = 4;
+$lineItem2->title ='ACME Spring';        
+$lineItem2->product_id = 202;
+$lineItem2->sku = 'BCDE';
+$order->line_items = array( $lineItem1, $lineItem2 );
 
 # DiscountCodes  
-$discountCodes = new DiscountCode();  
-$discountCodes->amount = 19.95;
-$discountCodes->code = 12;
-$order->discount_codes = $discountCodes;
+$discountCode = new rs\DiscountCode();  
+$discountCode->amount = 19.95;
+$discountCode->code = 12;
+$order->discount_codes = $discountCode;
 
 # ShippingLines    
-$shippingLines = new ShippingLine(); 
-$shippingLines->price = 123.00;
-$shippingLines->title ='Free'; 
-$shippingLines->code = NULL; 
-$order->shipping_lines = $shippingLines;
+$shippingLine = new rs\ShippingLine(); 
+$shippingLine->price = 123.00;
+$shippingLine->title ='Free'; 
+$shippingLine->code = NULL; 
+$order->shipping_lines = $shippingLine;
 
 # PaymentDetais 
-$paymentDetails = new PaymentDetails();   
+$paymentDetails = new rs\PaymentDetails();   
 $paymentDetails->credit_card_bin = '370002';
 $paymentDetails->avs_result_code = 'Y';
 $paymentDetails->cvv_result_code = 'N';
@@ -62,7 +73,7 @@ $paymentDetails->credit_card_company = 'VISA';
 $order->payment_details = $paymentDetails;
 
 # Customer  
-$customer = new Customer(); 
+$customer = new rs\Customer(); 
 $customer->email = 'email@address.com';
 $customer->first_name = 'Firstname';
 $customer->last_name ='Lastname';
@@ -73,7 +84,7 @@ $customer->note = NULL;
 $order->customer = $customer;
 
 # BillingAddress    
-$billingAddress = new Address();
+$billingAddress = new rs\Address();
 $billingAddress->first_name = 'John';
 $billingAddress->last_name = 'Doe';
 $billingAddress->address1 = '108 Main Street';
@@ -90,7 +101,7 @@ $billingAddress->zip = '64155';
 $order->billing_address = $billingAddress;
 
 # ShippingAddress  
-$shippingAddress = new Address();
+$shippingAddress = new rs\Address();
 $shippingAddress->first_name = 'John';
 $shippingAddress->last_name = 'Doe';
 $shippingAddress->address1 = '108 Main Street';
@@ -106,36 +117,15 @@ $shippingAddress->province_code = 'NY';
 $shippingAddress->zip = '64155';
 $order->shipping_address = $shippingAddress;
 
-    
-if($order->validate()) {	
-	$transport = new CurlTransport();
+// echo $order->to_json()."\n";
 
-	# available methods:__toXml(),__toJson()
-	$dataString = $order->__toJson();
-	
-// 	echo $dataString."\n";
-	
-	# Send the request
-	echo("Sending request...\n");	
-	$result = $transport->sendRequest($dataString, $riskifiedUrl, $domain, $authToken);
-	echo("Result is $result\n");
-	
-	$decodedResponse = json_decode($result);
-	if(isset($decodedResponse->order)) {
-		$orderId = $decodedResponse->order->id;
-		$status = $decodedResponse->order->status;
-		echo("Order $orderId status is $status\n");
-	}	
-}
+# Create a curl-based transport to the Riskified Server    
+$transport = new rs\CurlTransport($riskifiedUrl, $domain, $authToken);
 
-# load classes from /lib
-function __autoload($class_name) {
-    $classPath = '../lib/'.$class_name . '.php';    
-    if(file_exists($classPath)) {
-        require($classPath);   
-    } else {
-        throw new Exception("Unable to load class $class_name from $classPath");
-    }
-}
+echo("Sending Request...\n");	
+$response = $transport->sendRequest($order);
+
+$json = json_encode($response, JSON_PRETTY_PRINT);
+echo("Response:\n $json\n");
     
 ?>

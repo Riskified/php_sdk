@@ -1,5 +1,5 @@
-<?php
-class Customer extends Base{
+<?php namespace riskified\sdk {
+class Customer extends Base {
 
 	protected $_fields = array(
 		'created_at' => 'date', 
@@ -7,10 +7,10 @@ class Customer extends Base{
 		'first_name' => 'string', 
 		'last_name' => 'string', 
 		'id' => 'string', 
-		'note' => '', 
+		'note' => 'string optional', 
 		'orders_count' => 'number' 
 		// verified_email => ''
 	);
 	
 }
-?>
+}?>
