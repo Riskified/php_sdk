@@ -74,7 +74,7 @@ $order->payment_details = $paymentDetails;
 
 # Customer  
 $customer = new rs\Customer(); 
-$customer->email = 'email@address.com';
+// $customer->email = 'email@address.com';
 $customer->first_name = 'Firstname';
 $customer->last_name ='Lastname';
 $customer->id = 1233;

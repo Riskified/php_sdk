@@ -1,10 +1,7 @@
 <?php namespace riskified\sdk {
 class CurlTransport extends Transport {
         
-    public function sendRequest($order) {   
-    	if (!$order->validate()) {
-    		return $this->error_response('100','Order failed validation');
-    	} 
+    protected function sendJsonRequest($order) {   
 		$dataString = $order->to_json();
 		$hmac = $this->calc_hmac($dataString);   
 		$headers = array(

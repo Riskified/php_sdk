@@ -11,29 +11,27 @@ abstract class Base {
 		if (array_key_exists($key, $this->_fields)) {
 		  	$this->$key = $value;
 		} else {
-		  	throw new Exception('set: property "'.$key.'" does not exist on class "'.get_class($this).'"');
+		  	throw new \Exception('set(): Property '.$this.'->'.$key.' does not exist');
 		}
 	}
+	
+	public function __toString() {
+        return end(explode('\\',get_class($this)));
+    }
 
 	public function validate() {
-		$objectValid = true;
+		$valid = array();
 		foreach ($this->_fields as $key => $value) {
 			$type = explode(' ', $value);		
 		  	if (is_null($this->$key)) {
 		  		if (end($type) != 'optional') {
-		  			echo ("missing property '".$key."' in object of class '".get_class($this)."'\n");
-					$objectValid = false;
+					$valid[] = $this.'->'.$key." is null and not optional";
 		  		}
 		  	} else {
-		  		$keyValid = $this->validate_key($this->$key, reset($type));
-			  	if (!$keyValid) {
-			  		# TODO remove
-					echo ("validation failed on property '".$key."' in object of class '".get_class($this)."'\n");
-					$objectValid = false;
-			  	}
+		  		$valid = array_merge($valid, $this->validate_key($key, reset($type)));
 			}
 		}
-		return $objectValid;
+		return array_filter($valid);
 	}
 	
 	public function to_json() {
@@ -48,37 +46,53 @@ abstract class Base {
 	}
 	
 	private function validate_key($key, $type) {
+		$value = $this->$key;
+		$mismatch = $this.'->'.$key.' type mismatch (\''.$value.'\'), expecting ';
 	  	switch ($type) {
 			case 'string':
-				return preg_match('/\w+/', $key);
+				if (!preg_match('/\w+/', $value)) {
+					return array($mismatch.'string');
+				}
 				break;
 			case 'number':
-				return preg_match('/\d+/', $key);
+				if (!preg_match('/\d+/', $value)) {
+					return array($mismatch.'number');
+				}
 				break;
 			case 'date':
-				return $this->validate_date($key);
+				if (!$this->validate_date($value)) {
+					return array($mismatch.'date');
+				}
 				break;
 			case 'object':
-				return (is_object($key) && $key->validate());
+				if (!is_object($value)) {
+					return array($mismatch.'object');
+				}
+				return $value->validate();
 				break;				
 			case 'objects':
-				return $this->validate_objects($key);
+				return $this->validate_objects($value, $key);
 				break;								
 	  	}
+	  	return array();
 	}
 	
-	private function validate_objects($objects) {
+	private function validate_objects($objects, $key) {
 		if (is_array($objects)) {
-			$valid = true;
+			$valid = array();
 			foreach ($objects as $object) {
-				$valid = $valid && is_object($object) && $object->validate();
+				if (!is_object($object)) {
+					$valid[] = array($this.'->'.$key.' type mismatch (\''.$object.'\'), expecting object');
+				} else {
+					$valid = array_merge($valid, $object->validate());
+				}
 			}
-			return $valid;
+			return array_filter($valid);
 		}
 		if (is_object($objects)) {
 			return $objects->validate();
 		}
-		return false;
+		return array($this.'->'.$key.' type mismatch (\''.$objects.'\'), expecting objects');
 	}
 		
 	private function validate_date($datetime) {
@@ -86,7 +100,7 @@ abstract class Base {
 		$timeStamp = strtotime($datetime);
 		return ($timeStamp);
 	}
-  
+	
 	private function to_array() {
 		return $this->process_array(get_object_vars($this));
 	}
