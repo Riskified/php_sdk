@@ -74,7 +74,7 @@ $order->payment_details = $paymentDetails;
 
 # Customer  
 $customer = new rs\Customer(); 
-// $customer->email = 'email@address.com';
+$customer->email = 'email@address.com';
 $customer->first_name = 'Firstname';
 $customer->last_name ='Lastname';
 $customer->id = 1233;
@@ -120,12 +120,12 @@ $order->shipping_address = $shippingAddress;
 // echo $order->to_json()."\n";
 
 # Create a curl-based transport to the Riskified Server    
-$transport = new rs\CurlTransport($riskifiedUrl, $domain, $authToken);
+$transport = new rs\CurlTransport($domain, $authToken, $riskifiedUrl);
+$transport->timeout = 5;
 
-echo("Sending Request...\n");	
-$response = $transport->sendRequest($order);
+$response = $transport->send_request($order);
 
 $json = json_encode($response, JSON_PRETTY_PRINT);
-echo("Response:\n $json\n");
+echo("$json\n");
     
 ?>

@@ -1,32 +1,32 @@
 <?php namespace riskified\sdk {
 abstract class Transport {
 
-	protected $url;
 	protected $domain;
-	protected $authToken;
+	protected $auth_token;
+	protected $url;
 		
-	abstract protected function sendJsonRequest($order);
+	abstract protected function send_json_request($order);
 	
-	public function __construct($url, $domain, $authToken) {
+	public function __construct($domain, $auth_token, $url = 'wh.riskified.com') {
 		$this->url = $url;
 		$this->domain = $domain;
-		$this->authToken = $authToken;
+		$this->auth_token = $auth_token;
 	}
 	
-	public function sendRequest($order) {
+	public function send_request($order) {
 	    $invalids = $order->validate();
 	   	if ($invalids) {
     		return $this->error_response('Validation Failed', $invalids);
     	} 
-		return $this->sendJsonRequest($order);
+		return $this->send_json_request($order);
 	}
 
-	protected function calc_hmac($dataString) {
-		return hash_hmac('sha256', $dataString, $this->authToken);
+	protected function calc_hmac($data_string) {
+		return hash_hmac('sha256', $data_string, $this->auth_token);
 	}
 	
 	protected function error_response($message, $details) {
-		return array( 'error' => array( 'message' => $message, 'details' => $details ) );
+		return array('error' => array('message' => $message, 'details' => $details ));
 	}
 }
 }?>

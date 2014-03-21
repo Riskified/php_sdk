@@ -97,8 +97,7 @@ abstract class Base {
 		
 	private function validate_date($datetime) {
 		date_default_timezone_set('UTC');
-		$timeStamp = strtotime($datetime);
-		return ($timeStamp);
+		return (strtotime($datetime));
 	}
 	
 	private function to_array() {
@@ -122,9 +121,9 @@ abstract class Base {
 	}
 
 	private function array_to_xml($order, &$xml_order_info) {           
-		foreach($order as $key => $value) {
-			if(is_array($value)) {
-				if(!is_numeric($key)){
+		foreach ($order as $key => $value) {
+			if (is_array($value)) {
+				if (!is_numeric($key)){
 					$subnode = $xml_order_info->addChild("$key");
 					$this->array_to_xml($value, $subnode);
 				}
@@ -134,7 +133,7 @@ abstract class Base {
 				}
 			}
 			else {
-				$xml_order_info->addChild("$key",htmlspecialchars("$value"));
+				$xml_order_info->addChild("$key", htmlspecialchars("$value"));
 			}
 		}
 	}
