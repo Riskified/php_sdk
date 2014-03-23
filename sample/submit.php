@@ -3,7 +3,6 @@
 // Usage: php submit.php
 
 include __DIR__.'/../src/Riskified/common/Riskified.php';
-use Riskified as SDK;
 
 # Replace with the 'shop domain' of your account in Riskified
 $domain = "busteco.com";
@@ -16,7 +15,7 @@ $riskifiedUrl = "sandbox.riskified.com";
 
 
 # Order
-$order = new SDK\Order([
+$order = new Riskified\OrderWebhook\Model\Order([
     'id' => '118',
     'name' => 'Order #111',
     'email' => 'great.customer@example.com',
@@ -36,7 +35,7 @@ $order = new SDK\Order([
 ]);
 
 # LineItems   
-$lineItem1 = new SDK\LineItem([
+$lineItem1 = new Riskified\OrderWebhook\Model\LineItem([
 	'price' => 100,
 	'quantity' => 1,
 	'title' => 'ACME Widget',
@@ -44,7 +43,7 @@ $lineItem1 = new SDK\LineItem([
 	'sku' => 'ABCD'
 ]);
 
-$lineItem2 = new SDK\LineItem([
+$lineItem2 = new Riskified\OrderWebhook\Model\LineItem([
 	'price' => 200,
 	'quantity' => 4,
 	'title' => 'ACME Spring',
@@ -54,21 +53,21 @@ $lineItem2 = new SDK\LineItem([
 $order->line_items = [$lineItem1, $lineItem2];
 
 # DiscountCodes  
-$discountCode = new SDK\DiscountCode([
+$discountCode = new Riskified\OrderWebhook\Model\DiscountCode([
     'amount' => 19.95,
     'code' => '12'
 ]);
 $order->discount_codes = $discountCode;
 
 # ShippingLines    
-$shippingLine = new SDK\ShippingLine([
+$shippingLine = new Riskified\OrderWebhook\Model\ShippingLine([
     'price' => 123.00,
     'title' => 'Free',
 ]);
 $order->shipping_lines = $shippingLine;
 
 # PaymentDetais 
-$paymentDetails = new SDK\PaymentDetails([
+$paymentDetails = new Riskified\OrderWebhook\Model\PaymentDetails([
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
@@ -78,7 +77,7 @@ $paymentDetails = new SDK\PaymentDetails([
 $order->payment_details = $paymentDetails;
 
 # Customer  
-$customer = new SDK\Customer([
+$customer = new Riskified\OrderWebhook\Model\Customer([
     'email' => 'email@address.com',
     'first_name' => 'Firstname',
     'last_name' => 'Lastname',
@@ -90,7 +89,7 @@ $customer = new SDK\Customer([
 $order->customer = $customer;
 
 # BillingAddress    
-$billingAddress = new SDK\Address([
+$billingAddress = new Riskified\OrderWebhook\Model\Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -108,7 +107,7 @@ $billingAddress = new SDK\Address([
 $order->billing_address = $billingAddress;
 
 # ShippingAddress  
-$shippingAddress = new SDK\Address([
+$shippingAddress = new Riskified\OrderWebhook\Model\Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -125,12 +124,15 @@ $shippingAddress = new SDK\Address([
 ]);
 $order->shipping_address = $shippingAddress;
 
-echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
+//echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
-$transport = new SDK\CurlTransport($domain, $authToken, $riskifiedUrl);
+$transport = new Riskified\OrderWebhook\Transport\CurlTransport($domain, $authToken, $riskifiedUrl);
 $transport->timeout = 5;
 
-$response = $transport->submitOrder($order);
+//$response = $transport->submitOrder($order);
+//
+//echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;
 
-echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;
+$b = new Riskified\OrderWebhook\Exception\PropertyMissingException();
+print(get_class($b));

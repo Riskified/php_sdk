@@ -1,4 +1,4 @@
-<?php namespace Riskified;
+<?php namespace Riskified\OrderWebhook\Model;
 class Order extends AbstractModel {
 
     protected $_fields = [

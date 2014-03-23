@@ -1,4 +1,4 @@
-<?php namespace Riskified;
+<?php namespace Riskified\OrderWebhook\Transport;
 /**
  * Class AbstractTransport
  * @package Riskified
