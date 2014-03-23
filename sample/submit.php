@@ -125,7 +125,7 @@ $shippingAddress = new SDK\Address([
 ]);
 $order->shipping_address = $shippingAddress;
 
-// echo $order->toJson()."\n";
+echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new SDK\CurlTransport($domain, $authToken, $riskifiedUrl);
@@ -133,5 +133,4 @@ $transport->timeout = 5;
 
 $response = $transport->submitOrder($order);
 
-$json = json_encode($response, JSON_PRETTY_PRINT);
-echo("$json\n");
+echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;

@@ -9,5 +9,11 @@ The wiki will contain the software overview and requirements for the SDK. See he
 TODO
 ----
 - phpDoc
-- manifest/version?
-- min php 5.4
+
+- user agent + version
+- tests
+
+- notification parser
+
+- billing last name hacks
+- guzzle?

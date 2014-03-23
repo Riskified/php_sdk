@@ -4,8 +4,8 @@ function __autoload($class) {
 		$file = end(explode('\\', $class)).'.php';
 		foreach (new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS) as $dir => $info) {
 			$path = $dir.'/'.$file;
-			if (is_file($path)) 
-				require $path;
+			if (is_file($path))
+                require_once $path;
 		}
 	}
 }

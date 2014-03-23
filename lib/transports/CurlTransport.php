@@ -1,9 +1,20 @@
 <?php namespace Riskified\SDK {
+    /**\
+     * Class CurlTransport
+     * @package Riskified\SDK
+     */
     class CurlTransport extends AbstractTransport {
 
+        /**
+         * @var int
+         */
         public $timeout = 10;
         public $dns_cache = true;
 
+        /**
+         * @param $order
+         * @return array|mixed|object|\stdClass
+         */
         protected function send_json_request($order) {
             $data_string = $order->toJson();
 
@@ -14,6 +25,7 @@
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HTTPHEADER => $this->headers($data_string),
                 CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_USERAGENT => $this->user_agent,
                 CURLOPT_TIMEOUT => $this->timeout,
                 CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache
             ];
@@ -29,6 +41,10 @@
             return $this->json_response($body, $status);
         }
 
+        /**
+         * @param $data_string
+         * @return array
+         */
         private function headers($data_string) {
             return [
                 'Content-Type: application/json',
@@ -39,6 +55,11 @@
             ];
         }
 
+        /**
+         * @param $body
+         * @param $status
+         * @return object|\stdClass
+         */
         private function json_response($body, $status) {
             $json = new \stdClass();
             $json->http_status = $status;

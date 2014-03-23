@@ -1,4 +1,8 @@
 <?php namespace Riskified\SDK {
+    /**
+     * Class Address
+     * @package Riskified\SDK
+     */
     class Address extends AbstractModel {
 
         protected $_fields = [
@@ -9,9 +13,9 @@
             'address1' => 'string',
             'address2' => 'string optional',
             'city' => 'string',
-            'country_code' => 'string',
+            'country_code' => 'string /^[A-Z]{2}$/i',
             'country' => 'string',
-            'province_code' => 'string optional',
+            'province_code' => 'string /^[A-Z]{2}$/i optional',
             'province' => 'string optional',
             'zip' => 'string optional',
             'phone' => 'string'
