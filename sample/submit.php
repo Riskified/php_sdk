@@ -2,7 +2,7 @@
 // A simple example of creating an order from the command line.
 // Usage: php submit.php
 
-include __DIR__.'/../src/Riskified/common/Riskified.php';
+include __DIR__.'/../src/Riskified/common/loader.php';
 
 use Riskified\Common\Riskified;
 
@@ -139,7 +139,7 @@ $order->shipping_address = $shippingAddress;
 echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
-$transport = new CurlTransport();
+$transport = new CurlTransport($riskifiedUrl);
 $transport->timeout = 5;
 
 $response = $transport->submitOrder($order);

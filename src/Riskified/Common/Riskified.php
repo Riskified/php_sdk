@@ -2,8 +2,6 @@
 
 namespace Riskified\Common;
 
-#error_reporting(E_STRICT);
-
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -27,13 +25,4 @@ class Riskified{
         self::$domain = $domain;
         self::$auth_token = $auth_token;
     }
-}
-
-function __autoload($class) {
-	if (strpos($class, 'Riskified\\') == 0) {
-        $parts = explode('\\', $class);
-        $file = __DIR__.'/../../'.join('/',$parts).'.php';
-        if (is_file($file))
-            require_once $file;
-	}
 }

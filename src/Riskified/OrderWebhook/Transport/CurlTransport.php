@@ -14,7 +14,10 @@
  * permissions and limitations under the License.
  */
 namespace Riskified\OrderWebhook\Transport;
-/**
+
+use Riskified\Common\Riskified;
+
+ /**
  * Class CurlTransport
  * @package Riskified
  */
@@ -29,9 +32,10 @@ class CurlTransport extends AbstractTransport {
 
     /**
      */
-    public function __construct(){
+    public function __construct($url){
+        parent::__construct($url);
         // Make sure the user agent is prefixed by the SDK version
-        $this->$user_agent = 'aws-sdk-php2/' . Riskified::VERSION;
+        $this->user_agent = 'aws-sdk-php2/' . Riskified::VERSION;
     }
     /**
      * @param $order
@@ -71,7 +75,7 @@ class CurlTransport extends AbstractTransport {
         return [
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
-            'X_RISKIFIED_SHOP_DOMAIN:'.$this->domain,
+            'X_RISKIFIED_SHOP_DOMAIN:'.Riskified::$domain,
             'X_RISKIFIED_SUBMIT_NOW:true',
             'X_RISKIFIED_HMAC_SHA256:'.$this->calc_hmac($data_string)
         ];
