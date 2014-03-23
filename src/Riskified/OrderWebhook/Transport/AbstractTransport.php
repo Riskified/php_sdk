@@ -14,6 +14,8 @@
  * permissions and limitations under the License.
  */
 namespace Riskified\OrderWebhook\Transport;
+use Riskified\Common\Riskified;
+
 /**
  * Class AbstractTransport
  * @package Riskified
@@ -24,8 +26,6 @@ abstract class AbstractTransport {
      * @var
      */
     public $use_https = true;
-    protected $domain;
-    protected $auth_token;
     protected $url;
     protected $user_agent = 'riskified php_sdk v1.0';
 
@@ -40,10 +40,8 @@ abstract class AbstractTransport {
      * @param $auth_token
      * @param string $url
      */
-    public function __construct($domain, $auth_token, $url = 'wh.riskified.com') {
+    public function __construct($url = 'wh.riskified.com') {
         $this->url = $url;
-        $this->domain = $domain;
-        $this->auth_token = $auth_token;
     }
 
     /**
@@ -70,7 +68,7 @@ abstract class AbstractTransport {
      * @return string
      */
     protected function calc_hmac($data_string) {
-        return hash_hmac('sha256', $data_string, $this->auth_token);
+        return hash_hmac('sha256', $data_string, Riskified::$auth_token);
     }
 
     /**

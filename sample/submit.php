@@ -4,6 +4,17 @@
 
 include __DIR__.'/../src/Riskified/common/Riskified.php';
 
+use Riskified\Common\Riskified;
+
+use Riskified\OrderWebhook\Model\Order;
+use Riskified\OrderWebhook\Model\Address;
+use Riskified\OrderWebhook\Model\Customer;
+use Riskified\OrderWebhook\Model\DiscountCode;
+use Riskified\OrderWebhook\Model\LineItem;
+use Riskified\OrderWebhook\Model\PaymentDetails;
+use Riskified\OrderWebhook\Model\ShippingLine;
+use Riskified\OrderWebhook\Transport\CurlTransport;
+
 # Replace with the 'shop domain' of your account in Riskified
 $domain = "busteco.com";
 
@@ -13,9 +24,10 @@ $authToken = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
 # Change to wh.riskified.com for production
 $riskifiedUrl = "sandbox.riskified.com";
 
+Riskified::init($domain, $authToken);
 
 # Order
-$order = new Riskified\OrderWebhook\Model\Order([
+$order = new Order([
     'id' => '118',
     'name' => 'Order #111',
     'email' => 'great.customer@example.com',
@@ -35,7 +47,7 @@ $order = new Riskified\OrderWebhook\Model\Order([
 ]);
 
 # LineItems   
-$lineItem1 = new Riskified\OrderWebhook\Model\LineItem([
+$lineItem1 = new LineItem([
 	'price' => 100,
 	'quantity' => 1,
 	'title' => 'ACME Widget',
@@ -43,7 +55,7 @@ $lineItem1 = new Riskified\OrderWebhook\Model\LineItem([
 	'sku' => 'ABCD'
 ]);
 
-$lineItem2 = new Riskified\OrderWebhook\Model\LineItem([
+$lineItem2 = new LineItem([
 	'price' => 200,
 	'quantity' => 4,
 	'title' => 'ACME Spring',
@@ -53,21 +65,21 @@ $lineItem2 = new Riskified\OrderWebhook\Model\LineItem([
 $order->line_items = [$lineItem1, $lineItem2];
 
 # DiscountCodes  
-$discountCode = new Riskified\OrderWebhook\Model\DiscountCode([
+$discountCode = new DiscountCode([
     'amount' => 19.95,
     'code' => '12'
 ]);
 $order->discount_codes = $discountCode;
 
 # ShippingLines    
-$shippingLine = new Riskified\OrderWebhook\Model\ShippingLine([
+$shippingLine = new ShippingLine([
     'price' => 123.00,
     'title' => 'Free',
 ]);
 $order->shipping_lines = $shippingLine;
 
 # PaymentDetais 
-$paymentDetails = new Riskified\OrderWebhook\Model\PaymentDetails([
+$paymentDetails = new PaymentDetails([
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
@@ -77,7 +89,7 @@ $paymentDetails = new Riskified\OrderWebhook\Model\PaymentDetails([
 $order->payment_details = $paymentDetails;
 
 # Customer  
-$customer = new Riskified\OrderWebhook\Model\Customer([
+$customer = new Customer([
     'email' => 'email@address.com',
     'first_name' => 'Firstname',
     'last_name' => 'Lastname',
@@ -89,7 +101,7 @@ $customer = new Riskified\OrderWebhook\Model\Customer([
 $order->customer = $customer;
 
 # BillingAddress    
-$billingAddress = new Riskified\OrderWebhook\Model\Address([
+$billingAddress = new Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -107,7 +119,7 @@ $billingAddress = new Riskified\OrderWebhook\Model\Address([
 $order->billing_address = $billingAddress;
 
 # ShippingAddress  
-$shippingAddress = new Riskified\OrderWebhook\Model\Address([
+$shippingAddress = new Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -127,7 +139,7 @@ $order->shipping_address = $shippingAddress;
 echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
-$transport = new Riskified\OrderWebhook\Transport\CurlTransport($domain, $authToken, $riskifiedUrl);
+$transport = new CurlTransport();
 $transport->timeout = 5;
 
 $response = $transport->submitOrder($order);

@@ -25,7 +25,14 @@ class CurlTransport extends AbstractTransport {
      */
     public $timeout = 10;
     public $dns_cache = true;
+    public $user_agent = "riskified_sdk_php";
 
+    /**
+     */
+    public function __construct(){
+        // Make sure the user agent is prefixed by the SDK version
+        $this->$user_agent = 'aws-sdk-php2/' . Riskified::VERSION;
+    }
     /**
      * @param $order
      * @return array|mixed|object|\stdClass

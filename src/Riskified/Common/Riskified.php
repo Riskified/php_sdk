@@ -1,5 +1,8 @@
 <?php
-error_reporting(E_STRICT);
+
+namespace Riskified\Common;
+
+#error_reporting(E_STRICT);
 
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
@@ -15,6 +18,16 @@ error_reporting(E_STRICT);
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+class Riskified{
+    const VERSION = '1.0.0';
+    static $domain;
+    static $auth_token;
+
+    public static function init($domain, $auth_token) {
+        self::$domain = $domain;
+        self::$auth_token = $auth_token;
+    }
+}
 
 function __autoload($class) {
 	if (strpos($class, 'Riskified\\') == 0) {
