@@ -124,15 +124,12 @@ $shippingAddress = new Riskified\OrderWebhook\Model\Address([
 ]);
 $order->shipping_address = $shippingAddress;
 
-//echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
+echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Riskified\OrderWebhook\Transport\CurlTransport($domain, $authToken, $riskifiedUrl);
 $transport->timeout = 5;
 
-//$response = $transport->submitOrder($order);
-//
-//echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;
+$response = $transport->submitOrder($order);
 
-$b = new Riskified\OrderWebhook\Exception\PropertyMissingException();
-print(get_class($b));
+echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;
