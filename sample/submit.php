@@ -2,8 +2,8 @@
 // A simple example of creating an order from the command line.
 // Usage: php submit.php
 
-include __DIR__.'/../lib/init.php';
-use Riskified\SDK as SDK;
+include __DIR__.'/../src/Riskified/common/Riskified.php';
+use Riskified as SDK;
 
 # Replace with the 'shop domain' of your account in Riskified
 $domain = "busteco.com";
