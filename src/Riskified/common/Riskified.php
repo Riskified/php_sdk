@@ -1,12 +1,11 @@
 <?php
+error_reporting(E_STRICT);
+
 function __autoload($class) {
 	if (strpos($class, 'Riskified\\') == 0) {
-		$file = end(explode('\\', $class)).'.php';
-		foreach (new RecursiveDirectoryIterator(__DIR__.'/../', FilesystemIterator::SKIP_DOTS) as $dir => $info) {
-			$path = $dir.'/'.$file;
-            echo $path.PHP_EOL;
-			if (is_file($path))
-                require_once $path;
-		}
+        $parts = explode('\\', $class);
+        $file = __DIR__.'/../../'.join('/',$parts).'.php';
+        if (is_file($file))
+            require_once $file;
 	}
 }
