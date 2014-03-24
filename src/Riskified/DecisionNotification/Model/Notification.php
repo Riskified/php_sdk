@@ -59,7 +59,7 @@ class Notification {
      * @throws \Riskified\DecisionNotification\Exception\BadHeaderException on malformed headers
      */
     protected function parse_headers() {
-        $this->headers_map = [];
+        $this->headers_map = array();
         foreach($this->headers as $i => $header) {
             list ($key, $value) = explode(':', $header);
             if (!$key || !$value)
@@ -85,7 +85,7 @@ class Notification {
      * @throws \Riskified\DecisionNotification\Exception\BadPostParametersException on bad or missing parameters
      */
     protected function parse_body() {
-        $vars = [];
+        $vars = array();
         parse_str($this->body, $vars);
         if (!$vars['id'] || !$vars['status'])
             throw new Exception\BadPostParametersException($this->headers, $this->body);

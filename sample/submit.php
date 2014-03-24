@@ -37,7 +37,7 @@ $riskifiedUrl = "sandbox.riskified.com";
 
 
 # Order
-$order = new Model\Order([
+$order = new Model\Order(array(
     'id' => '118',
     'name' => 'Order #111',
     'email' => 'great.customer@example.com',
@@ -54,52 +54,52 @@ $order = new Model\Order([
     'cart_token' => '1sdaf23j212',
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com'
-]);
+    ));
 
 # LineItems   
-$lineItem1 = new Model\LineItem([
+$lineItem1 = new Model\LineItem(array(
 	'price' => 100,
 	'quantity' => 1,
 	'title' => 'ACME Widget',
 	'product_id' => '101',
 	'sku' => 'ABCD'
-]);
+));
 
-$lineItem2 = new Model\LineItem([
+$lineItem2 = new Model\LineItem(array(
 	'price' => 200,
 	'quantity' => 4,
 	'title' => 'ACME Spring',
 	'product_id' => '202',
 	'sku' => 'EFGH'
-]);
-$order->line_items = [$lineItem1, $lineItem2];
+));
+$order->line_items = array($lineItem1, $lineItem2);
 
 # DiscountCodes  
-$discountCode = new Model\DiscountCode([
+$discountCode = new Model\DiscountCode(array(
     'amount' => 19.95,
     'code' => '12'
-]);
+));
 $order->discount_codes = $discountCode;
 
 # ShippingLines    
-$shippingLine = new Model\ShippingLine([
+$shippingLine = new Model\ShippingLine(array(
     'price' => 123.00,
     'title' => 'Free',
-]);
+));
 $order->shipping_lines = $shippingLine;
 
 # PaymentDetais 
-$paymentDetails = new Model\PaymentDetails([
+$paymentDetails = new Model\PaymentDetails(array(
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
     'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
     'credit_card_company' => 'VISA'
-]);
+));
 $order->payment_details = $paymentDetails;
 
 # Customer  
-$customer = new Model\Customer([
+$customer = new Model\Customer(array(
     'email' => 'email@address.com',
     'first_name' => 'Firstname',
     'last_name' => 'Lastname',
@@ -107,11 +107,11 @@ $customer = new Model\Customer([
     'created_at' => '2012/01/15 11:22:11',
     'orders_count' => 6,
     'verified_email' => true
-]);
+));
 $order->customer = $customer;
 
 # BillingAddress    
-$billingAddress = new Model\Address([
+$billingAddress = new Model\Address(array(
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -125,11 +125,11 @@ $billingAddress = new Model\Address([
     'province' => 'New York',
     'province_code' => 'NY',
     'zip' => '64155'
-]);
+));
 $order->billing_address = $billingAddress;
 
 # ShippingAddress  
-$shippingAddress = new Model\Address([
+$shippingAddress = new Model\Address(array(
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -143,10 +143,10 @@ $shippingAddress = new Model\Address([
     'province' => 'New York',
     'province_code' => 'NY',
     'zip' => '64155'
-]);
+));
 $order->shipping_address = $shippingAddress;
 
-echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
+echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature(), $riskifiedUrl);
@@ -154,4 +154,4 @@ $transport->timeout = 5;
 
 $response = $transport->submitOrder($order);
 
-echo 'RESPONSE:'.PHP_EOL.json_encode($response, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'RESPONSE:'.PHP_EOL.json_encode($response).PHP_EOL;

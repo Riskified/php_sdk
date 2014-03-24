@@ -21,7 +21,7 @@
  */
 class Customer extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'created_at' => 'date optional',
         'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i',
         'first_name' => 'string',
@@ -30,5 +30,5 @@ class Customer extends AbstractModel {
         'note' => 'string optional',
         'orders_count' => 'number optional',
         'verified_email' => 'boolean optional',
-    ];
+    );
 }

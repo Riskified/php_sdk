@@ -75,12 +75,12 @@ abstract class AbstractTransport {
      */
     protected function headers($data_string) {
         $signature = $this->signature;
-        return [
+        return array(
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
             $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
             $signature::SUBMIT_HEADER_NAME.':true',
             $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
-        ];
+        );
     }
 }

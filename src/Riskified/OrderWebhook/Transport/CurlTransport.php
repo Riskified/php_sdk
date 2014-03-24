@@ -36,7 +36,7 @@ class CurlTransport extends AbstractTransport {
         $data_string = $order->toJson();
 
         $ch = curl_init($this->full_path());
-        $options = [
+        $options = array(
             CURLOPT_POSTFIELDS => $data_string,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_RETURNTRANSFER => true,
@@ -46,7 +46,7 @@ class CurlTransport extends AbstractTransport {
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_FAILONERROR => true,
             CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache
-        ];
+        );
         curl_setopt_array($ch, $options);
 
         $body = curl_exec($ch);

@@ -21,9 +21,9 @@
  */
 class ShippingLine extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'price' => 'float',
         'title' => 'string',
         'code' => 'string optional'
-    ];
+    );
 }

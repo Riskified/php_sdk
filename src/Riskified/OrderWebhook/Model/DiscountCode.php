@@ -21,8 +21,8 @@
  */
 class DiscountCode extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'code' => 'string',
         'amount' => 'float'
-    ];
+    );
 }

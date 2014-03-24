@@ -21,11 +21,11 @@
  */
 class LineItem extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'price' => 'float',
         'quantity' => 'number',
         'title' => 'string',
         'sku' => 'string optional',
         'product_id' => 'string optional'
-    ];
+    );
 }

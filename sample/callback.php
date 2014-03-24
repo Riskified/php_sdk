@@ -32,7 +32,7 @@ Riskified::init($domain, $authToken);
 
 $signature = new Signature\HttpDataSignature();
 
-$headers = ['X-Riskified-Hmac-Sha256:4e17669551be731365461a27bf50d6886f11f2fd95ba88c74d401d0328909a63'];
+$headers = array('X-Riskified-Hmac-Sha256:4e17669551be731365461a27bf50d6886f11f2fd95ba88c74d401d0328909a63');
 $body = 'id=1&status=approved';
 
 $notification = new Model\Notification($signature, $headers, $body);

@@ -21,7 +21,7 @@
  */
 class Order extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'id' => 'string',
         'name' => 'string optional',
         'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i',
@@ -46,5 +46,5 @@ class Order extends AbstractModel {
         'line_items' => 'objects \LineItem',
         'discount_codes' => 'objects \DiscountCode optional',
         'shipping_lines' => 'objects \ShippingLine optional'
-    ];
+    );
 }

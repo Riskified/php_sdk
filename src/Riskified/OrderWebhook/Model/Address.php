@@ -21,7 +21,7 @@
  */
 class Address extends AbstractModel {
 
-    protected $_fields = [
+    protected $_fields = array(
         'first_name' => 'string',
         'last_name' => 'string',
         'name' => 'string optional',
@@ -35,5 +35,5 @@ class Address extends AbstractModel {
         'province' => 'string optional',
         'zip' => 'string optional',
         'phone' => 'string'
-    ];
+    );
 }
