@@ -1,7 +1,4 @@
 <?php namespace Riskified\OrderWebhook\Transport;
-
-use Riskified\OrderWebhook\Exception;
-
 /**\
  * Class CurlTransport
  * @package Riskified

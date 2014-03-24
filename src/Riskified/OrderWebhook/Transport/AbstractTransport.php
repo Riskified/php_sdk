@@ -58,4 +58,13 @@ abstract class AbstractTransport {
     protected function calc_hmac($data_string) {
         return hash_hmac('sha256', $data_string, $this->auth_token);
     }
+
+    /**
+     * @param $message
+     * @param $details
+     * @return array
+     */
+    protected function error_response($message, $details) {
+        return ['error' => ['message' => $message, 'details' => $details] ];
+    }
 }
