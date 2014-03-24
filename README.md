@@ -11,8 +11,9 @@ TODO
 - phpDoc
 
 - user agent + version
-- tests
 
+
+- tests
 - notification parser
 
 - billing last name hacks

@@ -1,5 +1,7 @@
 <?php namespace Riskified\OrderWebhook\Transport;
-/**\
+
+use Riskified\OrderWebhook\Exception;
+/**
  * Class CurlTransport
  * @package Riskified
  */
@@ -42,29 +44,14 @@ class CurlTransport extends AbstractTransport {
     }
 
     /**
-     * @param $data_string
-     * @return array
-     */
-    private function headers($data_string) {
-        return [
-            'Content-Type: application/json',
-            'Content-Length: '.strlen($data_string),
-            'X_RISKIFIED_SHOP_DOMAIN:'.$this->domain,
-            'X_RISKIFIED_SUBMIT_NOW:true',
-            'X_RISKIFIED_HMAC_SHA256:'.$this->calc_hmac($data_string)
-        ];
-    }
-
-    /**
      * @param $body
      * @param $status
      * @return object|\stdClass
      */
     private function json_response($body, $status) {
         $response = json_decode($body);
-        if (!$response) {
+        if (!$response)
             throw new Exception\MalformedJsonException($body, $status);
-        }
 
         return $response;
     }

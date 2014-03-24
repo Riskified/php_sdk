@@ -1,6 +1,6 @@
 <?php namespace Riskified\OrderWebhook\Transport;
 
-use Riskified\OrderWebhook\Exception;
+use Riskified\Common\Riskified;
 
 /**
  * Class AbstractTransport
@@ -12,10 +12,9 @@ abstract class AbstractTransport {
      * @var
      */
     public $use_https = true;
-    protected $domain;
-    protected $auth_token;
     protected $url;
-    protected $user_agent = 'riskified php_sdk v1.0';
+    protected $signature;
+    protected $user_agent;
 
     /**
      * @param $order
@@ -28,10 +27,10 @@ abstract class AbstractTransport {
      * @param $auth_token
      * @param string $url
      */
-    public function __construct($domain, $auth_token, $url = 'wh.riskified.com') {
+    public function __construct($signature, $url = 'wh.riskified.com') {
+        $this->signature = $signature;
         $this->url = $url;
-        $this->domain = $domain;
-        $this->auth_token = $auth_token;
+        $this->user_agent = 'riskified_php_sdk/' . Riskified::VERSION;
     }
 
     /**
@@ -53,18 +52,32 @@ abstract class AbstractTransport {
 
     /**
      * @param $data_string
-     * @return string
-     */
-    protected function calc_hmac($data_string) {
-        return hash_hmac('sha256', $data_string, $this->auth_token);
-    }
-
-    /**
-     * @param $message
-     * @param $details
      * @return array
      */
-    protected function error_response($message, $details) {
-        return ['error' => ['message' => $message, 'details' => $details] ];
+    protected  function headers($data_string) {
+        return [
+            'Content-Type: application/json',
+            'Content-Length: '.strlen($data_string),
+            'X_RISKIFIED_SHOP_DOMAIN:'.Riskified::$domain,
+            'X_RISKIFIED_SUBMIT_NOW:true',
+            'X_RISKIFIED_HMAC_SHA256:'.$this->signature->calc_hmac($data_string)
+        ];
     }
+
+//    /**
+//     * @param $data_string
+//     * @return string
+//     */
+//    protected function calc_hmac($data_string) {
+//        return hash_hmac('sha256', $data_string, $this->auth_token);
+//    }
+//
+//    /**
+//     * @param $message
+//     * @param $details
+//     * @return array
+//     */
+//    protected function error_response($message, $details) {
+//        return ['error' => ['message' => $message, 'details' => $details] ];
+//    }
 }
