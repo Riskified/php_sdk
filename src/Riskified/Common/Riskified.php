@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_STRICT);
-
 function __autoload($class) {
 	if (strpos($class, 'Riskified\\') == 0) {
         $parts = explode('\\', $class);

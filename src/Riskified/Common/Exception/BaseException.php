@@ -1,7 +1,7 @@
 <?php namespace Riskified\Common\Exception;
 
 
-class BaseException extends \RuntimeException {
+class BaseException extends \Exception {
 
 
 } 

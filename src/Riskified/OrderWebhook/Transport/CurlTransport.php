@@ -1,4 +1,7 @@
 <?php namespace Riskified\OrderWebhook\Transport;
+
+use Riskified\OrderWebhook\Exception;
+
 /**\
  * Class CurlTransport
  * @package Riskified
@@ -33,7 +36,7 @@ class CurlTransport extends AbstractTransport {
 
         $body = curl_exec($ch);
         if (curl_errno($ch))
-            return $this->error_response('cURL Error '.curl_errno($ch), curl_error($ch));
+            throw new Exception\CurlException(curl_errno($ch), curl_error($ch));
 
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
@@ -61,16 +64,11 @@ class CurlTransport extends AbstractTransport {
      * @return object|\stdClass
      */
     private function json_response($body, $status) {
-        $json = new \stdClass();
-        $json->http_status = $status;
-
-        if (( $response = json_decode($body) )) {
-            $json->response = $response;
-        } else {
-            $error = $this->error_response('Malformed JSON', $body);
-            $json = (object) array_merge((array) $json, (array) $error);
+        $response = json_decode($body);
+        if (!$response) {
+            throw new Exception\MalformedJsonException($body, $status);
         }
 
-        return $json;
+        return $response;
     }
 }

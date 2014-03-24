@@ -1,4 +1,7 @@
 <?php namespace Riskified\OrderWebhook\Model;
+
+use Riskified\OrderWebhook\Exception;
+
 /**
  * Class AbstractModel
  * Abstract superclass for all data models that performs data validation on properties
@@ -19,7 +22,7 @@ abstract class AbstractModel {
     public function __construct($props = []) {
         foreach ($props as $key => $value) {
             if (!array_key_exists($key, $this->_fields))
-                throw new \Exception("set(): Property ${this}->${key} does not exist");
+                throw new Exception\InvalidPropertyException($this, $key);
             $this->{$key} = $value;
         }
     }
@@ -34,7 +37,7 @@ abstract class AbstractModel {
         if (array_key_exists($key, $this->_fields)) {
             $this->$key = $value;
         } else {
-            throw new \Exception("set(): Property ${this}->${key} does not exist");
+            throw new Exception\InvalidPropertyException($this, $key);
         }
     }
 
@@ -66,21 +69,32 @@ abstract class AbstractModel {
     }
 
     /**
-     * Validate all fields and nested objects
-     * @return array All property validation issues or empty array if no issues found
+     * @return bool
+     * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException
      */
     public function validate() {
-        $valid = [];
+        $exceptions = $this->validation_exceptions();
+        if ($exceptions)
+            throw new Exception\MultiplePropertiesException($exceptions);
+        return true;
+    }
+
+    /**
+     * Validate all fields and nested objects for this object
+     * @return array All property validation issues or empty array if no issues found
+     */
+    protected function validation_exceptions() {
+        $exceptions = [];
         foreach ($this->_fields as $key => $value) {
-            $type = explode(' ', $value);
+            $types = explode(' ', $value);
             if (is_null($this->$key)) {
-                if (end($type) != 'optional')
-                    $valid[] = "${this}->${key}: Not set, expecting ".strtoupper($type[0]);
+                if (end($types) != 'optional')
+                    $exceptions[] = new Exception\MissingPropertyException($this, $key, $types);
             } else {
-                $valid = array_merge($valid, $this->validate_value($this->$key, $type, "${this}->${key}"));
+                $exceptions = array_merge($exceptions, $this->validate_key($key, $types));
             }
         }
-        return array_filter($valid);
+        return array_filter($exceptions);
     }
 
     /**
@@ -90,39 +104,38 @@ abstract class AbstractModel {
      * @param string $err_prefix Prefix to prepend to validation issue messages
      * @return array All value validation issues or empty array if no issues found
      */
-    private function validate_value($value, $list, $err_prefix) {
-        $type = $list[0];
-        $err_msg = ["$err_prefix: Type Mismatch: got ".strtoupper(gettype($value))." ($value), expecting ".strtoupper($type)];
+    private function validate_key($key, $types) {
+        $value = $this->$key;
+        $type = $types[0];
+        $exception = [new Exception\TypeMismatchPropertyException($this, $key, $types)];
         switch ($type) {
             case 'string':
                 if (!is_string($value))
-                    return $err_msg;
-                if (count($list) > 1 && $list[1][0] == '/' && !preg_match($list[1], $value))
-                    return ["$err_prefix: Bad Format: ($value) should match ".$list[1]];
+                    return $exception;
+                if (count($types) > 1 && $types[1][0] == '/' && !preg_match($types[1], $value))
+                    return [new Exception\FormatMismatchPropertyException($this, $key, $types)];
                 break;
             case 'number':
                 if (!preg_match('/^[0-9]+$/', $value))
-                    return $err_msg;
+                    return $exception;
                 break;
             case 'float':
                 if (!is_numeric($value))
-                    return $err_msg;
+                    return $exception;
                 break;
             case 'boolean':
                 if (!is_bool($value))
-                    return $err_msg;
+                    return $exception;
                 break;
             case 'date':
                 if (!$this->is_date($value))
-                    return $err_msg;
+                    return $exception;
                 break;
             case 'object':
-                $valid = $this->validate_object($value, $list, $err_prefix);
-                return is_array($valid) ? $valid : $err_msg;
+                return $this->validate_object($this, $key, $types, $value);
                 break;
             case 'objects':
-                $valid = $this->validate_objects($value, $list, $err_prefix);
-                return is_array($valid) ? $valid : $err_msg;
+                return $this->validate_objects($key, $types);
                 break;
         }
         return [];
@@ -130,20 +143,23 @@ abstract class AbstractModel {
 
     /**
      * Helper method that validates an object field
-     * @param object $object Object to validate
+     * @param object $that Object to validate
      * @param array $list Description of validation constraints
      * @param string $err_prefix Prefix to prepend to validation issue messages
      * @return array|null All object validation issues or null if no issues found
      */
-    private function validate_object($object, $list, $err_prefix) {
+    private function validate_object($that, $key, $types, $object) {
         if (!is_object($object))
-            return null;
+            return [new Exception\TypeMismatchPropertyException($that, $key, $types)];
 
         $parts = explode('\\', get_class($object));
         $class = '\\'.end($parts);
-        if (count($list) > 1 && $list[1][0] == '\\' && $class != $list[1])
-            return ["$err_prefix: Object Mismatch: got ".$class.", expected ".$list[1]];
-        return $object->validate();
+
+        if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
+            return [new Exception\ClassMismatchPropertyException($that, $key, $types)];
+        }
+
+        return $object->validation_exceptions();
     }
 
     /**
@@ -153,19 +169,21 @@ abstract class AbstractModel {
      * @param string $err_prefix Prefix to prepend to validation issue messages
      * @return array|null All objects validation issues or null if no issues found
      */
-    private function validate_objects($objects, $list, $err_prefix) {
+    private function validate_objects($key, $type) {
+        $objects = $this->$key;
+
         if (is_array($objects)) {
-            $list[0] = 'object';
-            $valid = [];
+            $type[0] = 'object';
+            $exceptions = [];
             foreach ($objects as $object) {
-                $valid = array_merge($valid, $this->validate_value($object, $list, $err_prefix));
+                $exceptions = array_merge($exceptions, $this->validate_object($this, $key, $type, $object));
             }
-            return array_filter($valid);
+            return array_filter($exceptions);
         }
         if (is_object($objects)) {
-            return $this->validate_object($objects, $list, $err_prefix);
+            return $this->validate_object($this, $key, $type, $objects);
         }
-        return null;
+        return [new Exception\TypeMismatchPropertyException($this, $key, $type)];
     }
 
     /**

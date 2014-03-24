@@ -2,6 +2,10 @@
 
 use Riskified\Common\Exception\BaseException;
 
-class PropertyMissingException extends BaseException {
+class CurlException extends BaseException {
 
+    public function __construct($code, $msg) {
+
+
+    }
 }
