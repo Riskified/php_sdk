@@ -1,4 +1,4 @@
-<?php
+<?php namespace Riskified\Common\Exception;
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,10 +14,4 @@
  * permissions and limitations under the License.
  */
 
-namespace Riskified\Common\Exception;
-
-
-class BaseException extends \Exception {
-
-
-} 
+class BaseException extends \Exception {}

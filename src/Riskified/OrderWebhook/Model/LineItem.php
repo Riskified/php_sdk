@@ -1,4 +1,4 @@
-<?php
+<?php namespace Riskified\OrderWebhook\Model;
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -13,10 +13,11 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-namespace Riskified\OrderWebhook\Model;
 
 /**
- * Data object containing the information about the items i.e. products contained in the order
+ * Class LineItem
+ * data model of line items purchased
+ * @package Riskified\OrderWebhook\Model
  */
 class LineItem extends AbstractModel {
 

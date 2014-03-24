@@ -29,11 +29,12 @@ class HttpDataSignature {
     const HMAC_HEADER_NAME = 'X-Riskified-Hmac-Sha256';
 
     /**
-     * @param $data_string
-     * @return string
+     * Calculates the HMAC SHA256
+     * @param $body string Body of POST request to hash
+     * @return string Value for HMAC_HEADER_NAME
      */
-    public function calc_hmac($data_string) {
-        return hash_hmac('sha256', $data_string, Riskified::$auth_token);
+    public function calc_hmac($body) {
+        return hash_hmac('sha256', $body, Riskified::$auth_token);
     }
 
 } 

@@ -1,4 +1,18 @@
 <?php namespace Riskified\OrderWebhook\Model;
+/**
+ * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0.html
+ *
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
 use Riskified\OrderWebhook\Exception;
 
@@ -69,8 +83,9 @@ abstract class AbstractModel {
     }
 
     /**
-     * @return bool
-     * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException
+     * Validate all fields and nested objects for this object
+     * @return bool True if object hierarchy is valid
+     * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException on any or multiple issues
      */
     public function validate() {
         $exceptions = $this->validation_exceptions();
@@ -98,11 +113,10 @@ abstract class AbstractModel {
     }
 
     /**
-     * Helper method that validates a specific field
-     * @param string $value Value to validate
-     * @param array $list Description of validation constraints
-     * @param string $err_prefix Prefix to prepend to validation issue messages
-     * @return array All value validation issues or empty array if no issues found
+     * validate a specific key
+     * @param $key string key to validate
+     * @param $types array constraints
+     * @return array validation issues found
      */
     private function validate_key($key, $types) {
         $value = $this->$key;
@@ -142,11 +156,12 @@ abstract class AbstractModel {
     }
 
     /**
-     * Helper method that validates an object field
-     * @param object $that Object to validate
-     * @param array $list Description of validation constraints
-     * @param string $err_prefix Prefix to prepend to validation issue messages
-     * @return array|null All object validation issues or null if no issues found
+     * validate a nested object
+     * @param $that object parent object
+     * @param $key string key name of object
+     * @param $types array constraints
+     * @param $object object to validate
+     * @return array  All  validation issues or null if no issues found
      */
     private function validate_object($that, $key, $types, $object) {
         if (!is_object($object))
@@ -163,27 +178,26 @@ abstract class AbstractModel {
     }
 
     /**
-     * Helper method that validates an objects field
-     * @param array|object $objects Array of objects, or single object, to validate
-     * @param array $list Description of validation constraints
-     * @param string $err_prefix Prefix to prepend to validation issue messages
-     * @return array|null All objects validation issues or null if no issues found
+     * validate nested objects
+     * @param $key string key name
+     * @param $types string constraints
+     * @return array objects validation issues or null if no issues found
      */
-    private function validate_objects($key, $type) {
+    private function validate_objects($key, $types) {
         $objects = $this->$key;
 
         if (is_array($objects)) {
-            $type[0] = 'object';
+            $types[0] = 'object';
             $exceptions = [];
             foreach ($objects as $object) {
-                $exceptions = array_merge($exceptions, $this->validate_object($this, $key, $type, $object));
+                $exceptions = array_merge($exceptions, $this->validate_object($this, $key, $types, $object));
             }
             return array_filter($exceptions);
         }
         if (is_object($objects)) {
-            return $this->validate_object($this, $key, $type, $objects);
+            return $this->validate_object($this, $key, $types, $objects);
         }
-        return [new Exception\TypeMismatchPropertyException($this, $key, $type)];
+        return [new Exception\TypeMismatchPropertyException($this, $key, $types)];
     }
 
     /**

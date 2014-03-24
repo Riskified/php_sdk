@@ -1,4 +1,4 @@
-<?php
+<?php namespace Riskified\DecisionNotification\Exception;
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,14 +14,25 @@
  * permissions and limitations under the License.
  */
 
-namespace Riskified\DecisionNotification\Exception;
+/**
+ * Class AuthorizationException
+ * Thrown on HMAC mismatch
+ * @package Riskified\DecisionNotification\Exception
+ */
+class AuthorizationException extends NotificationException{
 
-use Riskified\Common\Exception\BaseException;
+    protected $expected_hmac;
+    protected $received_hmac;
 
-class AuthorizationException extends BaseException{
-
-    public function __construct($code, $msg) {
-
+    public function __construct($headers, $body, $expected_hmac, $received_hmac) {
+        $this->expected_hmac = $expected_hmac;
+        $this->received_hmac = $received_hmac;
+        parent::__construct($headers, $body);
     }
 
+    protected function customMessage() {
+        return parent::customMessage().
+        ', Expected HMAC: '.$this->expected_hmac.
+        '. Received HMAC: '.$this->received_hmac;
+    }
 }

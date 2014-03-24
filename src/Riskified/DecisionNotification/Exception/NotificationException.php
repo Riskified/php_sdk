@@ -14,9 +14,32 @@
  * permissions and limitations under the License.
  */
 
+use Riskified\Common\Exception\BaseException;
+
 /**
- * Class BadPostParametersException
- * Thrown on bad POST parameters in notification received
+ * Class NotificationException
+ * Base exception for issues with the Notification Model
  * @package Riskified\DecisionNotification\Exception
  */
-class BadPostParametersException extends NotificationException {}
+class NotificationException extends BaseException {
+
+    protected $headers;
+    protected $body;
+
+    public function __construct($headers, $body) {
+        $this->headers = $headers;
+        $this->body = $body;
+        return parent::__construct($this->customMessage());
+    }
+
+    protected function headersString() {
+        return '[ '.join(', ',$this->headers).' ]';
+    }
+
+    protected function customMessage() {
+        return 'Headers: '.$this->headersString().
+        ', Body: '.$this->body;
+    }
+
+
+}
