@@ -15,7 +15,7 @@
  */
 namespace Riskified\OrderWebhook\Transport;
 use Riskified\Common\Riskified;
-
+use Riskified\Common\Signature\HttpDataSignature;
 /**
  * Class AbstractTransport
  * @package Riskified
@@ -28,7 +28,7 @@ abstract class AbstractTransport {
     public $use_https = true;
     protected $url;
     protected $user_agent = 'riskified php_sdk v1.0';
-
+    protected $signature;
     /**
      * @param $order
      * @return mixed
@@ -40,8 +40,9 @@ abstract class AbstractTransport {
      * @param $auth_token
      * @param string $url
      */
-    public function __construct($url = 'wh.riskified.com') {
+    public function __construct($url = 'wh.riskified.com', $signature) {
         $this->url = $url;
+        $this->signature = $signature;
     }
 
     /**
@@ -56,19 +57,25 @@ abstract class AbstractTransport {
     }
 
     /**
+     * @param $data_string
+     * @return array
+     */
+    protected function headers($data_string) {
+        return [
+            'Content-Type: application/json',
+            'Content-Length: '.strlen($data_string),
+            'X_RISKIFIED_SHOP_DOMAIN:'.Riskified::$domain,
+            'X_RISKIFIED_SUBMIT_NOW:true',
+            'X_RISKIFIED_HMAC_SHA256:'.$this->signature->calc_hmac($data_string)
+        ];
+    }
+
+    /**
      * @return string
      */
     protected function full_path() {
         $protocol = ($this->use_https) ? 'https' : 'http';
         return "$protocol://$this->url/webhooks/merchant_order_created";
-    }
-
-    /**
-     * @param $data_string
-     * @return string
-     */
-    protected function calc_hmac($data_string) {
-        return hash_hmac('sha256', $data_string, Riskified::$auth_token);
     }
 
     /**

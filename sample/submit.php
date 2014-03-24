@@ -5,7 +5,7 @@
 include __DIR__.'/../src/Riskified/common/loader.php';
 
 use Riskified\Common\Riskified;
-
+use Riskified\Common\Signature\HttpDataSignature;
 use Riskified\OrderWebhook\Model\Order;
 use Riskified\OrderWebhook\Model\Address;
 use Riskified\OrderWebhook\Model\Customer;
@@ -138,8 +138,9 @@ $order->shipping_address = $shippingAddress;
 
 echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
+$signature = new HttpDataSignature();
 # Create a curl transport to the Riskified Server    
-$transport = new CurlTransport($riskifiedUrl);
+$transport = new CurlTransport($riskifiedUrl,$signature);
 $transport->timeout = 5;
 
 $response = $transport->submitOrder($order);

@@ -32,8 +32,8 @@ class CurlTransport extends AbstractTransport {
 
     /**
      */
-    public function __construct($url){
-        parent::__construct($url);
+    public function __construct($url,$signature){
+        parent::__construct($url,$signature);
         // Make sure the user agent is prefixed by the SDK version
         $this->user_agent = 'aws-sdk-php2/' . Riskified::VERSION;
     }
@@ -65,20 +65,6 @@ class CurlTransport extends AbstractTransport {
         curl_close($ch);
 
         return $this->json_response($body, $status);
-    }
-
-    /**
-     * @param $data_string
-     * @return array
-     */
-    private function headers($data_string) {
-        return [
-            'Content-Type: application/json',
-            'Content-Length: '.strlen($data_string),
-            'X_RISKIFIED_SHOP_DOMAIN:'.Riskified::$domain,
-            'X_RISKIFIED_SUBMIT_NOW:true',
-            'X_RISKIFIED_HMAC_SHA256:'.$this->calc_hmac($data_string)
-        ];
     }
 
     /**
