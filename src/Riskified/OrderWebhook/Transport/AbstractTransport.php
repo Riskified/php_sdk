@@ -23,8 +23,7 @@ abstract class AbstractTransport {
     abstract protected function send_json_request($order);
 
     /**
-     * @param $domain
-     * @param $auth_token
+     * @param $signature
      * @param string $url
      */
     public function __construct($signature, $url = 'wh.riskified.com') {
@@ -54,30 +53,14 @@ abstract class AbstractTransport {
      * @param $data_string
      * @return array
      */
-    protected  function headers($data_string) {
+    protected function headers($data_string) {
+        $signature = $this->signature;
         return [
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
-            'X_RISKIFIED_SHOP_DOMAIN:'.Riskified::$domain,
-            'X_RISKIFIED_SUBMIT_NOW:true',
-            'X_RISKIFIED_HMAC_SHA256:'.$this->signature->calc_hmac($data_string)
+            $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
+            $signature::SUBMIT_HEADER_NAME.':true',
+            $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
         ];
     }
-
-//    /**
-//     * @param $data_string
-//     * @return string
-//     */
-//    protected function calc_hmac($data_string) {
-//        return hash_hmac('sha256', $data_string, $this->auth_token);
-//    }
-//
-//    /**
-//     * @param $message
-//     * @param $details
-//     * @return array
-//     */
-//    protected function error_response($message, $details) {
-//        return ['error' => ['message' => $message, 'details' => $details] ];
-//    }
 }

@@ -20,4 +20,8 @@ use Riskified\Common\Exception\BaseException;
 
 class AuthorizationException extends BaseException{
 
-} 
+    public function __construct($code, $msg) {
+
+    }
+
+}

@@ -23,6 +23,11 @@ use Riskified\Common\Riskified;
  * @package Riskified\Common\Signature
  */
 class HttpDataSignature {
+
+    const SHOP_DOMAIN_HEADER_NAME = 'X_RISKIFIED_SHOP_DOMAIN';
+    const SUBMIT_HEADER_NAME = 'X_RISKIFIED_SUBMIT_NOW';
+    const HMAC_HEADER_NAME = 'X-Riskified-Hmac-Sha256';
+
     /**
      * @param $data_string
      * @return string

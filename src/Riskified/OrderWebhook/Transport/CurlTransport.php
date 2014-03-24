@@ -15,7 +15,8 @@ class CurlTransport extends AbstractTransport {
 
     /**
      * @param $order
-     * @return array|mixed|object|\stdClass
+     * @return mixed
+     * @throws \Riskified\OrderWebhook\Exception\CurlException
      */
     protected function send_json_request($order) {
         $data_string = $order->toJson();
@@ -46,7 +47,8 @@ class CurlTransport extends AbstractTransport {
     /**
      * @param $body
      * @param $status
-     * @return object|\stdClass
+     * @return mixed
+     * @throws \Riskified\OrderWebhook\Exception\MalformedJsonException
      */
     private function json_response($body, $status) {
         $response = json_decode($body);

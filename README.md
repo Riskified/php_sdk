@@ -8,13 +8,10 @@ The wiki will contain the software overview and requirements for the SDK. See he
 
 TODO
 ----
+- exception cleanup
+
 - phpDoc
 
-- user agent + version
-
-
 - tests
-- notification parser
 
 - billing last name hacks
-- guzzle?

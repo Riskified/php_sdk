@@ -4,9 +4,9 @@
 
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
+use Riskified\Common\Signature;
 use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
-use Riskified\Common\Signature;
 
 
 # Replace with the 'shop domain' of your account in Riskified

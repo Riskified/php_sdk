@@ -2,4 +2,10 @@
 
 use Riskified\Common\Exception\BaseException;
 
-class MalformedJsonException extends BaseException {}
+class MalformedJsonException extends BaseException {
+
+    public function __construct($body, $status) {
+
+    }
+
+}
