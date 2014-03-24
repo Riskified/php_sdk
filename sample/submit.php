@@ -146,7 +146,7 @@ $shippingAddress = new Model\Address([
 ]);
 $order->shipping_address = $shippingAddress;
 
-//echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
+echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson()), JSON_PRETTY_PRINT).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature(), $riskifiedUrl);
