@@ -19,7 +19,6 @@
  * @package Riskified\Common
  */
 class Riskified {
-
     const VERSION = '1.0.0';
 
     /**
@@ -30,14 +29,36 @@ class Riskified {
      * @var string Riskified Auth_Token
      */
     public static $auth_token;
+    /**
+     * @var string the Riskified environment to which calls are suppose to be sent
+     */
+    public static $env;
 
     /**
      * Sets up Riskified credentials. Must be called before any other method can be used.
      * @param $domain string Riskified Shop Domain
      * @param $auth_token Riskified Auth_Token
      */
-    public static function init($domain, $auth_token) {
+    public static function init($domain, $auth_token, $env = Env::SANDBOX) {
         self::$domain = $domain;
         self::$auth_token = $auth_token;
+        self::$env = $env;
+    }
+
+    public static function getHostByEnv(){
+        $env = (self::$env == null) ? Env::SANDBOX : self::$env;
+
+        switch ($env){
+            case ENV::SANDBOX:
+                return 'sandbox.riskified.com';
+            case ENV::STAGING:
+                return 's.riskified.com';
+            case ENV::PROD:
+                return 'wh.riskified.com';
+            case ENV::DEV:
+                return 'localhost:3000';
+            default:
+                return 'localhost:3000';
+        }
     }
 }

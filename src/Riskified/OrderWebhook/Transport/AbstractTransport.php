@@ -14,11 +14,14 @@
  * permissions and limitations under the License.
  */
 
+use Riskified\Common\Env;
 use Riskified\Common\Riskified;
 
 /**
  * Class AbstractTransport
- * Transport to submit orders to Rsikified
+ * A base class for Transports for sending order data to Riskified
+ * Orders will be created if the id was never used before, and updated if already created
+ * Submission of orders is done by similarly to creation with an addition of a header
  * @package Riskified
  */
 abstract class AbstractTransport {
@@ -40,12 +43,13 @@ abstract class AbstractTransport {
     /**
      * set up transport
      * @param $signature object Signature object for authentication handling
-     * @param $url string Riskified endpoint (optional). Use staging.riskified.com for development
+     * @param $url string Riskified endpoint (optional)
      */
-    public function __construct($signature, $url = 'wh.riskified.com') {
+    public function __construct($signature, $url = null) {
         $this->signature = $signature;
-        $this->url = $url;
+        $this->url = ($url == null) ? Riskified::getHostByEnv() : $url;
         $this->user_agent = 'riskified_php_sdk/' . Riskified::VERSION;
+        $this->use_https = Riskified::$env != Env::DEV;
     }
 
     /**
@@ -56,6 +60,17 @@ abstract class AbstractTransport {
      */
     public function submitOrder($order) {
         if ($order->validate())
+            return $this->send_json_request($order,array(SUBMIT => true));
+    }
+
+    /**
+     * Submit an Order to Riskified for review
+     * @param $order object Order to submit
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function createOrUpdateOrder($order) {
+        if ($order->validate())
             return $this->send_json_request($order);
     }
 
@@ -63,7 +78,7 @@ abstract class AbstractTransport {
      * full path to the Riskified endpoint
      * @return string
      */
-    protected function full_path() {
+    public function full_path() {
         $protocol = ($this->use_https) ? 'https' : 'http';
         return "$protocol://$this->url/webhooks/merchant_order_created";
     }
@@ -73,14 +88,16 @@ abstract class AbstractTransport {
      * @param $data_string string body of request
      * @return array headers
      */
-    protected function headers($data_string) {
+    protected function headers($data_string,$options) {
         $signature = $this->signature;
-        return array(
+        $headers = array(
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
             $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
-            $signature::SUBMIT_HEADER_NAME.':true',
             $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
         );
+        if ($options[SUBMIT])
+            $headers << $signature::SUBMIT_HEADER_NAME.':true';
+        return $headers;
     }
 }

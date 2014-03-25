@@ -15,26 +15,23 @@
  */
 
 // A simple example of creating an order from the command line.
-// Usage: php submit.php
+// Usage: php order_webhook.php
 
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
+use Riskified\Common\Env;
 use Riskified\Common\Signature;
 use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 
 # Replace with the 'shop domain' of your account in Riskified
-$domain = "busteco.com";
+$domain = "test.pass.com";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
+$authToken = "ad6b6e6376fb1e3521e44ca28451d58b9605d932";
 
-Riskified::init($domain, $authToken);
-
-# Change to wh.riskified.com for production
-$riskifiedUrl = "sandbox.riskified.com";
-
+Riskified::init($domain, $authToken, Env::DEV);
 
 # Order
 $order = new Model\Order(array(
@@ -146,12 +143,16 @@ $shippingAddress = new Model\Address(array(
 ));
 $order->shipping_address = $shippingAddress;
 
-echo 'REQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
+echo '\nREQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
-$transport = new Transport\CurlTransport(new Signature\HttpDataSignature(), $riskifiedUrl);
+$transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 5;
+echo "\nSending data to ".$transport->full_path();
+
+$response = $transport->createOrUpdateOrder($order);
+echo "\nCreate RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;
 
 $response = $transport->submitOrder($order);
 
-echo 'RESPONSE:'.PHP_EOL.json_encode($response).PHP_EOL;
+echo "\nSubmit RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;
