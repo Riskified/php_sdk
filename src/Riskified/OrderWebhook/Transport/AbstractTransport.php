@@ -60,7 +60,7 @@ abstract class AbstractTransport {
      */
     public function submitOrder($order) {
         if ($order->validate())
-            return $this->send_json_request($order,array(SUBMIT => true));
+            return $this->send_json_request($order,array('SUBMIT' => true));
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class AbstractTransport {
             $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
             $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
         );
-        if ($options[SUBMIT])
+        if (isset($options['SUBMIT']))
             $headers << $signature::SUBMIT_HEADER_NAME.':true';
         return $headers;
     }

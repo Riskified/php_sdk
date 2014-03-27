@@ -25,7 +25,7 @@ class Order extends AbstractModel {
         'id' => 'string',
         'name' => 'string optional',
         'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i',
-        'total_spent' => 'number optional',
+        'total_spent' => 'float optional',
         'cancel_reason' => 'string optional',
         'cancelled_at' => 'date optional',
         'created_at' => 'date',

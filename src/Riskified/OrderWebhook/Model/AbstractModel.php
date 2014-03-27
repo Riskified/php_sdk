@@ -29,6 +29,12 @@ abstract class AbstractModel {
     protected $_fields = array();
 
     /**
+     * Contains all the model properties and their associated values (used by __set and __get)
+     * @var array
+     */
+    protected $_propertyBag = array();
+
+    /**
      * Initialize a new model, optionally passing an array of properties
      * @param array $props List of Key => Value pairs for setting model properties
      * @throws \Exception If $props contain an invalid Key
@@ -49,11 +55,25 @@ abstract class AbstractModel {
      */
     public function __set($key, $value) {
         if (array_key_exists($key, $this->_fields)) {
-            $this->$key = $value;
+            $this->_propertyBag[$key] = $value;
         } else {
             throw new Exception\InvalidPropertyException($this, $key);
         }
     }
+
+    /**
+     * Magic method acting as GETTER method for the defined fields
+     * @param string $key Property to get
+     * @return mixed Value of the property
+     * @throws Exception\InvalidPropertyException If $key is invalid
+     */
+    public function __get($key) {
+        if (array_key_exists($key, $this->_fields)) {
+            return isset($this->_propertyBag[$key]) ? $this->_propertyBag[$key] : null;
+        } else {
+            throw new Exception\InvalidPropertyException($this, $key);                
+        }
+    }       
 
     /**
      * Get the short name of the model, ie. without the namespace prefix
@@ -215,7 +235,7 @@ abstract class AbstractModel {
      * @return array List of all fields
      */
     private function to_array() {
-        return $this->process_array(get_object_vars($this));
+        return $this->process_array($this->_propertyBag);
     }
 
     /**

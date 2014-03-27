@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-function __autoload($class) {
+function riskifiedAutoload($class) {
     $parts = explode('\\', $class);
     if (array_shift($parts) == 'Riskified') {
         array_unshift($parts, __DIR__);
@@ -24,3 +24,6 @@ function __autoload($class) {
     }
     return true;
 }
+
+// Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders)
+spl_autoload_register('riskifiedAutoload');
