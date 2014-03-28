@@ -29,20 +29,20 @@ use Riskified\OrderWebhook\Transport;
 $domain = "test.pass.com";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "ad6b6e6376fb1e3521e44ca28451d58b9605d932";
+$authToken = "1388add8a99252fc1a4974de471e73cd";
 
-Riskified::init($domain, $authToken, Env::DEV);
+Riskified::init($domain, $authToken, Env::SANDBOX);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '118',
-    'name' => 'Order #111',
+    'id' => '123',
+    'name' => '#123',
     'email' => 'great.customer@example.com',
     'total_spent' => 200.0,
-    'created_at' => '2014-02-31 14:58:04',
-    'closed_at' => '2014-03-31 14:58:05',
-    'currency' => 'USD',
-    'updated_at' => '2014-02-31 14:58:04',
+    'created_at' => '2010-01-10T11:00:00-05:00',
+    'closed_at' => null,
+    'currency' => 'CAD',
+    'updated_at' => '2010-01-10T11:00:00-05:00',
     'gateway' => 'mypaymentprocessor',
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
@@ -101,7 +101,7 @@ $customer = new Model\Customer(array(
     'first_name' => 'Firstname',
     'last_name' => 'Lastname',
     'id' => '1233',
-    'created_at' => '2012/01/15 11:22:11',
+    'created_at' => '2008-01-10T11:00:00-05:00',
     'orders_count' => 6,
     'verified_email' => true
 ));
@@ -143,7 +143,7 @@ $shippingAddress = new Model\Address(array(
 ));
 $order->shipping_address = $shippingAddress;
 
-echo '\nREQUEST:'.PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
+echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
