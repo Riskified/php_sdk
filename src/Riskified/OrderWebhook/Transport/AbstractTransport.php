@@ -97,7 +97,7 @@ abstract class AbstractTransport {
             $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
         );
         if (isset($options['SUBMIT']))
-            $headers << $signature::SUBMIT_HEADER_NAME.':true';
+            $headers[] = $signature::SUBMIT_HEADER_NAME.':true';
         return $headers;
     }
 }

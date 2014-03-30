@@ -42,7 +42,7 @@ class Order extends AbstractModel {
         'customer' => 'object \Customer',
         'shipping_address' => 'object \Address',
         'billing_address' => 'object \Address',
-        'payment_details' => 'object \PaymentDetails',
+        'payment_details' => 'object \PaymentDetails optional',
         'line_items' => 'objects \LineItem',
         'discount_codes' => 'objects \DiscountCode optional',
         'shipping_lines' => 'objects \ShippingLine optional'
