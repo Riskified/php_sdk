@@ -1,4 +1,7 @@
 <?php namespace Riskified\Common;
+
+use Riskified\Common\Env;
+
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
