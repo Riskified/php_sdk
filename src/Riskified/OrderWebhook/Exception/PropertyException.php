@@ -51,9 +51,9 @@ class PropertyException extends BaseException {
     }
 
     protected function customMessage() {
-        return 'Property Name: '.$this->propertyName().
-             ', Property Value: '.$this->propertyValue().
-             ', Property Type: '.$this->propertyTypes();
+        return 'Property Name:  '.$this->propertyName().
+             ', Property Value: '.print_r($this->propertyValue(), true).
+             ', Property Type:  '.$this->propertyTypes();
     }
 
 }
