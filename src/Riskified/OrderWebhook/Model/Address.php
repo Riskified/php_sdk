@@ -25,7 +25,7 @@ class Address extends AbstractModel {
         'first_name' => 'string',
         'last_name' => 'string',
         'name' => 'string optional',
-        'company' => 'string',
+        'company' => 'string optional',
         'address1' => 'string',
         'address2' => 'string optional',
         'city' => 'string',
