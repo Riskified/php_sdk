@@ -41,7 +41,7 @@ class Order extends AbstractModel {
         'total_discounts' => 'float optional',
         'customer' => 'object \Customer',
         'shipping_address' => 'object \Address',
-        'billing_address' => 'object \Address',
+        'billing_address' => 'object \Address optional',
         'payment_details' => 'object \PaymentDetails optional',
         'line_items' => 'objects \LineItem',
         'discount_codes' => 'objects \DiscountCode optional',
