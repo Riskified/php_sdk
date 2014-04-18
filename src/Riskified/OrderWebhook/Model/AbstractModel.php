@@ -226,7 +226,6 @@ abstract class AbstractModel {
      * @return boolean True if $date is a valid date
      */
     private function is_date($date) {
-        date_default_timezone_set('UTC');
         return (strtotime($date));
     }
 
