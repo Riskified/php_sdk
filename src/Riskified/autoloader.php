@@ -26,4 +26,4 @@ function riskifiedAutoload($class) {
 }
 
 // Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders)
-spl_autoload_register('riskifiedAutoload');
+spl_autoload_register('riskifiedAutoload',null,true);
