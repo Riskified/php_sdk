@@ -72,6 +72,7 @@ class Order extends AbstractModel {
 
         'billing_address' => 'object \Address optional',
         'payment_details' => 'object \PaymentDetails optional',
+        'client_details' => 'object \ClientDetails optional',
         'discount_codes' => 'objects \DiscountCode optional',
         'shipping_lines' => 'objects \ShippingLine optional',
         'note_attributes' => 'objects \Attribute optional',
