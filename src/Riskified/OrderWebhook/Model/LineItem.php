@@ -25,7 +25,22 @@ class LineItem extends AbstractModel {
         'price' => 'float',
         'quantity' => 'number',
         'title' => 'string',
+
         'sku' => 'string optional',
-        'product_id' => 'string optional'
+        'product_id' => 'string optional',
+        'fulfillment_service' => 'string optional',
+        'fulfillment_status' => 'string optional',
+        'grams' => 'float optional',
+        'id' => 'string optional',
+        'variant_id' => 'string optional',
+        'variant_title' => 'string optional',
+        'variant_inventory_management' => 'string optional',
+        'vendor' => 'string optional',
+        'name' => 'string optional',
+        'requires_shipping' => 'boolean optional',
+        'taxable' => 'boolean optional',
+        'product_exists' => 'boolean optional',
+        'properties' =>'objects \Attribute optional',
+        'tax_lines' => 'objects \TaxLine optional'
     );
 }

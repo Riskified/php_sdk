@@ -15,18 +15,25 @@
  */
 
 /**
- * Class ShippingLine
- * data model of shipping line costs
+ * Class Fulfillment
+ * data model of fulfillment
  * @package Riskified\OrderWebhook\Model
  */
-class ShippingLine extends AbstractModel {
+class Fulfillment extends AbstractModel {
 
     protected $_fields = array(
-        'price' => 'float',
-        'title' => 'string',
+        'created_at' => 'date',
+        'updated_at' => 'date',
+        'id' => 'string',
+        'order_id' => 'string',
+        'service' => 'string',
+        'status' => 'string',
 
-        'code' => 'string optional',
-        'source' => 'string optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'tracking_company' => 'string optional',
+        'tracking_number' => 'string optional',
+        'tracking_url' => 'string optional',
+        'line_items' => 'objects \LineItem optional'
     );
 }
+
+// "receipt":{"gift_cards":[{"id":732301,"line_item_id":372051657,"masked_code":"\u00b7\u00b7\u00b7\u00b7 \u00b7\u00b7\u00b7\u00b7 \u00b7\u00b7\u00b7\u00b7 gcae"}]}

@@ -24,16 +24,19 @@ class Address extends AbstractModel {
     protected $_fields = array(
         'first_name' => 'string',
         'last_name' => 'string',
+        'city' => 'string',
+        'phone' => 'string',
+        'country' => 'string',
+        'country_code' => 'string /^[A-Z]{2}$/i',
+
         'name' => 'string optional',
         'company' => 'string optional',
-        'address1' => 'string',
+        'address1' => 'string optional',
         'address2' => 'string optional',
-        'city' => 'string',
-        'country_code' => 'string /^[A-Z]{2}$/i',
-        'country' => 'string',
-        'province_code' => 'string /^[A-Z]{2}$/i optional',
         'province' => 'string optional',
+        'province_code' => 'string /^[A-Z]{2}$/i optional',
         'zip' => 'string optional',
-        'phone' => 'string'
+        'latitude' => 'float optional',
+        'longitude' => 'float optional',
     );
 }

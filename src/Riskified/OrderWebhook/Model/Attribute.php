@@ -15,18 +15,14 @@
  */
 
 /**
- * Class ShippingLine
- * data model of shipping line costs
+ * Class Attribute
+ * data model of generic key-value attribute
  * @package Riskified\OrderWebhook\Model
  */
-class ShippingLine extends AbstractModel {
+class Attribute extends AbstractModel {
 
     protected $_fields = array(
-        'price' => 'float',
-        'title' => 'string',
-
-        'code' => 'string optional',
-        'source' => 'string optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'name' => 'string',
+        'value' => 'string'
     );
 }
