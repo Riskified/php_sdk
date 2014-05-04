@@ -14,6 +14,7 @@
  * permissions and limitations under the License.
  */
 
+use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -123,7 +124,7 @@ abstract class AbstractModel {
         foreach ($this->_fields as $key => $value) {
             $types = explode(' ', $value);
             if (is_null($this->$key)) {
-                if (end($types) != 'optional')
+                if (!Riskified::$ignore_missing_keys && end($types) != 'optional')
                     $exceptions[] = new Exception\MissingPropertyException($this, $key, $types);
             } else {
                 $exceptions = array_merge($exceptions, $this->validate_key($key, $types));

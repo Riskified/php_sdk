@@ -36,16 +36,22 @@ class Riskified {
      * @var string the Riskified environment to which calls are suppose to be sent
      */
     public static $env;
+    /**
+     * @var boolean indicates validation should ignore missing key errors
+     */
+    public static $ignore_missing_keys;
+
 
     /**
      * Sets up Riskified credentials. Must be called before any other method can be used.
      * @param $domain string Riskified Shop Domain
      * @param $auth_token Riskified Auth_Token
      */
-    public static function init($domain, $auth_token, $env = Env::SANDBOX) {
+    public static function init($domain, $auth_token, $env = Env::SANDBOX, $ignore_missing_keys = false) {
         self::$domain = $domain;
         self::$auth_token = $auth_token;
         self::$env = $env;
+        self::$ignore_missing_keys = $ignore_missing_keys;
     }
 
     public static function getHostByEnv(){
