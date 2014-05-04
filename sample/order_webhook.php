@@ -24,7 +24,6 @@ use Riskified\Common\Signature;
 use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
-
 # Replace with the 'shop domain' of your account in Riskified
 $domain = "test.pass.com";
 
@@ -32,6 +31,8 @@ $domain = "test.pass.com";
 $authToken = "1388add8a99252fc1a4974de471e73cd";
 
 Riskified::init($domain, $authToken, Env::SANDBOX);
+
+date_default_timezone_set('UTC');
 
 # Order
 $order = new Model\Order(array(
@@ -148,11 +149,27 @@ echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 5;
-echo "\nSending data to ".$transport->full_path();
+echo PHP_EOL."Sending data to ".$transport->full_path().PHP_EOL;
 
-$response = $transport->createOrUpdateOrder($order);
-echo "\nCreate RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;
+try {
+    $response = $transport->createOrUpdateOrder($order);
+    echo PHP_EOL."Create Order succeeded. Body: ".json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Create order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Create order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
 
-$response = $transport->submitOrder($order);
+try {
+    $response = $transport->submitOrder($order);
+    echo "\nSubmit order succeeded. Body: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Submit order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Submit order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
 
-echo "\nSubmit RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;
+
+

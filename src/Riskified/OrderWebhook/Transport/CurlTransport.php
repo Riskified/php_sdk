@@ -28,8 +28,10 @@ class CurlTransport extends AbstractTransport {
     public $dns_cache = true;
 
     /**
-     * @param $order
+     * @param object $order
+     * @param array $options
      * @return mixed
+     * @throws \Riskified\OrderWebhook\Exception\UnsuccessfulActionException
      * @throws \Riskified\OrderWebhook\Exception\CurlException
      */
     protected function send_json_request($order,$options = array()) {
@@ -43,10 +45,11 @@ class CurlTransport extends AbstractTransport {
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT => $this->user_agent,
             CURLOPT_TIMEOUT => $this->timeout,
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache
+            CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache,
+            CURLOPT_FAILONERROR => false //true
         );
         curl_setopt_array($ch, $options);
+
 
         $body = curl_exec($ch);
         if (curl_errno($ch)) {
@@ -67,8 +70,11 @@ class CurlTransport extends AbstractTransport {
      */
     private function json_response($body, $status) {
         $response = json_decode($body);
+
         if (!$response)
             throw new Exception\MalformedJsonException($body, $status);
+        if($status != 200)
+            throw new Exception\UnsuccessfulActionException($body,$status);
 
         return $response;
     }
