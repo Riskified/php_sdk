@@ -32,8 +32,6 @@ $authToken = "1388add8a99252fc1a4974de471e73cd";
 
 Riskified::init($domain, $authToken, Env::SANDBOX);
 
-date_default_timezone_set('UTC');
-
 # Order
 $order = new Model\Order(array(
     'id' => '123',
@@ -152,7 +150,7 @@ $transport->timeout = 5;
 echo PHP_EOL."Sending data to ".$transport->full_path().PHP_EOL;
 
 try {
-    $response = $transport->createOrUpdateOrder($order);
+    $response = $transport->createOrUpdateOrder($order, array('headers' => array('X_RISKIFIED_VERSION:1.23')));
     echo PHP_EOL."Create Order succeeded. Body: ".json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
     echo PHP_EOL."Create order not succeeded. Status code was: ".$uae->statusCode." and json body was: "

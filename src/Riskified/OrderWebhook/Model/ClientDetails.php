@@ -15,18 +15,16 @@
  */
 
 /**
- * Class ShippingLine
- * data model of shipping line costs
+ * Class ClientDetails
+ * data model of client details of customer placing order
  * @package Riskified\OrderWebhook\Model
  */
-class ShippingLine extends AbstractModel {
+class ClientDetails extends AbstractModel {
 
     protected $_fields = array(
-        'price' => 'float',
-        'title' => 'string',
-
-        'code' => 'string optional',
-        'source' => 'string optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'accept_language' => 'string optional',
+        'browser_ip' => 'string /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/ optional',
+        'session_hash' => 'string optional',
+        'user_agent' => 'string optional'
     );
 }

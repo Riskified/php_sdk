@@ -22,13 +22,22 @@
 class Customer extends AbstractModel {
 
     protected $_fields = array(
-        'created_at' => 'date optional',
         'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i',
         'first_name' => 'string',
         'last_name' => 'string',
+
+        'created_at' => 'date optional',
+        'updated_at' => 'date optional',
         'id' => 'string optional',
         'note' => 'string optional',
         'orders_count' => 'number optional',
         'verified_email' => 'boolean optional',
+        'accepts_marketing' => 'boolean optional',
+        'last_order_id' => 'string optional',
+        'last_order_name' => 'string optional',
+        'state' => 'string optional',
+        'total_spent' => 'float optional',
+        'tags' => 'string optional',
+        'default_address' => 'object \Address optional'
     );
 }
