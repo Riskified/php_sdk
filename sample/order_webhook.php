@@ -150,9 +150,8 @@ $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 5;
 echo "\nSending data to ".$transport->full_path();
 
-$response = $transport->createOrUpdateOrder($order);
+$response = $transport->createOrUpdateOrder($order, array('headers' => array('X_RISKIFIED_VERSION:1.23')));
 echo "\nCreate RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;
 
 $response = $transport->submitOrder($order);
-
 echo "\nSubmit RESPONSE:".PHP_EOL.json_encode($response).PHP_EOL;

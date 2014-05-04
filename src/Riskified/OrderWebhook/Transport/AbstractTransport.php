@@ -38,7 +38,7 @@ abstract class AbstractTransport {
      * submit an order as json
      * @param $order object Order to send
      */
-    abstract protected function send_json_request($order);
+    abstract protected function send_json_request($order, $options);
 
     /**
      * set up transport
@@ -55,23 +55,25 @@ abstract class AbstractTransport {
     /**
      * Submit an Order to Riskified for review
      * @param $order object Order to submit
+     * @param $options array optional options array for custom headers
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
-    public function submitOrder($order) {
+    public function submitOrder($order, $options = array()) {
         if ($order->validate())
-            return $this->send_json_request($order,array('SUBMIT' => true));
+            return $this->send_json_request($order, array_merge($options, array('SUBMIT' => true)));
     }
 
     /**
      * Submit an Order to Riskified for review
      * @param $order object Order to submit
+     * @param $options array optional options array for custom headers
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
-    public function createOrUpdateOrder($order) {
+    public function createOrUpdateOrder($order, $options = array()) {
         if ($order->validate())
-            return $this->send_json_request($order);
+            return $this->send_json_request($order, $options);
     }
 
     /**
@@ -86,9 +88,10 @@ abstract class AbstractTransport {
     /**
      * construct headers for request
      * @param $data_string string body of request
+     * @param $options array optional config (submit now, list of custom headers)
      * @return array headers
      */
-    protected function headers($data_string,$options) {
+    protected function headers($data_string, $options=array()) {
         $signature = $this->signature;
         $headers = array(
             'Content-Type: application/json',
@@ -98,6 +101,10 @@ abstract class AbstractTransport {
         );
         if (isset($options['SUBMIT']))
             $headers[] = $signature::SUBMIT_HEADER_NAME.':true';
+
+        if (isset($options['headers']))
+            $headers = array_merge($headers, $options['headers']);
+
         return $headers;
     }
 }
