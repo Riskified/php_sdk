@@ -29,7 +29,7 @@ class NotificationException extends BaseException {
     public function __construct($headers, $body) {
         $this->headers = $headers;
         $this->body = $body;
-        return parent::__construct($this->customMessage());
+        parent::__construct($this->customMessage());
     }
 
     protected function headersString() {

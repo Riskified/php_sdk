@@ -1,7 +1,5 @@
 <?php namespace Riskified\Common;
 
-use Riskified\Common\Env;
-
 /**
  * Copyright 2013-2014 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -45,7 +43,9 @@ class Riskified {
     /**
      * Sets up Riskified credentials. Must be called before any other method can be used.
      * @param $domain string Riskified Shop Domain
-     * @param $auth_token Riskified Auth_Token
+     * @param $auth_token string Riskified Auth_Token
+     * @param $env string Riskified environment
+     * @param $ignore_missing_keys boolean ignores missing keys when true
      */
     public static function init($domain, $auth_token, $env = Env::SANDBOX, $ignore_missing_keys = false) {
         self::$domain = $domain;
@@ -58,13 +58,13 @@ class Riskified {
         $env = (self::$env == null) ? Env::SANDBOX : self::$env;
 
         switch ($env){
-            case ENV::SANDBOX:
+            case Env::SANDBOX:
                 return 'sandbox.riskified.com';
-            case ENV::STAGING:
+            case Env::STAGING:
                 return 's.riskified.com';
-            case ENV::PROD:
+            case Env::PROD:
                 return 'wh.riskified.com';
-            case ENV::DEV:
+            case Env::DEV:
                 return 'localhost:3000';
             default:
                 return 'localhost:3000';

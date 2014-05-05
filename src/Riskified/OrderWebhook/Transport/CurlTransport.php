@@ -67,6 +67,7 @@ class CurlTransport extends AbstractTransport {
      * @param $status
      * @return mixed
      * @throws \Riskified\OrderWebhook\Exception\MalformedJsonException
+     * @throws \Riskified\OrderWebhook\Exception\UnsuccessfulActionException
      */
     private function json_response($body, $status) {
         $response = json_decode($body);

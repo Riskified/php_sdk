@@ -37,6 +37,7 @@ abstract class AbstractTransport {
     /**
      * submit an order as json
      * @param $order object Order to send
+     * @param $options array optional list of options
      */
     abstract protected function send_json_request($order, $options);
 
@@ -62,6 +63,7 @@ abstract class AbstractTransport {
     public function submitOrder($order, $options = array()) {
         if ($order->validate())
             return $this->send_json_request($order, array_merge($options, array('SUBMIT' => true)));
+        return null;
     }
 
     /**
@@ -74,6 +76,7 @@ abstract class AbstractTransport {
     public function createOrUpdateOrder($order, $options = array()) {
         if ($order->validate())
             return $this->send_json_request($order, $options);
+        return null;
     }
 
     /**

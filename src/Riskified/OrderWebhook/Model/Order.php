@@ -29,12 +29,12 @@ class Order extends AbstractModel {
         'currency' => 'string /^[A-Z]{3}$/i',
         'gateway' => 'string',
         'total_price' => 'float',
+        'browser_ip' => 'string /^(\d{1,3}\.){3}\d{1,3}$/',
 
         'customer' => 'object \Customer',
         'line_items' => 'objects \LineItem',
         'shipping_address' => 'object \Address',
 
-        'browser_ip' => 'string /^(\d{1,3}\.){3}\d{1,3}$/ optional',
         'name' => 'string optional',
         'note' => 'string optional',
         'number' => 'number optional',
