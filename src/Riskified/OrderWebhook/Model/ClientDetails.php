@@ -22,9 +22,10 @@
 class ClientDetails extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'browser_ip' => 'string /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/ optional',
-        'session_hash' => 'string optional',
-        'user_agent' => 'string optional'
+        'accept_language' => 'string',
+        'browser_ip' => 'string /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/',
+        'user_agent' => 'string',
+
+        'session_hash' => 'string optional'
     );
 }
