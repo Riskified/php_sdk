@@ -24,13 +24,17 @@ use Riskified\DecisionNotification\Exception;
 class Notification {
 
     /**
-     * @var Order ID
+     * @var string Order ID
      */
     public $id;
     /**
-     * @var Order Status
+     * @var string Status of Order
      */
     public $status;
+    /**
+     * @var string Description of Decision
+     */
+    public $description;
 
     protected $signature;
     protected $headers;
@@ -41,7 +45,7 @@ class Notification {
      * Inits and validates the request.
      * @param $signature Signature An instance of a Signature class that handles authentication
      * @param $headers array A list of HTTP Headers as strings
-     * @param $body string The body of the Request
+     * @param $body string The raw body of the Request
      * @throws NotificationException on issues with the request
      */
     public function __construct($signature, $headers, $body) {
@@ -50,7 +54,7 @@ class Notification {
         $this->body = $body;
 
         $this->parse_headers();
-        $this->parse_body($body);
+        $this->parse_body();
         $this->test_authorization();
     }
 
@@ -64,7 +68,8 @@ class Notification {
             list ($key, $value) = explode(':', $header);
             if (!$key || !$value)
                 throw new Exception\BadHeaderException($this->headers, $this->body, $header);
-            $this->headers_map[trim($key)] = trim($value);
+            $header = str_replace('-', '_', strtoupper(trim($key)));
+            $this->headers_map[$header] = trim($value);
         }
     }
 
@@ -75,7 +80,7 @@ class Notification {
     protected function test_authorization() {
         $signature = $this->signature;
         $remote_hmac = $this->headers_map[$signature::HMAC_HEADER_NAME];
-        $local_hmac = $signature->calc_hmac($this->data_string());
+        $local_hmac = $signature->calc_hmac($this->body);
         if ($remote_hmac != $local_hmac)
             throw new Exception\AuthorizationException($this->headers, $this->body, $local_hmac, $remote_hmac);
     }
@@ -90,14 +95,7 @@ class Notification {
         if (!$vars['id'] || !$vars['status'])
             throw new Exception\BadPostParametersException($this->headers, $this->body);
 
-        $this->id = $vars['id'];
-        $this->status = $vars['status'];
-    }
-
-    /**
-     * @return string sorted param string for hashing
-     */
-    protected function data_string() {
-        return "id=$this->id&status=$this->status";
+        foreach($vars as $key => $value)
+            $this->$key = $value;
     }
 }

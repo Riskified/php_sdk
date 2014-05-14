@@ -25,7 +25,7 @@ use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 # Replace with the 'shop domain' of your account in Riskified
-$domain = "test.pass.com";
+$domain = "test.com";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
 $authToken = "1388add8a99252fc1a4974de471e73cd";
