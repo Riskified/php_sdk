@@ -26,6 +26,13 @@ class PaymentDetails extends AbstractModel {
         'avs_result_code' => 'string /^[A-Z]+$/i',
         'cvv_result_code' => 'string /^[A-Z]*$/i',
         'credit_card_number' => 'string',
-        'credit_card_company' => 'string'
+        'credit_card_company' => 'string',
+
+        'payer_email' => 'string optional',
+        'payer_status' => 'string optional',
+        'payer_address_status' => 'string optional',
+        'protection_eligibility' => 'string optional',
+        'payment_status' => 'string optional',
+        'pending_reason' => 'string optional'
     );
 }
