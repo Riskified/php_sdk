@@ -32,8 +32,8 @@ Riskified::init($domain, $authToken);
 
 $signature = new Signature\HttpDataSignature();
 
-$headers = array('X-Riskified-Hmac-Sha256:6bccbd8fbeeb2b95b553ada025a8d018b6d5182792f1db4fcc4186e7bf6c3c0f');
-$body = 'id=1&description=all%20good&status=approved';
+$headers = array('X-Riskified-Hmac-Sha256:cdaa895c1716784598f6a8a9ef9f35c68c2d699fe93364fff87a42c2af6c9a7f');
+$body = '{"order":{"id":1,"description":"all good","status":"approved"}}';
 
 $notification = new Model\Notification($signature, $headers, $body);
 

@@ -147,10 +147,9 @@ echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 5;
-echo PHP_EOL."Sending data to ".$transport->full_path().PHP_EOL;
 
 try {
-    $response = $transport->createOrUpdateOrder($order, array('headers' => array('X_RISKIFIED_VERSION:1.23')));
+    $response = $transport->createOrder($order);
     echo PHP_EOL."Create Order succeeded. Body: ".json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
     echo PHP_EOL."Create order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
@@ -169,5 +168,12 @@ try {
     echo PHP_EOL."Submit order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
 }
 
-
-
+try {
+    $response = $transport->cancelOrder($order);
+    echo "Cancel order succeeded. Body: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Cancel order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Cancel order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
