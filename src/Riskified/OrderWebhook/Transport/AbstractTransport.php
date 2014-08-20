@@ -37,9 +37,9 @@ abstract class AbstractTransport {
     /**
      * submit an order as json
      * @param $order object Order to send
-     * @param $endpoint String API endpoint to send request
+     * @param $options array optional list of options
      */
-    abstract protected function send_json_request($order, $endpoint);
+    abstract protected function send_json_request($order, $options);
 
     /**
      * set up transport
@@ -56,74 +56,58 @@ abstract class AbstractTransport {
     /**
      * Submit an Order to Riskified for review
      * @param $order object Order to submit
+     * @param $options array optional options array for custom headers
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
-    public function submitOrder($order) {
+    public function submitOrder($order, $options = array()) {
         if ($order->validate())
-            return $this->send_json_request($order, 'submit');
+            return $this->send_json_request($order, array_merge($options, array('SUBMIT' => true)));
         return null;
     }
 
     /**
-     * Send an Order to Riskified, will be reviewed based on current plan
-     * @param $order object Order to send
+     * Submit an Order to Riskified for review
+     * @param $order object Order to submit
+     * @param $options array optional options array for custom headers
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
-    public function createOrder($order) {
+    public function createOrUpdateOrder($order, $options = array()) {
         if ($order->validate())
-            return $this->send_json_request($order, 'create');
+            return $this->send_json_request($order, $options);
         return null;
     }
 
     /**
-     * Update an existing order
-     * @param $order object Order with updated fields
-     * @return object Response object
-     * @throws \Riskified\Common\Exception\BaseException on any issue
-     */
-    public function updateOrder($order) {
-        if ($order->validate())
-            return $this->send_json_request($order, 'update');
-        return null;
-    }
-
-    /**
-     * Cancels an existing order
-     * @param $order object Order with id, cancelled_at, cancel_reason fields
-     * @return object Response object
-     * @throws \Riskified\Common\Exception\BaseException on any issue
-     */
-    public function cancelOrder($order) {
-        if ($order->validate())
-            return $this->send_json_request($order, 'cancel');
-        return null;
-    }
-
-    /**
-     * path prefix to the Riskified endpoint
+     * full path to the Riskified endpoint
      * @return string
      */
-    protected function endpoint_prefix() {
+    public function full_path() {
         $protocol = ($this->use_https) ? 'https' : 'http';
-        return "$protocol://$this->url/api/";
+        return "$protocol://$this->url/webhooks/merchant_order_created";
     }
 
     /**
      * construct headers for request
      * @param $data_string string body of request
+     * @param $options array optional config (submit now, list of custom headers)
      * @return array headers
      */
-    protected function headers($data_string) {
+    protected function headers($data_string, $options=array()) {
         $signature = $this->signature;
-        return array(
+        $headers = array(
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
             $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
-            $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string),
-            'Accept: application/vnd.riskified.com; version='.Riskified::API_VERSION
-
+            $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string)
         );
+        if (isset($options['SUBMIT']))
+            $headers[] = $signature::SUBMIT_HEADER_NAME.':true';
+
+        if (isset($options['headers']))
+            $headers = array_merge($headers, $options['headers']);
+
+        return $headers;
     }
 }

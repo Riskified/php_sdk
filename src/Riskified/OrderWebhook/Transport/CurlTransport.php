@@ -28,25 +28,25 @@ class CurlTransport extends AbstractTransport {
     public $dns_cache = true;
 
     /**
-     * @param $order object Order to send
-     * @param $endpoint String API endpoint to send request
+     * @param object $order
+     * @param array $options
      * @return mixed
      * @throws \Riskified\OrderWebhook\Exception\UnsuccessfulActionException
      * @throws \Riskified\OrderWebhook\Exception\CurlException
      */
-    protected function send_json_request($order, $endpoint) {
-        $data_string = '{"order":'.$order->toJson().'}';
-        $ch = curl_init($this->endpoint_prefix().$endpoint);
+    protected function send_json_request($order, $options = array()) {
+        $data_string = $order->toJson();
+        $ch = curl_init($this->full_path());
         $curl_options = array(
             CURLOPT_POSTFIELDS => $data_string,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $this->headers($data_string),
+            CURLOPT_HTTPHEADER => $this->headers($data_string, $options),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT => $this->user_agent,
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache,
-            CURLOPT_FAILONERROR => false
+            CURLOPT_FAILONERROR => false //true
         );
         curl_setopt_array($ch, $curl_options);
 
@@ -75,7 +75,7 @@ class CurlTransport extends AbstractTransport {
         if (!$response)
             throw new Exception\MalformedJsonException($body, $status);
         if($status != 200)
-            throw new Exception\UnsuccessfulActionException($body, $status);
+            throw new Exception\UnsuccessfulActionException($body,$status);
 
         return $response;
     }

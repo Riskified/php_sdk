@@ -90,13 +90,12 @@ class Notification {
      * @throws \Riskified\DecisionNotification\Exception\BadPostParametersException on bad or missing parameters
      */
     protected function parse_body() {
-        $json = json_decode($this->body);
-        if (isset($json->{'order'}))
-            $order = $json->{'order'};
-        if (!$order->{'id'} || !$order->{'status'})
+        $vars = array();
+        parse_str($this->body, $vars);
+        if (!$vars['id'] || !$vars['status'])
             throw new Exception\BadPostParametersException($this->headers, $this->body);
 
-        foreach($order as $key => $value)
+        foreach($vars as $key => $value)
             $this->$key = $value;
     }
 }
