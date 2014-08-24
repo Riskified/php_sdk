@@ -39,7 +39,6 @@ class Order extends AbstractModel {
         'note' => 'string optional',
         'number' => 'number optional',
         'order_number' => 'number optional',
-        'total_spent' => 'float optional',
         'cancel_reason' => 'string optional',
         'cancelled_at' => 'date optional',
         'closed_at' => 'date optional',
