@@ -37,7 +37,6 @@ $order = new Model\Order(array(
     'id' => '1234',
     'name' => '#1234',
     'email' => 'great.customer@example.com',
-    'total_spent' => 200.0,
     'created_at' => '2010-01-10T11:00:00-05:00',
     'closed_at' => null,
     'currency' => 'CAD',

@@ -109,7 +109,7 @@ abstract class AbstractModel {
      * @return bool True if object hierarchy is valid
      * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException on any or multiple issues
      */
-    public function validate($enforce_required_keys=TRUE) {
+    public function validate($enforce_required_keys=true) {
         $exceptions = $this->validation_exceptions($enforce_required_keys && !Riskified::$ignore_missing_keys);
         if ($exceptions)
             throw new Exception\MultiplePropertiesException($exceptions);
@@ -121,7 +121,7 @@ abstract class AbstractModel {
      * @param $enforce_required_keys boolean if FALSE then skip validation of missing fields, only report format exceptions
      * @return array All property validation issues or empty array if no issues found
      */
-    protected function validation_exceptions($enforce_required_keys=TRUE) {
+    protected function validation_exceptions($enforce_required_keys=true) {
         $exceptions = array();
         foreach ($this->_fields as $key => $value) {
             $types = explode(' ', $value);
