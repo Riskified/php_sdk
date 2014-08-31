@@ -34,8 +34,8 @@ Riskified::init($domain, $authToken, Env::SANDBOX);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '123',
-    'name' => '#123',
+    'id' => '1234',
+    'name' => '#1234',
     'email' => 'great.customer@example.com',
     'total_spent' => 200.0,
     'created_at' => '2010-01-10T11:00:00-05:00',
@@ -46,27 +46,26 @@ $order = new Model\Order(array(
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
     'total_discounts' => 5.0,
-    'cancel_reason' => 'inventory',
     'cart_token' => '1sdaf23j212',
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com'
-    ));
+));
 
 # LineItems   
 $lineItem1 = new Model\LineItem(array(
-	'price' => 100,
-	'quantity' => 1,
-	'title' => 'ACME Widget',
-	'product_id' => '101',
-	'sku' => 'ABCD'
+    'price' => 100,
+    'quantity' => 1,
+    'title' => 'ACME Widget',
+    'product_id' => '101',
+    'sku' => 'ABCD'
 ));
 
 $lineItem2 = new Model\LineItem(array(
-	'price' => 200,
-	'quantity' => 4,
-	'title' => 'ACME Spring',
-	'product_id' => '202',
-	'sku' => 'EFGH'
+    'price' => 200,
+    'quantity' => 4,
+    'title' => 'ACME Spring',
+    'product_id' => '202',
+    'sku' => 'EFGH'
 ));
 $order->line_items = array($lineItem1, $lineItem2);
 
@@ -146,12 +145,11 @@ echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
-$transport->timeout = 5;
-echo PHP_EOL."Sending data to ".$transport->full_path().PHP_EOL;
+$transport->timeout = 10;
 
 try {
-    $response = $transport->createOrUpdateOrder($order, array('headers' => array('X_RISKIFIED_VERSION:1.23')));
-    echo PHP_EOL."Create Order succeeded. Body: ".json_encode($response).PHP_EOL;
+    $response = $transport->createOrder($order);
+    echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
     echo PHP_EOL."Create order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
         .json_encode($uae->jsonResponse).PHP_EOL;
@@ -161,7 +159,7 @@ try {
 
 try {
     $response = $transport->submitOrder($order);
-    echo "\nSubmit order succeeded. Body: ".PHP_EOL.json_encode($response).PHP_EOL;
+    echo PHP_EOL."Submit order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
     echo PHP_EOL."Submit order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
         .json_encode($uae->jsonResponse).PHP_EOL;
@@ -170,4 +168,49 @@ try {
 }
 
 
+$updatedOrder = new Model\Order(array(
+    'id' => $order->id,
+    'email' => 'another.email@example.com',
+));
 
+try {
+    $response = $transport->updateOrder($updatedOrder);
+    echo PHP_EOL."Update Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Update order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Update order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
+
+$refund = new Model\Refund(array(
+    'id' => $order->id,
+    'refunds' => array(new Model\RefundDetails(array(
+            'refund_id' => 'refund_001',
+            'amount' => 33.12,
+            'currency' => 'USD',
+            'reason' => 'Product Missing'
+        )))
+));
+
+echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($refund->toJson())).PHP_EOL;
+
+try {
+    $response = $transport->refundOrder($refund);
+    echo PHP_EOL."Refund Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Refund order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Refund order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
+
+try {
+    $response = $transport->cancelOrder($order);
+    echo PHP_EOL."Cancel order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Cancel order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Cancel order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
