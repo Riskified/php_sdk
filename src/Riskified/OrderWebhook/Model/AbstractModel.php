@@ -105,11 +105,12 @@ abstract class AbstractModel {
 
     /**
      * Validate all fields and nested objects for this object
+     * @param $enforce_required_keys boolean if FALSE then skip validation of missing fields, only report format exceptions
      * @return bool True if object hierarchy is valid
      * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException on any or multiple issues
      */
-    public function validate() {
-        $exceptions = $this->validation_exceptions();
+    public function validate($enforce_required_keys=TRUE) {
+        $exceptions = $this->validation_exceptions($enforce_required_keys && !Riskified::$ignore_missing_keys);
         if ($exceptions)
             throw new Exception\MultiplePropertiesException($exceptions);
         return true;
@@ -117,14 +118,15 @@ abstract class AbstractModel {
 
     /**
      * Validate all fields and nested objects for this object
+     * @param $enforce_required_keys boolean if FALSE then skip validation of missing fields, only report format exceptions
      * @return array All property validation issues or empty array if no issues found
      */
-    protected function validation_exceptions() {
+    protected function validation_exceptions($enforce_required_keys=TRUE) {
         $exceptions = array();
         foreach ($this->_fields as $key => $value) {
             $types = explode(' ', $value);
             if (is_null($this->$key)) {
-                if (!Riskified::$ignore_missing_keys && end($types) != 'optional')
+                if ($enforce_required_keys && end($types) != 'optional')
                     $exceptions[] = new Exception\MissingPropertyException($this, $key, $types);
             } else {
                 $exceptions = array_merge($exceptions, $this->validate_key($key, $types));

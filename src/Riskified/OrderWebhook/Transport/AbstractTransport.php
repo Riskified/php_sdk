@@ -84,7 +84,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function updateOrder($order) {
-        if ($order->validate())
+        if ($order->validate(FALSE))
             return $this->send_json_request($order, 'update');
         return null;
     }
@@ -96,8 +96,20 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function cancelOrder($order) {
-        if ($order->validate())
+        if ($order->validate(FALSE))
             return $this->send_json_request($order, 'cancel');
+        return null;
+    }
+
+    /**
+     * Partially refunds an existing order
+     * @param $order object Order with id and refunds object
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function refundOrder($order) {
+        if ($order->validate(FALSE))
+            return $this->send_json_request($order, 'refund');
         return null;
     }
 
