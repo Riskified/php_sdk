@@ -24,9 +24,9 @@ use Riskified\Common\Riskified;
  */
 class HttpDataSignature {
 
-    const SHOP_DOMAIN_HEADER_NAME = 'X_RISKIFIED_SHOP_DOMAIN';
-    const SUBMIT_HEADER_NAME = 'X_RISKIFIED_SUBMIT_NOW';
-    const HMAC_HEADER_NAME = 'X_RISKIFIED_HMAC_SHA256';
+    const SHOP_DOMAIN_HEADER_NAME = 'X-RISKIFIED-SHOP-DOMAIN';
+    const SUBMIT_HEADER_NAME = 'X-RISKIFIED-SUBMIT-NOW';
+    const HMAC_HEADER_NAME = 'X-RISKIFIED-HMAC-SHA256';
 
     /**
      * Calculates the HMAC SHA256
