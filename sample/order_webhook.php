@@ -166,7 +166,6 @@ try {
     echo PHP_EOL."Submit order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
 }
 
-
 $updatedOrder = new Model\Order(array(
     'id' => $order->id,
     'email' => 'another.email@example.com',

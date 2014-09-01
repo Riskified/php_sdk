@@ -14,8 +14,8 @@
  * permissions and limitations under the License.
  */
 
-// A simple example simulating receiving a callback on order decision
-// Usage: php callback.php
+// Router handler for callback server
+// See run_callback_server.sh for usage
 
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
@@ -26,15 +26,38 @@ use Riskified\DecisionNotification\Model;
 $domain = "test.com";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "bde6c2dce1657b1197cbebb10e4423b3560a3a6b";
+$authToken = "1388add8a99252fc1a4974de471e73cd";
 
 Riskified::init($domain, $authToken);
 
 $signature = new Signature\HttpDataSignature();
 
-$headers = array('X-Riskified-Hmac-Sha256:6bccbd8fbeeb2b95b553ada025a8d018b6d5182792f1db4fcc4186e7bf6c3c0f');
-$body = 'id=1&description=all%20good&status=approved';
+$valid_headers = array(
+    $signature::HMAC_HEADER_NAME
+);
+
+function map_keys($header, $value) {
+    $canonical_header = str_replace('HTTP-','', str_replace('_', '-', strtoupper(trim($header))));
+    return array ($canonical_header => $value);
+};
+
+function reduce_keys($carry, $item) {
+    if (is_null($carry)) {
+        $carry=array();
+    }
+    return array_merge($carry, $item);
+};
+
+$canonical_headers = array_reduce(array_map('map_keys', array_keys($_SERVER), $_SERVER), 'reduce_keys');
+
+$body = @file_get_contents('php://input');
+$headers = array_intersect_key($canonical_headers, array_flip($valid_headers));
 
 $notification = new Model\Notification($signature, $headers, $body);
+$msg = "Order #$notification->id changed to status '$notification->status' with message '$notification->description'\n";
 
-print "Order #$notification->id changed to status '$notification->status' with message '$notification->description'\n";
+$output = fopen('php://stdout', 'w');
+fputs($output, $msg);
+fclose($output);
+
+return true;

@@ -15,8 +15,8 @@
  */
 
 /**
- * Class BadPostParametersException
+ * Class BadPostJsonException
  * Thrown on bad POST parameters in notification received
  * @package Riskified\DecisionNotification\Exception
  */
-class BadPostParametersException extends NotificationException {}
+class BadPostJsonException extends NotificationException {}
