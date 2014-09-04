@@ -20,7 +20,7 @@
  * @package Riskified\Common
  */
 class Riskified {
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.3';
     const API_VERSION = '2';
 
     /**
