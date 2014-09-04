@@ -33,8 +33,7 @@ class Order extends AbstractModel {
 
         'customer' => 'object \Customer',
         'line_items' => 'objects \LineItem',
-        'shipping_address' => 'object \Address',
-
+        
         'name' => 'string optional',
         'note' => 'string optional',
         'number' => 'number optional',
@@ -69,6 +68,7 @@ class Order extends AbstractModel {
         'checkout_id' => 'string optional',
         'tags' => 'string optional',
 
+        'shipping_address' => 'object \Address optional',
         'billing_address' => 'object \Address optional',
         'payment_details' => 'object \PaymentDetails optional',
         'client_details' => 'object \ClientDetails optional',
