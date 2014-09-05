@@ -13,11 +13,11 @@ API Version 2 introduces new features (and breaks some old ones).
 This version represents a shift from data-driven order handling to multiple API endpoints, each designed
 for a specific purpose. These include:
 
-* `/create` - served by `$transport->createOrder()`
-* `/update` - served by `$transport->updateOrder()`
-* `/submit` - served by `$transport->submitOrder()`
-* `/refund` - served by `$transport->refundOrder()`
-* `/cancel` - served by `$transport->cancelOrder()`
+* `/api/create` - served by `$transport->createOrder()`
+* `/api/update` - served by `$transport->updateOrder()`
+* `/api/submit` - served by `$transport->submitOrder()`
+* `/api/refund` - served by `$transport->refundOrder()`
+* `/api/cancel` - served by `$transport->cancelOrder()`
 
 Refer to the online [documentation](http://apiref.riskified.com) for more details.
 When migrating from version 1, you'll need to separate the different calls to Riskified's API to support this new process.
@@ -25,10 +25,21 @@ When migrating from version 1, you'll need to separate the different calls to Ri
 
 ### Decision Notifications ###
 
-Notification requests in version 2 now contain a JSON encoded payload which is more flexible and easily extended.
+#### Constructor $headers argument format ####
+The format of the `$headers` argument when constructing a new `Riskified\DecisionNotification\Notification` instance has changed.
+The constructor now expects an associative array of all the HTTP headers of the request, and *not* a flat array of strings, as
+in previous versions of this SDK.
 
-If you are already using the `Notification` class in version 1, there are no additional actions required
-when migrating from version 1, as this SDK handles the new data format seamlessly.
+This change should simplify integration since the argument now follows the format of the return value of the popular PHP/Apache
+function [`getallheaders()`](http://php.net/manual/en/function.getallheaders.php).
+
+
+#### API v2 payload format ####
+Notification requests in API version 2 now contain a JSON encoded payload which is more flexible and easily extended.
+
+If you are already using the `Notification` class in version 1, there are no additional actions required to support the
+migration to JSON, as this SDK handles the new data format seamlessly.
+
 
 
 

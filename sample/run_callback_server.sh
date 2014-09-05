@@ -15,6 +15,6 @@
 #
 
 # Launches a standalone server for testing DecisionNotification messages
-# usage: sample/run_callback_server.sh
+# Usage: sample/run_callback_server.sh
 
 php -S 0.0.0.0:8000 sample/callback.php
