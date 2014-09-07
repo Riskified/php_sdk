@@ -29,7 +29,7 @@ class Order extends AbstractModel {
         'currency' => 'string /^[A-Z]{3}$/i',
         'gateway' => 'string',
         'total_price' => 'float',
-        'browser_ip' => 'string /^(\d{1,3}\.){3}\d{1,3}$/',
+        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
 
         'customer' => 'object \Customer',
         'line_items' => 'objects \LineItem',

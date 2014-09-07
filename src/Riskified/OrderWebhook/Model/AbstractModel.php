@@ -36,6 +36,12 @@ abstract class AbstractModel {
     protected $_propertyBag = array();
 
     /**
+     * Ignores missing keys during validation when set to False
+     * @var boolean
+     */
+    protected $_enforce_required_keys = true;
+
+    /**
      * Initialize a new model, optionally passing an array of properties
      * @param array $props List of Key => Value pairs for setting model properties
      * @throws \Exception If $props contain an invalid Key
@@ -122,11 +128,12 @@ abstract class AbstractModel {
      * @return array All property validation issues or empty array if no issues found
      */
     protected function validation_exceptions($enforce_required_keys=true) {
+        $this->_enforce_required_keys = $enforce_required_keys;
         $exceptions = array();
         foreach ($this->_fields as $key => $value) {
             $types = explode(' ', $value);
             if (is_null($this->$key)) {
-                if ($enforce_required_keys && end($types) != 'optional')
+                if ($this->_enforce_required_keys && end($types) != 'optional')
                     $exceptions[] = new Exception\MissingPropertyException($this, $key, $types);
             } else {
                 $exceptions = array_merge($exceptions, $this->validate_key($key, $types));
@@ -197,7 +204,7 @@ abstract class AbstractModel {
             return array(new Exception\ClassMismatchPropertyException($that, $key, $types));
         }
 
-        return $object->validation_exceptions();
+        return $object->validation_exceptions($this->_enforce_required_keys);
     }
 
     /**
