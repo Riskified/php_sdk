@@ -34,14 +34,13 @@ class CurlTransport extends AbstractTransport {
      * @throws \Riskified\OrderWebhook\Exception\UnsuccessfulActionException
      * @throws \Riskified\OrderWebhook\Exception\CurlException
      */
-    protected function send_json_request($order, $endpoint) {
-        $data_string = '{"order":'.$order->toJson().'}';
+    protected function send_json_request($json, $endpoint) {
         $ch = curl_init($this->endpoint_prefix().$endpoint);
         $curl_options = array(
-            CURLOPT_POSTFIELDS => $data_string,
+            CURLOPT_POSTFIELDS => $json,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $this->headers($data_string),
+            CURLOPT_HTTPHEADER => $this->headers($json),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT => $this->user_agent,
             CURLOPT_TIMEOUT => $this->timeout,

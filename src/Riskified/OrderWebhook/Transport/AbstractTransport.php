@@ -36,10 +36,10 @@ abstract class AbstractTransport {
 
     /**
      * submit an order as json
-     * @param $order object Order to send
+     * @param $json object Order to send
      * @param $endpoint String API endpoint to send request
      */
-    abstract protected function send_json_request($order, $endpoint);
+    abstract protected function send_json_request($json, $endpoint);
 
     /**
      * set up transport
@@ -61,7 +61,7 @@ abstract class AbstractTransport {
      */
     public function submitOrder($order) {
         if ($order->validate())
-            return $this->send_json_request($order, 'submit');
+            return $this->send_order($order, 'submit');
         return null;
     }
 
@@ -73,7 +73,7 @@ abstract class AbstractTransport {
      */
     public function createOrder($order) {
         if ($order->validate())
-            return $this->send_json_request($order, 'create');
+            return $this->send_order($order, 'create');
         return null;
     }
 
@@ -85,7 +85,7 @@ abstract class AbstractTransport {
      */
     public function updateOrder($order) {
         if ($order->validate(false))
-            return $this->send_json_request($order, 'update');
+            return $this->send_order($order, 'update');
         return null;
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractTransport {
      */
     public function cancelOrder($order) {
         if ($order->validate(false))
-            return $this->send_json_request($order, 'cancel');
+            return $this->send_order($order, 'cancel');
         return null;
     }
 
@@ -109,8 +109,19 @@ abstract class AbstractTransport {
      */
     public function refundOrder($order) {
         if ($order->validate(false))
-            return $this->send_json_request($order, 'refund');
+            return $this->send_order($order, 'refund');
         return null;
+    }
+
+    public function sendHistoricalOrders($orders) {
+        $joined = join(',',array_map(function($order) { return $order->toJson(); }, $orders));
+        $json = '{"orders":['.$joined.']}';
+        return $this->send_json_request($json, 'historical');
+    }
+
+    protected function send_order($order, $endpoint) {
+        $json = '{"order":'.$order->toJson().'}';
+        return $this->send_json_request($json, 'refund');
     }
 
     /**
