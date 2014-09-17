@@ -41,6 +41,10 @@ class LineItem extends AbstractModel {
         'taxable' => 'boolean optional',
         'product_exists' => 'boolean optional',
         'properties' =>'objects \Attribute optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'tax_lines' => 'objects \TaxLine optional',
+        'event_sub_category_name' => 'string optional',
+        'event_name' => 'string optional',
+        'event_section_name' => 'string optional',
+        'event_date' => 'date optional'
     );
 }
