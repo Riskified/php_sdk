@@ -121,7 +121,7 @@ abstract class AbstractTransport {
 
     protected function send_order($order, $endpoint) {
         $json = '{"order":'.$order->toJson().'}';
-        return $this->send_json_request($json, 'refund');
+        return $this->send_json_request($json, $endpoint);
     }
 
     /**
