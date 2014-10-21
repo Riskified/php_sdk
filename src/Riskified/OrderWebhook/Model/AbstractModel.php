@@ -78,7 +78,7 @@ abstract class AbstractModel {
         if (array_key_exists($key, $this->_fields)) {
             return isset($this->_propertyBag[$key]) ? $this->_propertyBag[$key] : null;
         } else {
-            throw new Exception\InvalidPropertyException($this, $key);                
+            throw new Exception\InvalidPropertyException($this, $key);
         }
     }       
 
@@ -130,13 +130,13 @@ abstract class AbstractModel {
     protected function validation_exceptions($enforce_required_keys=true) {
         $this->_enforce_required_keys = $enforce_required_keys;
         $exceptions = array();
-        foreach ($this->_fields as $key => $value) {
-            $types = explode(' ', $value);
-            if (is_null($this->$key)) {
+        foreach ($this->_fields as $propertyName => $constraints) {
+            $types = explode(' ', $constraints);
+            if (is_null($this->$propertyName)) {
                 if ($this->_enforce_required_keys && end($types) != 'optional')
-                    $exceptions[] = new Exception\MissingPropertyException($this, $key, $types);
+                    $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
             } else {
-                $exceptions = array_merge($exceptions, $this->validate_key($key, $types));
+                $exceptions = array_merge($exceptions, $this->validate_key($propertyName, $types, $this->$propertyName));
             }
         }
         return array_filter($exceptions);
@@ -144,20 +144,20 @@ abstract class AbstractModel {
 
     /**
      * validate a specific key
-     * @param $key string key to validate
+     * @param $key string key name
      * @param $types array constraints
+     * @param $value mixed value to validate
      * @return array validation issues found
      */
-    private function validate_key($key, $types) {
-        $value = $this->$key;
+    private function validate_key($key, $types, $value) {
         $type = $types[0];
-        $exception = array(new Exception\TypeMismatchPropertyException($this, $key, $types));
+        $exception = array(new Exception\TypeMismatchPropertyException($this, $key, $value, $types));
         switch ($type) {
             case 'string':
                 if (!is_string($value))
                     return $exception;
                 if (count($types) > 1 && $types[1][0] == '/' && !preg_match($types[1], $value))
-                    return array(new Exception\FormatMismatchPropertyException($this, $key, $types));
+                    return array(new Exception\FormatMismatchPropertyException($this, $key, $value, $types));
                 break;
             case 'number':
                 if (!preg_match('/^[0-9]+$/', $value))
@@ -181,6 +181,9 @@ abstract class AbstractModel {
             case 'objects':
                 return $this->validate_objects($key, $types);
                 break;
+            case 'array':
+                return $this->validate_array($key, $types);
+                break;
         }
         return array();
     }
@@ -195,13 +198,13 @@ abstract class AbstractModel {
      */
     private function validate_object($that, $key, $types, $object) {
         if (!is_object($object))
-            return array(new Exception\TypeMismatchPropertyException($that, $key, $types));
+            return array(new Exception\TypeMismatchPropertyException($that, $key, $object, $types));
 
         $parts = explode('\\', get_class($object));
         $class = '\\'.end($parts);
 
         if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
-            return array(new Exception\ClassMismatchPropertyException($that, $key, $types));
+            return array(new Exception\ClassMismatchPropertyException($that, $key, $object, $types));
         }
 
         return $object->validation_exceptions($this->_enforce_required_keys);
@@ -227,7 +230,27 @@ abstract class AbstractModel {
         if (is_object($objects)) {
             return $this->validate_object($this, $key, $types, $objects);
         }
-        return array(new Exception\TypeMismatchPropertyException($this, $key, $types));
+        return array(new Exception\TypeMismatchPropertyException($this, $key, $objects, $types));
+    }
+
+    /**
+     * validate array of values of a simple type
+     * @param $key string key name
+     * @param $types string constraints
+     * @return array objects validation issues or null if no issues found
+     */
+    private function validate_array($key, $types) {
+        $array = $this->$key;
+
+        if (is_array($array)) {
+            $sonTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
+            $exceptions = array();
+            foreach ($array as $element) {
+                $exceptions = array_merge($exceptions, $this->validate_key($key, $sonTypes, $element));
+            }
+            return array_filter($exceptions);
+        }
+        return array(new Exception\TypeMismatchPropertyException($this, $key, $array, $types));
     }
 
     /**
@@ -268,7 +291,7 @@ abstract class AbstractModel {
     /**
      * Helper method that converts a nested array to XML
      * @param array $order Nested array to convert
-     * @param SimpleXMLElement $xml_order_info Reference to XML object being constructed
+     * @param \SimpleXMLElement $xml_order_info Reference to XML object being constructed
      */
     private function array_to_xml($order, &$xml_order_info) {
         foreach ($order as $key => $value) {

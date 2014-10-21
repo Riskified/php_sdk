@@ -19,4 +19,10 @@
  * thrown when a non-optional property is missing
  * @package Riskified\OrderWebhook\Exception
  */
-class MissingPropertyException extends PropertyException {}
+class MissingPropertyException extends PropertyException {
+
+    function __construct($className, $propertyName, $types)
+    {
+        parent::__construct($className, $propertyName,null, $types);
+    }
+}

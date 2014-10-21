@@ -35,6 +35,7 @@ class Order extends AbstractModel {
         'line_items' => 'objects \LineItem',
         
         'name' => 'string optional',
+        'additional_emails' => 'array string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i optional',
         'note' => 'string optional',
         'number' => 'number optional',
         'order_number' => 'number optional',
