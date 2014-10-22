@@ -215,15 +215,15 @@ abstract class AbstractModel {
      */
     private function validate_array($key, $types, $array) {
 
-        $sonTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
+        $childTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
         if (is_array($array)) {
             $exceptions = array();
             foreach ($array as $element) {
-                $exceptions = array_merge($exceptions, $this->validate_key($key, $sonTypes, $element));
+                $exceptions = array_merge($exceptions, $this->validate_key($key, $childTypes, $element));
             }
             return array_filter($exceptions);
         }
-        return $this->validate_key($key, $sonTypes, $array);
+        return $this->validate_key($key, $childTypes, $array);
     }
 
     /**
