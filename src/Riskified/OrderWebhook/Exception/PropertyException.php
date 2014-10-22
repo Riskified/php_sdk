@@ -23,13 +23,21 @@ use Riskified\Common\Exception\BaseException;
  */
 class PropertyException extends BaseException {
 
-    protected $object;
-    protected $key;
+    protected $className;
+    protected $propertyName;
+    protected $value;
     protected $types;
 
-    public function __construct($object, $key, $types=null) {
-        $this->object = $object;
-        $this->key = $key;
+    /**
+     * @param string $className of the property
+     * @param string $propertyName
+     * @param array $types constrains
+     * @param mixed $value of the property
+     */
+    public function __construct($className, $propertyName, $types = null, $value = null) {
+        $this->className = $className;
+        $this->propertyName = $propertyName;
+        $this->value = $value;
         $this->types = $types;
         parent::__construct($this->customMessage());
     }
@@ -39,15 +47,21 @@ class PropertyException extends BaseException {
     }
 
     protected function propertyName() {
-        return $this->object.'->'.$this->key;
+        return $this->className.'->'.$this->propertyName;
     }
 
     protected function propertyValue() {
-        return $this->object->{$this->key};
+        if($this->value) {
+            return $this->value;
+        }
+        return '';
     }
 
     protected function propertyTypes() {
-        return join(', ',$this->types);
+        if($this->types) {
+            return join(', ',$this->types);
+        }
+        return '';
     }
 
     protected function customMessage() {

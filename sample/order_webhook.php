@@ -46,6 +46,7 @@ $order = new Model\Order(array(
     'total_price' => 113.23,
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
+    'additional_emails' => array('my@email.com','second@email.co.uk'),
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com'
 ));

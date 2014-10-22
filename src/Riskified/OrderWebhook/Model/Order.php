@@ -32,9 +32,10 @@ class Order extends AbstractModel {
         'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
 
         'customer' => 'object \Customer',
-        'line_items' => 'objects \LineItem',
+        'line_items' => 'array object \LineItem',
         
         'name' => 'string optional',
+        'additional_emails' => 'array string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i optional',
         'note' => 'string optional',
         'number' => 'number optional',
         'order_number' => 'number optional',
@@ -72,9 +73,9 @@ class Order extends AbstractModel {
         'billing_address' => 'object \Address optional',
         'payment_details' => 'object \PaymentDetails optional',
         'client_details' => 'object \ClientDetails optional',
-        'discount_codes' => 'objects \DiscountCode optional',
-        'shipping_lines' => 'objects \ShippingLine optional',
-        'note_attributes' => 'objects \Attribute optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'discount_codes' => 'array object \DiscountCode optional',
+        'shipping_lines' => 'array object \ShippingLine optional',
+        'note_attributes' => 'array object \Attribute optional',
+        'tax_lines' => 'array object \TaxLine optional'
     );
 }
