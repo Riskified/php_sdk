@@ -19,10 +19,4 @@
  * thrown when attempting to set a non-existing property
  * @package Riskified\OrderWebhook\Exception
  */
-class InvalidPropertyException extends PropertyException {
-
-    function __construct($className, $propertyName)
-    {
-        parent::__construct($className, $propertyName,null);
-    }
-}
+class InvalidPropertyException extends PropertyException {}

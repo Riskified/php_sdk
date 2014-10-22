@@ -28,14 +28,13 @@ class PropertyException extends BaseException {
     protected $value;
     protected $types;
 
-
     /**
      * @param string $className of the property
      * @param string $propertyName
-     * @param mixed $value of the property
      * @param array $types constrains
+     * @param mixed $value of the property
      */
-    public function __construct($className, $propertyName, $value, $types=null) {
+    public function __construct($className, $propertyName, $types = null, $value = null) {
         $this->className = $className;
         $this->propertyName = $propertyName;
         $this->value = $value;

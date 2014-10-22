@@ -151,13 +151,13 @@ abstract class AbstractModel {
      */
     private function validate_key($key, $types, $value) {
         $type = $types[0];
-        $exception = array(new Exception\TypeMismatchPropertyException($this, $key, $value, $types));
+        $exception = array(new Exception\TypeMismatchPropertyException($this, $key, $types, $value));
         switch ($type) {
             case 'string':
                 if (!is_string($value))
                     return $exception;
                 if (count($types) > 1 && $types[1][0] == '/' && !preg_match($types[1], $value))
-                    return array(new Exception\FormatMismatchPropertyException($this, $key, $value, $types));
+                    return array(new Exception\FormatMismatchPropertyException($this, $key, $types, $value));
                 break;
             case 'number':
                 if (!preg_match('/^[0-9]+$/', $value))
@@ -198,13 +198,13 @@ abstract class AbstractModel {
      */
     private function validate_object($that, $key, $types, $object) {
         if (!is_object($object))
-            return array(new Exception\TypeMismatchPropertyException($that, $key, $object, $types));
+            return array(new Exception\TypeMismatchPropertyException($that, $key, $types, $object));
 
         $parts = explode('\\', get_class($object));
         $class = '\\'.end($parts);
 
         if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
-            return array(new Exception\ClassMismatchPropertyException($that, $key, $object, $types));
+            return array(new Exception\ClassMismatchPropertyException($that, $key, $types, $object));
         }
 
         return $object->validation_exceptions($this->_enforce_required_keys);
@@ -230,7 +230,7 @@ abstract class AbstractModel {
         if (is_object($objects)) {
             return $this->validate_object($this, $key, $types, $objects);
         }
-        return array(new Exception\TypeMismatchPropertyException($this, $key, $objects, $types));
+        return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $objects));
     }
 
     /**
@@ -250,7 +250,7 @@ abstract class AbstractModel {
             }
             return array_filter($exceptions);
         }
-        return array(new Exception\TypeMismatchPropertyException($this, $key, $array, $types));
+        return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $array));
     }
 
     /**
