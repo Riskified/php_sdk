@@ -176,13 +176,10 @@ abstract class AbstractModel {
                     return $exception;
                 break;
             case 'object':
-                return $this->validate_object($this, $key, $types, $value);
-                break;
-            case 'objects':
-                return $this->validate_objects($key, $types);
+                return $this->validate_object($key, $types, $value);
                 break;
             case 'array':
-                return $this->validate_array($key, $types);
+                return $this->validate_array($key, $types, $value);
                 break;
         }
         return array();
@@ -190,67 +187,43 @@ abstract class AbstractModel {
 
     /**
      * validate a nested object
-     * @param $that object parent object
      * @param $key string key name of object
      * @param $types array constraints
      * @param $object object to validate
      * @return array  All  validation issues or null if no issues found
      */
-    private function validate_object($that, $key, $types, $object) {
+    private function validate_object($key, $types, $object) {
         if (!is_object($object))
-            return array(new Exception\TypeMismatchPropertyException($that, $key, $types, $object));
+            return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $object));
 
         $parts = explode('\\', get_class($object));
         $class = '\\'.end($parts);
 
         if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
-            return array(new Exception\ClassMismatchPropertyException($that, $key, $types, $object));
+            return array(new Exception\ClassMismatchPropertyException($this, $key, $types, $object));
         }
 
         return $object->validation_exceptions($this->_enforce_required_keys);
     }
 
     /**
-     * validate nested objects
-     * @param $key string key name
-     * @param $types string constraints
-     * @return array objects validation issues or null if no issues found
-     */
-    private function validate_objects($key, $types) {
-        $objects = $this->$key;
-
-        if (is_array($objects)) {
-            $types[0] = 'object';
-            $exceptions = array();
-            foreach ($objects as $object) {
-                $exceptions = array_merge($exceptions, $this->validate_object($this, $key, $types, $object));
-            }
-            return array_filter($exceptions);
-        }
-        if (is_object($objects)) {
-            return $this->validate_object($this, $key, $types, $objects);
-        }
-        return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $objects));
-    }
-
-    /**
      * validate array of values of a simple type
      * @param $key string key name
      * @param $types string constraints
-     * @return array objects validation issues or null if no issues found
+     * @param $array array elements to validate
+     * @return array validations issues or null if no issues found
      */
-    private function validate_array($key, $types) {
-        $array = $this->$key;
+    private function validate_array($key, $types, $array) {
 
+        $sonTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
         if (is_array($array)) {
-            $sonTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
             $exceptions = array();
             foreach ($array as $element) {
                 $exceptions = array_merge($exceptions, $this->validate_key($key, $sonTypes, $element));
             }
             return array_filter($exceptions);
         }
-        return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $array));
+        return $this->validate_key($key, $sonTypes, $array);
     }
 
     /**

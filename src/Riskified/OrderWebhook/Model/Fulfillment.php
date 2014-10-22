@@ -32,7 +32,7 @@ class Fulfillment extends AbstractModel {
         'tracking_company' => 'string optional',
         'tracking_number' => 'string optional',
         'tracking_url' => 'string optional',
-        'line_items' => 'objects \LineItem optional'
+        'line_items' => 'array object \LineItem optional'
     );
 }
 

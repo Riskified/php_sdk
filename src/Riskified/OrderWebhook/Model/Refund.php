@@ -23,6 +23,6 @@ class Refund extends AbstractModel {
 
     protected $_fields = array(
         'id' => 'string',
-        'refunds' => 'objects \RefundDetails'
+        'refunds' => 'array object \RefundDetails'
     );
 }

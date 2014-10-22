@@ -27,6 +27,6 @@ class ShippingLine extends AbstractModel {
 
         'code' => 'string optional',
         'source' => 'string optional',
-        'tax_lines' => 'objects \TaxLine optional'
+        'tax_lines' => 'array object \TaxLine optional'
     );
 }
