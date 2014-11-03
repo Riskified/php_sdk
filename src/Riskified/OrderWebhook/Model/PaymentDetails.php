@@ -23,8 +23,8 @@ class PaymentDetails extends AbstractModel {
 
     protected $_fields = array(
         'credit_card_bin' => 'string',
-        'avs_result_code' => 'string /^[A-Z]+$/i',
-        'cvv_result_code' => 'string /^[A-Z]*$/i',
+        'avs_result_code' => 'string /^.+$/i',
+        'cvv_result_code' => 'string /^.+$/i',
         'credit_card_number' => 'string',
         'credit_card_company' => 'string',
 

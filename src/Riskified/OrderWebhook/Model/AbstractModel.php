@@ -133,8 +133,9 @@ abstract class AbstractModel {
         foreach ($this->_fields as $propertyName => $constraints) {
             $types = explode(' ', $constraints);
             if (is_null($this->$propertyName)) {
-                if ($this->_enforce_required_keys && end($types) != 'optional')
+                if ($this->_enforce_required_keys && end($types) != 'optional') {
                     $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
+                }
             } else {
                 $exceptions = array_merge($exceptions, $this->validate_key($propertyName, $types, $this->$propertyName));
             }
