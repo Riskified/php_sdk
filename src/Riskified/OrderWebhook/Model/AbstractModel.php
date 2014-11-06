@@ -14,7 +14,6 @@
  * permissions and limitations under the License.
  */
 
-use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -116,7 +115,7 @@ abstract class AbstractModel {
      * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException on any or multiple issues
      */
     public function validate($enforce_required_keys=true) {
-        $exceptions = $this->validation_exceptions($enforce_required_keys && !Riskified::$ignore_missing_keys);
+        $exceptions = $this->validation_exceptions($enforce_required_keys);
         if ($exceptions)
             throw new Exception\MultiplePropertiesException($exceptions);
         return true;

@@ -16,6 +16,7 @@
 
 use Riskified\Common\Env;
 use Riskified\Common\Riskified;
+use Riskified\Common\Validations;
 
 /**
  * Class AbstractTransport
@@ -60,9 +61,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function submitOrder($order) {
-        if ($this->validate_order($order))
-            return $this->send_order($order, 'submit');
-        return null;
+        return $this->send_order($order, 'submit', true);
     }
 
     /**
@@ -72,9 +71,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function createOrder($order) {
-        if ($this->validate_order($order))
-            return $this->send_order($order, 'create');
-        return null;
+        return $this->send_order($order, 'create', true);
     }
 
     /**
@@ -84,9 +81,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function updateOrder($order) {
-        if ($this->validate_order($order, false))
-            return $this->send_order($order, 'update');
-        return null;
+        return $this->send_order($order, 'update', false);
     }
 
     /**
@@ -96,9 +91,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function cancelOrder($order) {
-        if ($this->validate_order($order, false))
-            return $this->send_order($order, 'cancel');
-        return null;
+        return $this->send_order($order, 'cancel', false);
     }
 
     /**
@@ -108,9 +101,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function refundOrder($order) {
-        if ($this->validate_order($order, false))
-            return $this->send_order($order, 'refund');
-        return null;
+        return $this->send_order($order, 'refund', false);
     }
 
     public function sendHistoricalOrders($orders) {
@@ -119,15 +110,18 @@ abstract class AbstractTransport {
         return $this->send_json_request($json, 'historical');
     }
 
-    protected function validate_order($order, $enforce_required_keys=true) {
-        if (Riskified::$skip_all_validations)
-            return true;
-        return $order->validate($enforce_required_keys);
+    protected function send_order($order, $endpoint, $enforce_required_keys) {
+        if ($this->validate($order, $enforce_required_keys)) {
+            $json = '{"order":' . $order->toJson() . '}';
+            return $this->send_json_request($json, $endpoint);
+        }
+        return null;
     }
 
-    protected function send_order($order, $endpoint) {
-        $json = '{"order":'.$order->toJson().'}';
-        return $this->send_json_request($json, $endpoint);
+    protected function validate($order, $enforce_required_keys=true) {
+        if (Riskified::$validations == Validations::SKIP)
+            return true;
+        return $order->validate($enforce_required_keys && Riskified::$validations == Validations::ALL);
     }
 
     /**
