@@ -20,7 +20,7 @@
  * @package Riskified\Common
  */
 class Riskified {
-    const VERSION = '1.0.8';
+    const VERSION = '1.0.9';
     const API_VERSION = '2';
 
     /**
@@ -39,7 +39,10 @@ class Riskified {
      * @var boolean indicates validation should ignore missing key errors
      */
     public static $ignore_missing_keys;
-
+    /**
+     * @var boolean skips all validations when true
+     */
+    public static $skip_all_validations;
 
     /**
      * Sets up Riskified credentials. Must be called before any other method can be used.
@@ -47,12 +50,14 @@ class Riskified {
      * @param $auth_token string Riskified Auth_Token
      * @param $env string Riskified environment
      * @param $ignore_missing_keys boolean ignores missing keys when true
+     * @param $skip_all_validations boolean skips all validations when true
      */
-    public static function init($domain, $auth_token, $env = Env::SANDBOX, $ignore_missing_keys = false) {
+    public static function init($domain, $auth_token, $env = Env::SANDBOX, $ignore_missing_keys = false, $skip_all_validations = false) {
         self::$domain = $domain;
         self::$auth_token = $auth_token;
         self::$env = $env;
         self::$ignore_missing_keys = $ignore_missing_keys;
+        self::$skip_all_validations = $skip_all_validations;
     }
 
     public static function getHostByEnv(){
