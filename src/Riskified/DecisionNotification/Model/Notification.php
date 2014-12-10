@@ -32,6 +32,10 @@ class Notification {
      */
     public $status;
     /**
+     * @var string Status of Order
+     */
+    public $oldStatus;
+    /**
      * @var string Description of Decision
      */
     public $description;
@@ -81,7 +85,11 @@ class Notification {
         if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
-        foreach($order as $key => $value)
-            $this->$key = $value;
+        //foreach($order as $key => $value)
+        //    $this->$key = $value;
+        $this->id = $order->{'id'};
+        $this->status = $order->{'status'};
+        $this->oldStatus = $order->{'old_status'};
+        $this->description = $order->{'description'};
     }
 }
