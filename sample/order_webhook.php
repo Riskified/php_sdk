@@ -20,6 +20,7 @@
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
 use Riskified\Common\Env;
+use Riskified\Common\Validations;
 use Riskified\Common\Signature;
 use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
@@ -30,7 +31,7 @@ $domain = "test.com";
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
 $authToken = "1388add8a99252fc1a4974de471e73cd";
 
-Riskified::init($domain, $authToken, Env::SANDBOX);
+Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(

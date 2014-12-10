@@ -17,12 +17,11 @@
 namespace Riskified\Common;
 
 /**
- * Class Env
+ * Class Validations
  * @package Riskified\Common
  */
-class Env {
-    const PROD = 'prod';
-    const STAGING = 'staging';
-    const SANDBOX = 'sandbox';
-    const DEV = 'development';
+class Validations {
+    const SKIP = 'skip';
+    const IGNORE_MISSING = 'ignore_missing';
+    const ALL = 'all';
 }

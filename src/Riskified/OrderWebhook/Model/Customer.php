@@ -29,6 +29,8 @@ class Customer extends AbstractModel {
         'created_at' => 'date optional',
         'updated_at' => 'date optional',
         'id' => 'string optional',
+        'group_id' => 'string optional',
+        'group_name' => 'string optional',
         'note' => 'string optional',
         'orders_count' => 'number optional',
         'verified_email' => 'boolean optional',

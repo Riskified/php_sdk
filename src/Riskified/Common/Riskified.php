@@ -20,7 +20,7 @@
  * @package Riskified\Common
  */
 class Riskified {
-    const VERSION = '1.1.0';
+    const VERSION = '1.1.2';
     const API_VERSION = '2';
 
     /**
@@ -48,7 +48,7 @@ class Riskified {
      * @param $env string Riskified environment
      * @param $validations string SDK validation mode
      */
-    public static function init($domain, $auth_token, $env = Env::SANDBOX, $validations = Validations::ALL) {
+    public static function init($domain, $auth_token, $env = Env::SANDBOX, $validations = Validations::IGNORE_MISSING) {
         self::$domain = $domain;
         self::$auth_token = $auth_token;
         self::$env = $env;

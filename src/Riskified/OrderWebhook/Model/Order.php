@@ -68,6 +68,7 @@ class Order extends AbstractModel {
         'processing_method' => 'string optional',
         'checkout_id' => 'string optional',
         'tags' => 'string optional',
+        'vendor' => 'string optional',
 
         'shipping_address' => 'object \Address optional',
         'billing_address' => 'object \Address optional',
