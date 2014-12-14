@@ -80,7 +80,7 @@ $order->discount_codes = $discountCode;
 # ShippingLines    
 $shippingLine = new Model\ShippingLine(array(
     'price' => 123.00,
-    'title' => 'Free',
+    'code' => 'Free',
 ));
 $order->shipping_lines = $shippingLine;
 
