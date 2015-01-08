@@ -20,10 +20,4 @@
  * @package Riskified\OrderWebhook\Model
  */
 class Checkout extends Order {
-
-    public function __construct($props = array()) {
-        $_fields['authorization_error'] = 'object \AuthorizationError optional';
-        return parent::__construct($props);
-    }
-
 }

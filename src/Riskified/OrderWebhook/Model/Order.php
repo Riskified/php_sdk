@@ -78,6 +78,8 @@ class Order extends AbstractModel {
         'discount_codes' => 'array object \DiscountCode optional',
         'shipping_lines' => 'array object \ShippingLine optional',
         'note_attributes' => 'array object \Attribute optional',
-        'tax_lines' => 'array object \TaxLine optional'
+        'tax_lines' => 'array object \TaxLine optional',
+
+        'authorization_error' => 'object \AuthorizationError optional'
     );
 }

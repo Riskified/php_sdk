@@ -106,12 +106,12 @@ abstract class AbstractTransport {
 
     /**
      * Send order fulfillment status
-     * @param $order object Order with id and fulfillment object
+     * @param $fulfillment object Fulfillment with order id and fulfillment details
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
-    public function fulfillOrder($order) {
-        return $this->send_order($order, 'fulfill', false);
+    public function fulfillOrder($fulfillment) {
+        return $this->send_order($fulfillment, 'fulfill', true);
     }
 
     /**

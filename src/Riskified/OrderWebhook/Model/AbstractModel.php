@@ -35,6 +35,12 @@ abstract class AbstractModel {
     protected $_propertyBag = array();
 
     /**
+     * Ignores missing keys during validation when set to False
+     * @var boolean
+     */
+    protected $_enforce_required_keys = true;
+
+    /**
      * Initialize a new model, optionally passing an array of properties
      * @param array $props List of Key => Value pairs for setting model properties
      * @throws \Exception If $props contain an invalid Key

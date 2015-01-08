@@ -142,7 +142,7 @@ $shippingAddress = new Model\Address(array(
 ));
 $order->shipping_address = $shippingAddress;
 
-echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
+echo "\nORDER REQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
@@ -193,7 +193,7 @@ $refund = new Model\Refund(array(
         )))
 ));
 
-echo "\nREQUEST:".PHP_EOL.json_encode(json_decode($refund->toJson())).PHP_EOL;
+echo "\nREFUND REQUEST:".PHP_EOL.json_encode(json_decode($refund->toJson())).PHP_EOL;
 
 try {
     $response = $transport->refundOrder($refund);
@@ -203,6 +203,27 @@ try {
         .json_encode($uae->jsonResponse).PHP_EOL;
 } catch(Exception $e) {
     echo PHP_EOL."Refund order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+}
+
+$fulfillment =  new Model\Fulfillment(array(
+    'id' => $order->id,
+    'fulfillments' => array(new Model\FulfillmentDetails(array(
+        'fulfillment_id' => 'f12124',
+        'created_at' => '2008-01-10T11:00:00-05:00',
+        'status' => 'success',
+    )))
+));
+
+echo "\nFULFILL REQUEST:".PHP_EOL.json_encode(json_decode($fulfillment->toJson())).PHP_EOL;
+
+try {
+    $response = $transport->fulfillOrder($fulfillment);
+    echo PHP_EOL."Order fulfillment succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+    echo PHP_EOL."Order fulfillment not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+        .json_encode($uae->jsonResponse).PHP_EOL;
+} catch(Exception $e) {
+    echo PHP_EOL."Order fulfillment not succeeded. Exception: ".$e->getMessage().PHP_EOL;
 }
 
 try {
