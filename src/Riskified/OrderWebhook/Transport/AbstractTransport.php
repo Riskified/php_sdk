@@ -104,15 +104,54 @@ abstract class AbstractTransport {
         return $this->send_order($order, 'refund', false);
     }
 
+    /**
+     * Send order fulfillment status
+     * @param $order object Order with id and fulfillment object
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function fulfillOrder($order) {
+        return $this->send_order($order, 'fulfill', false);
+    }
+
+    /**
+     * Send a Checkout to Riskified
+     * @param $checkout object Checkout to send
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function createCheckout($checkout) {
+        return $this->send_checkout($checkout, 'checkout_create');
+    }
+
+    /**
+     * Notify that a Checkout failed
+     * @param $checkout object Checkout to send (with AuthotizationError field)
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function deniedCheckout($checkout) {
+        return $this->send_checkout($checkout, 'checkout_denied');
+    }
+
     public function sendHistoricalOrders($orders) {
         $joined = join(',',array_map(function($order) { return $order->toJson(); }, $orders));
         $json = '{"orders":['.$joined.']}';
         return $this->send_json_request($json, 'historical');
     }
 
+
     protected function send_order($order, $endpoint, $enforce_required_keys) {
         if ($this->validate($order, $enforce_required_keys)) {
             $json = '{"order":' . $order->toJson() . '}';
+            return $this->send_json_request($json, $endpoint);
+        }
+        return null;
+    }
+
+    protected function send_checkout($checkout, $endpoint) {
+        if ($this->validate($checkout, false)) {
+            $json = '{"checkout":' . $checkout->toJson() . '}';
             return $this->send_json_request($json, $endpoint);
         }
         return null;

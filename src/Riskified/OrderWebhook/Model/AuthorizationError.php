@@ -15,14 +15,16 @@
      */
 
 /**
- * Class Fulfillment
- * data model of an existing order's fulfillment attempts
+ * Class AuthorizationError
+ * failed result of an authorization attempt by a payment gateway.
  * @package Riskified\OrderWebhook\Model
  */
-class Fulfillment extends AbstractModel {
+class AuthorizationError extends Order {
 
     protected $_fields = array(
-        'id' => 'string',
-        'fulfillments' => 'array object \FulfillmentDetails'
+        'created_at' => 'date',
+        'error_code' => 'string',
+        'message' => 'string optional'
     );
+
 }

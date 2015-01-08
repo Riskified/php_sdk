@@ -15,14 +15,15 @@
      */
 
 /**
- * Class Fulfillment
- * data model of an existing order's fulfillment attempts
+ * Class Checkout
+ * pre-order checkout data model, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class Fulfillment extends AbstractModel {
+class Checkout extends Order {
 
-    protected $_fields = array(
-        'id' => 'string',
-        'fulfillments' => 'array object \FulfillmentDetails'
-    );
+    public function __construct($props = array()) {
+        $_fields['authorization_error'] = 'object \AuthorizationError optional';
+        return parent::__construct($props);
+    }
+
 }
