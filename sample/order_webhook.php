@@ -73,12 +73,14 @@ $sellerCustomer = new Model\Customer(array(
     'account_type' => 'premium',
     'account_verified' => true
 ));
+
 $seller = new Model\Seller(array(
     'customer' => $sellerCustomer,
     'correspondence' => 77,
     'price_negotiated' =>  false,
     'starting_price' => 100.3
 ));
+
 $lineItem->seller = $seller;
 
 $order->line_items = $lineItem;
@@ -117,7 +119,6 @@ $customer = new Model\Customer(array(
     'orders_count' => 6,
     'verified_email' => true,
     'account_type' => 'free',
-    'account_verified' => false
 ));
 
 $customer->social = array(
@@ -130,7 +131,8 @@ $customer->social = array(
         'bio' => 'avid mountaineer...',
         'account_url' => 'http://shop.com/user/donnie7',
         'following' => 231,
-        'followed' => 56
+        'followed' => 56,
+        'posts' => 10
     )),
     new Model\SocialDetails(array(
         'network' => 'facebook',
