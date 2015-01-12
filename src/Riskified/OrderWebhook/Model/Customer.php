@@ -41,8 +41,7 @@ class Customer extends AbstractModel {
         'total_spent' => 'float optional',
         'tags' => 'string optional',
         'account_type' => 'string optional',
-        'account_verified' => 'boolean optional',
-        
+
         'default_address' => 'object \Address optional',
         'social' => 'array object \SocialDetails optional'
     );

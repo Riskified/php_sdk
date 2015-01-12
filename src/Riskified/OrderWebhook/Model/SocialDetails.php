@@ -30,7 +30,8 @@ class SocialDetails extends AbstractModel {
         'bio' => 'string optional',
         'account_url' => 'string optional',
         'following' => 'integer optional',
-        'followed' => 'integer optional'
+        'followed' => 'integer optional',
+        'posts' => 'integer optional'
     );
 
 }
