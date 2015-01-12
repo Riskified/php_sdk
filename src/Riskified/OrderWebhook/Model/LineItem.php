@@ -40,11 +40,14 @@ class LineItem extends AbstractModel {
         'requires_shipping' => 'boolean optional',
         'taxable' => 'boolean optional',
         'product_exists' => 'boolean optional',
-        'properties' =>'array object \Attribute optional',
-        'tax_lines' => 'array object \TaxLine optional',
         'event_sub_category_name' => 'string optional',
         'event_name' => 'string optional',
         'event_section_name' => 'string optional',
-        'event_date' => 'date optional'
+        'event_date' => 'date optional',
+        'condition' => 'string optional',
+
+        'properties' =>'array object \Attribute optional',
+        'tax_lines' => 'array object \TaxLine optional',
+        'seller' => 'object \Seller optional'
     );
 }

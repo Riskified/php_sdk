@@ -52,23 +52,36 @@ $order = new Model\Order(array(
     'referring_site' => 'google.com'
 ));
 
-# LineItems   
-$lineItem1 = new Model\LineItem(array(
+# LineItems
+$lineItem = new Model\LineItem(array(
     'price' => 100,
     'quantity' => 1,
     'title' => 'ACME Widget',
     'product_id' => '101',
-    'sku' => 'ABCD'
+    'sku' => 'ABCD',
+    'condition' => 'mint'
 ));
 
-$lineItem2 = new Model\LineItem(array(
-    'price' => 200,
-    'quantity' => 4,
-    'title' => 'ACME Spring',
-    'product_id' => '202',
-    'sku' => 'EFGH'
+# Seller Details
+$sellerCustomer = new Model\Customer(array(
+    'email' => 'another@address.com',
+    'first_name' => 'SellerFirstname',
+    'last_name' => 'SellerLastname',
+    'id' => '4567',
+    'created_at' => '2008-01-10T11:00:00-05:00',
+    'orders_count' => 16,
+    'account_type' => 'premium',
+    'account_verified' => true
 ));
-$order->line_items = array($lineItem1, $lineItem2);
+$seller = new Model\Seller(array(
+    'customer' => $sellerCustomer,
+    'correspondence' => 77,
+    'price_negotiated' =>  false,
+    'starting_price' => 100.3
+));
+$lineItem->seller = $seller;
+
+$order->line_items = $lineItem;
 
 # DiscountCodes  
 $discountCode = new Model\DiscountCode(array(
@@ -102,8 +115,29 @@ $customer = new Model\Customer(array(
     'id' => '1233',
     'created_at' => '2008-01-10T11:00:00-05:00',
     'orders_count' => 6,
-    'verified_email' => true
+    'verified_email' => true,
+    'account_type' => 'free',
+    'account_verified' => false
 ));
+
+$customer->social = array(
+    new Model\SocialDetails(array(
+        'network' => 'internal',
+        'public_username' => 'donnie7',
+        'community_score' => 68,
+        'profile_picture' => 'http://img.com/abc.png',
+        'email' => 'donnie@mail.com',
+        'bio' => 'avid mountaineer...',
+        'account_url' => 'http://shop.com/user/donnie7',
+        'following' => 231,
+        'followed' => 56
+    )),
+    new Model\SocialDetails(array(
+        'network' => 'facebook',
+        'public_username' => '7231654'
+    ))
+);
+
 $order->customer = $customer;
 
 # BillingAddress    
@@ -142,6 +176,15 @@ $shippingAddress = new Model\Address(array(
 ));
 $order->shipping_address = $shippingAddress;
 
+# NoCharge for partial wallet payments
+$nochargeAmount = new Model\RefundDetails(array(
+    'refund_id' => '1235',
+    'amount' => 20,
+    'currency' => 'USD',
+    'reason' => 'wallet'
+));
+$order->nocharge_amount = $nochargeAmount;
+
 echo "\nORDER REQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 # Create a curl transport to the Riskified Server    
@@ -149,7 +192,7 @@ $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 10;
 
 try {
-    $response = $transport->createOrder($order);
+    $response = $transport->createCheckout($order);
     echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
     echo PHP_EOL."Create order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
@@ -158,80 +201,80 @@ try {
     echo PHP_EOL."Create order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
 }
 
-try {
-    $response = $transport->submitOrder($order);
-    echo PHP_EOL."Submit order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Submit order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
-        .json_encode($uae->jsonResponse).PHP_EOL;
-} catch(Exception $e) {
-    echo PHP_EOL."Submit order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
-}
-
-$updatedOrder = new Model\Order(array(
-    'id' => $order->id,
-    'email' => 'another.email@example.com',
-));
-
-try {
-    $response = $transport->updateOrder($updatedOrder);
-    echo PHP_EOL."Update Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Update order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
-        .json_encode($uae->jsonResponse).PHP_EOL;
-} catch(Exception $e) {
-    echo PHP_EOL."Update order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
-}
-
-$refund = new Model\Refund(array(
-    'id' => $order->id,
-    'refunds' => array(new Model\RefundDetails(array(
-            'refund_id' => 'refund_001',
-            'amount' => 33.12,
-            'currency' => 'USD',
-            'reason' => 'Product Missing'
-        )))
-));
-
-echo "\nREFUND REQUEST:".PHP_EOL.json_encode(json_decode($refund->toJson())).PHP_EOL;
-
-try {
-    $response = $transport->refundOrder($refund);
-    echo PHP_EOL."Refund Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Refund order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
-        .json_encode($uae->jsonResponse).PHP_EOL;
-} catch(Exception $e) {
-    echo PHP_EOL."Refund order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
-}
-
-$fulfillment =  new Model\Fulfillment(array(
-    'id' => $order->id,
-    'fulfillments' => array(new Model\FulfillmentDetails(array(
-        'fulfillment_id' => 'f12124',
-        'created_at' => '2008-01-10T11:00:00-05:00',
-        'status' => 'success',
-    )))
-));
-
-echo "\nFULFILL REQUEST:".PHP_EOL.json_encode(json_decode($fulfillment->toJson())).PHP_EOL;
-
-try {
-    $response = $transport->fulfillOrder($fulfillment);
-    echo PHP_EOL."Order fulfillment succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Order fulfillment not succeeded. Status code was: ".$uae->statusCode." and json body was: "
-        .json_encode($uae->jsonResponse).PHP_EOL;
-} catch(Exception $e) {
-    echo PHP_EOL."Order fulfillment not succeeded. Exception: ".$e->getMessage().PHP_EOL;
-}
-
-try {
-    $response = $transport->cancelOrder($order);
-    echo PHP_EOL."Cancel order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Cancel order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
-        .json_encode($uae->jsonResponse).PHP_EOL;
-} catch(Exception $e) {
-    echo PHP_EOL."Cancel order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
-}
+//try {
+//    $response = $transport->submitOrder($order);
+//    echo PHP_EOL."Submit order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+//} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+//    echo PHP_EOL."Submit order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+//        .json_encode($uae->jsonResponse).PHP_EOL;
+//} catch(Exception $e) {
+//    echo PHP_EOL."Submit order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+//}
+//
+//$updatedOrder = new Model\Order(array(
+//    'id' => $order->id,
+//    'email' => 'another.email@example.com',
+//));
+//
+//try {
+//    $response = $transport->updateOrder($updatedOrder);
+//    echo PHP_EOL."Update Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+//} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+//    echo PHP_EOL."Update order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+//        .json_encode($uae->jsonResponse).PHP_EOL;
+//} catch(Exception $e) {
+//    echo PHP_EOL."Update order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+//}
+//
+//$refund = new Model\Refund(array(
+//    'id' => $order->id,
+//    'refunds' => array(new Model\RefundDetails(array(
+//            'refund_id' => 'refund_001',
+//            'amount' => 33.12,
+//            'currency' => 'USD',
+//            'reason' => 'Product Missing'
+//        )))
+//));
+//
+//echo "\nREFUND REQUEST:".PHP_EOL.json_encode(json_decode($refund->toJson())).PHP_EOL;
+//
+//try {
+//    $response = $transport->refundOrder($refund);
+//    echo PHP_EOL."Refund Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+//} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+//    echo PHP_EOL."Refund order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+//        .json_encode($uae->jsonResponse).PHP_EOL;
+//} catch(Exception $e) {
+//    echo PHP_EOL."Refund order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+//}
+//
+//$fulfillment =  new Model\Fulfillment(array(
+//    'id' => $order->id,
+//    'fulfillments' => array(new Model\FulfillmentDetails(array(
+//        'fulfillment_id' => 'f12124',
+//        'created_at' => '2008-01-10T11:00:00-05:00',
+//        'status' => 'success',
+//    )))
+//));
+//
+//echo "\nFULFILL REQUEST:".PHP_EOL.json_encode(json_decode($fulfillment->toJson())).PHP_EOL;
+//
+//try {
+//    $response = $transport->fulfillOrder($fulfillment);
+//    echo PHP_EOL."Order fulfillment succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+//} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+//    echo PHP_EOL."Order fulfillment not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+//        .json_encode($uae->jsonResponse).PHP_EOL;
+//} catch(Exception $e) {
+//    echo PHP_EOL."Order fulfillment not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+//}
+//
+//try {
+//    $response = $transport->cancelOrder($order);
+//    echo PHP_EOL."Cancel order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+//} catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
+//    echo PHP_EOL."Cancel order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+//        .json_encode($uae->jsonResponse).PHP_EOL;
+//} catch(Exception $e) {
+//    echo PHP_EOL."Cancel order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+//}
