@@ -27,7 +27,7 @@ class FulfillmentDetails extends AbstractModel {
         'status' => 'string',
 
         'tracking_company' => 'string optional',
-        'tracking_number' => 'string optional',
+        'tracking_numbers' => 'string optional',
         'tracking_urls' => 'string optional',
         'message' => 'string optional',
         'receipt' => 'string',
