@@ -80,6 +80,7 @@ class Order extends AbstractModel {
         'note_attributes' => 'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
 
-        'authorization_error' => 'object \AuthorizationError optional'
+        'authorization_error' => 'object \AuthorizationError optional',
+        'nocharge_amount' => 'object \RefundDetails optional'
     );
 }
