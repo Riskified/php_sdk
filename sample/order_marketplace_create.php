@@ -49,144 +49,112 @@ $order = new Model\Order(array(
     'cart_token' => '1sdaf23j212',
     'additional_emails' => array('my@email.com','second@email.co.uk'),
     'note' => 'Shipped to my hotel.',
-    'referring_site' => 'google.com'
-));
-
-# LineItems
-$lineItem = new Model\LineItem(array(
-    'price' => 100,
-    'quantity' => 1,
-    'title' => 'ACME Widget',
-    'product_id' => '101',
-    'sku' => 'ABCD',
-    'condition' => 'mint'
-));
-
-# Seller Details
-$sellerCustomer = new Model\Customer(array(
-    'email' => 'another@address.com',
-    'first_name' => 'SellerFirstname',
-    'last_name' => 'SellerLastname',
-    'id' => '4567',
-    'created_at' => '2008-01-10T11:00:00-05:00',
-    'orders_count' => 16,
-    'account_type' => 'premium',
-    'verified_email' => true
-));
-
-$seller = new Model\Seller(array(
-    'customer' => $sellerCustomer,
-    'correspondence' => 77,
-    'price_negotiated' =>  false,
-    'starting_price' => 100.3
-));
-
-$lineItem->seller = $seller;
-
-$order->line_items = array($lineItem);
-
-# DiscountCodes  
-$discountCode = new Model\DiscountCode(array(
-    'amount' => 19.95,
-    'code' => '12'
-));
-$order->discount_codes = $discountCode;
-
-# ShippingLines    
-$shippingLine = new Model\ShippingLine(array(
-    'price' => 123.00,
-    'code' => 'Free',
-));
-$order->shipping_lines = $shippingLine;
-
-# PaymentDetais 
-$paymentDetails = new Model\PaymentDetails(array(
-    'credit_card_bin' => '370002',
-    'avs_result_code' => 'Y',
-    'cvv_result_code' => 'N',
-    'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
-    'credit_card_company' => 'VISA'
-));
-$order->payment_details = $paymentDetails;
-
-# Customer  
-$customer = new Model\Customer(array(
-    'email' => 'email@address.com',
-    'first_name' => 'Firstname',
-    'last_name' => 'Lastname',
-    'id' => '1233',
-    'created_at' => '2008-01-10T11:00:00-05:00',
-    'orders_count' => 6,
-    'verified_email' => true,
-    'account_type' => 'free'
-));
-
-$customer->social = array(
-    new Model\SocialDetails(array(
-        'network' => 'internal',
-        'public_username' => 'donnie7',
-        'community_score' => 68,
-        'profile_picture' => 'http://img.com/abc.png',
-        'email' => 'donnie@mail.com',
-        'bio' => 'avid mountaineer...',
-        'account_url' => 'http://shop.com/user/donnie7',
-        'following' => 231,
-        'followed' => 56,
-        'posts' => 10
+    'referring_site' => 'google.com',
+    'line_items' => array(
+        new Model\LineItem(array(
+            'price' => 100,
+            'quantity' => 1,
+            'title' => 'ACME Widget',
+            'product_id' => '101',
+            'sku' => 'ABCD',
+            'condition' => 'mint',
+            'seller' => new Model\Seller(array(
+                'customer' => new Model\Customer(array(
+                    'email' => 'another@address.com',
+                    'first_name' => 'SellerFirstname',
+                    'last_name' => 'SellerLastname',
+                    'id' => '4567',
+                    'created_at' => '2008-01-10T11:00:00-05:00',
+                    'orders_count' => 16,
+                    'account_type' => 'premium',
+                    'verified_email' => true
+                )),
+                'correspondence' => 77,
+                'price_negotiated' =>  false,
+                'starting_price' => 100.3
+            ))
+        ))
+    ),
+    'discount_codes' => new Model\DiscountCode(array(
+        'amount' => 19.95,
+        'code' => '12'
     )),
-    new Model\SocialDetails(array(
-        'network' => 'facebook',
-        'public_username' => '7231654'
+    'shipping_lines' => new Model\ShippingLine(array(
+        'price' => 123.00,
+        'code' => 'Free',
+    )),
+    'payment_details' => new Model\PaymentDetails(array(
+        'credit_card_bin' => '370002',
+        'avs_result_code' => 'Y',
+        'cvv_result_code' => 'N',
+        'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
+        'credit_card_company' => 'VISA'
+    )),
+    'customer' => new Model\Customer(array(
+        'email' => 'email@address.com',
+        'first_name' => 'Firstname',
+        'last_name' => 'Lastname',
+        'id' => '1233',
+        'created_at' => '2008-01-10T11:00:00-05:00',
+        'orders_count' => 6,
+        'verified_email' => true,
+        'account_type' => 'free',
+        'social' => array(
+            new Model\SocialDetails(array(
+                'network' => 'internal',
+                'public_username' => 'donnie7',
+                'community_score' => 68,
+                'profile_picture' => 'http://img.com/abc.png',
+                'email' => 'donnie@mail.com',
+                'bio' => 'avid mountaineer...',
+                'account_url' => 'http://shop.com/user/donnie7',
+                'following' => 231,
+                'followed' => 56,
+                'posts' => 10
+            )),
+            new Model\SocialDetails(array(
+                'network' => 'facebook',
+                'public_username' => '7231654'
+            ))
+        )
+    )),
+    'billing_address' => new Model\Address(array(
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'address1' => '108 Main Street',
+        'company' => 'Kansas Computers',
+        'country' => 'United States',
+        'country_code' => 'US',
+        'phone' => '1234567',
+        'city' => 'NYC',
+        'name' => 'John Doe',
+        'address2' => 'Apartment 12',
+        'province' => 'New York',
+        'province_code' => 'NY',
+        'zip' => '64155'
+    )),
+    'shipping_address' => new Model\Address(array(
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'address1' => '108 Main Street',
+        'company' => 'Kansas Computers',
+        'country' => 'United States',
+        'country_code' => 'US',
+        'phone' => '1234567',
+        'city' => 'NYC',
+        'name' => 'John Doe',
+        'address2' => 'Apartment 12',
+        'province' => 'New York',
+        'province_code' => 'NY',
+        'zip' => '64155'
+    )),
+    'nocharge_amount' => new Model\RefundDetails(array(
+        'refund_id' => '1235',
+        'amount' => 20,
+        'currency' => 'USD',
+        'reason' => 'wallet'
     ))
-);
-
-$order->customer = $customer;
-
-# BillingAddress    
-$billingAddress = new Model\Address(array(
-    'first_name' => 'John',
-    'last_name' => 'Doe',
-    'address1' => '108 Main Street',
-    'company' => 'Kansas Computers',
-    'country' => 'United States',
-    'country_code' => 'US',
-    'phone' => '1234567',
-    'city' => 'NYC',
-    'name' => 'John Doe',
-    'address2' => 'Apartment 12',
-    'province' => 'New York',
-    'province_code' => 'NY',
-    'zip' => '64155'
 ));
-$order->billing_address = $billingAddress;
-
-# ShippingAddress  
-$shippingAddress = new Model\Address(array(
-    'first_name' => 'John',
-    'last_name' => 'Doe',
-    'address1' => '108 Main Street',
-    'company' => 'Kansas Computers',
-    'country' => 'United States',
-    'country_code' => 'US',
-    'phone' => '1234567',
-    'city' => 'NYC',
-    'name' => 'John Doe',
-    'address2' => 'Apartment 12',
-    'province' => 'New York',
-    'province_code' => 'NY',
-    'zip' => '64155'
-));
-$order->shipping_address = $shippingAddress;
-
-
-# NoCharge for partial wallet payments
-$nochargeAmount = new Model\RefundDetails(array(
-    'refund_id' => '1235',
-    'amount' => 20,
-    'currency' => 'USD',
-    'reason' => 'wallet'
-));
-$order->nocharge_amount = $nochargeAmount;
 
 echo "\nORDER REQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
