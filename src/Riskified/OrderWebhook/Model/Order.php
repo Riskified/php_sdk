@@ -81,6 +81,8 @@ class Order extends AbstractModel {
         'tax_lines' => 'array object \TaxLine optional',
 
         'authorization_error' => 'object \AuthorizationError optional',
-        'nocharge_amount' => 'object \RefundDetails optional'
+        'nocharge_amount' => 'object \RefundDetails optional',
+
+        'decision' => 'object \DecisionDetails optional'
     );
 }

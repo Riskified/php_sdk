@@ -115,6 +115,17 @@ abstract class AbstractTransport {
     }
 
     /**
+     * Send order decision status
+     * @param $decision object Decision on the order. reports riskified about what was your decision on the order.
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function decisionOrder($decision) {
+        return $this->send_order($decision, 'decision', true);
+    }
+
+
+    /**
      * Send a Checkout to Riskified
      * @param $checkout object Checkout to send
      * @return object Response object
@@ -139,7 +150,6 @@ abstract class AbstractTransport {
         $json = '{"orders":['.$joined.']}';
         return $this->send_json_request($json, 'historical');
     }
-
 
     protected function send_order($order, $endpoint, $enforce_required_keys) {
         if ($this->validate($order, $enforce_required_keys)) {
