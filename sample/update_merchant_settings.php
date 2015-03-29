@@ -18,16 +18,16 @@ use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 # Replace with the 'shop domain' of your account in Riskified
-$domain = "test.com";
+$domain = "test.pass.com";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "1388add8a99252fc1a4974de471e73cd";
+$authToken = "f96c445faa254c89b03ea9bb3e1d08edbbbc4dd8";
 
 Riskified::init($domain, $authToken, Env::DEV, Validations::IGNORE_MISSING);
 
 # Order
 $settings = new Model\MerchantSettings(array(
-    'settings' => array('version'=>'1234','gws' => 'Adyen,CC')
+    'settings' => array('version'=>'12345','gws' => 'Adyen,CC')
 ));
 
 echo "\n MERCHANT SETTINGS:".PHP_EOL.json_encode(json_decode($settings->toJson())).PHP_EOL;
