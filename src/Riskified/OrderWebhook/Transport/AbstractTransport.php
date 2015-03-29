@@ -55,6 +55,16 @@ abstract class AbstractTransport {
     }
 
     /**
+     * Update a merchant's settings
+     * @param hash object named 'settings' with a key-value structure
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function updateMerchantSettings($settings) {
+        return $this->send_settings($settings);
+    }
+
+    /**
      * Submit an Order to Riskified for review
      * @param $order object Order to submit
      * @return object Response object
@@ -156,6 +166,12 @@ abstract class AbstractTransport {
             $json = '{"order":' . $order->toJson() . '}';
             return $this->send_json_request($json, $endpoint);
         }
+        return null;
+    }
+
+    protected function send_settings($settings) {
+        $json = '{"settings":' . $settings->toJson() . '}';
+        return $this->send_json_request($json, 'settings');
         return null;
     }
 
