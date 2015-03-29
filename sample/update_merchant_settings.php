@@ -27,8 +27,7 @@ Riskified::init($domain, $authToken, Env::DEV, Validations::IGNORE_MISSING);
 
 # Order
 $settings = new Model\MerchantSettings(array(
-    'version' => '1234',
-    'gws' => 'Adyen,CC'
+    'settings' => array('version'=>'1234','gws' => 'Adyen,CC')
 ));
 
 echo "\n MERCHANT SETTINGS:".PHP_EOL.json_encode(json_decode($settings->toJson())).PHP_EOL;

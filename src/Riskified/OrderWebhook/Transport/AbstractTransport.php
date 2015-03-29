@@ -170,7 +170,7 @@ abstract class AbstractTransport {
     }
 
     protected function send_settings($settings) {
-        $json = '{"settings":' . $settings->toJson() . '}';
+        $json = $settings->toJson();
         return $this->send_json_request($json, 'settings');
         return null;
     }

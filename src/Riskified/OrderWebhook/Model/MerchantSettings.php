@@ -8,7 +8,6 @@
 class MerchantSettings extends AbstractModel {
 
     protected $_fields = array(
-        'version' => 'string',
-        'gws' => 'string'
+        'settings' => 'array string'
     );
 }
