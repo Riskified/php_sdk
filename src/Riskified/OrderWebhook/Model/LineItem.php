@@ -44,8 +44,12 @@ class LineItem extends AbstractModel {
         'event_name' => 'string optional',
         'event_section_name' => 'string optional',
         'event_date' => 'date optional',
+        'event_country' => 'string optional',
+        'event_city' => 'string optional',
+        'event_location' => 'string optional',
         'condition' => 'string optional',
         'product_type' => 'string optional',
+        'brand' => 'string optional',
 
         'properties' =>'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
