@@ -50,6 +50,12 @@ class LineItem extends AbstractModel {
         'condition' => 'string optional',
         'product_type' => 'string optional',
         'brand' => 'string optional',
+        'photo_url' => 'string optional',
+        'display_name' => 'string optional',
+        'message' => 'string optional',
+        'card_type' => 'string optional',
+        'card_subtype' => 'string optional',
+        'sender_name'=> 'string optional',
 
         'properties' =>'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
