@@ -26,6 +26,7 @@ class Address extends AbstractModel {
         'last_name' => 'string',
         'city' => 'string',
         'phone' => 'string',
+        'additional_phone' => 'string optional',
         'country' => 'string',
         'country_code' => 'string /^[A-Z]{2}$/i',
 
