@@ -82,12 +82,12 @@ class LineItem extends AbstractModel {
         'room_type'=> 'string optional',
         'city'=> 'string optional',
         'country_code'=> 'string optional',
-        'check_in'=> 'date optional',
-        'check_out'=> 'date optional',
+        'check_in_date'=> 'date optional',
+        'check_out_date'=> 'date optional',
         'rating'=> 'float optional',
         'number_of_guests'=> 'number optional',
         'cancellation_policy' => 'string optional',
-        'type' => 'string optional',
+        'accommodation_type' => 'string optional',
 
 
         'properties' =>'array object \Attribute optional',
