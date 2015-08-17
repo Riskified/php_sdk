@@ -55,8 +55,11 @@ class LineItem extends AbstractModel {
 
         /* fields for giftcard industry */
         'photo_url' => 'string optional',
+        'photo_uploaded' => 'boolean optional',
+        'greeting_photo_url' => 'string optional',
         'display_name' => 'string optional',
         'message' => 'string optional',
+        'greeting_message' => 'string optional',
         'card_type' => 'string optional',
         'card_subtype' => 'string optional',
         'sender_name'=> 'string optional',

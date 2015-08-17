@@ -23,7 +23,8 @@ class SocialDetails extends AbstractModel {
 
     protected $_fields = array(
         'network' => 'string',
-        'public_username' => 'string',
+        'id' => 'string',
+        'public_username' => 'string optional',
         'community_score' => 'number optional',
         'profile_picture' => 'string optional',
         'email' => 'string optional',
