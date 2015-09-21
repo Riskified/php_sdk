@@ -44,6 +44,9 @@ class LineItem extends AbstractModel {
         'product_type' => 'string optional',
         'brand' => 'string optional',
 
+        /* adding product's category to php sdk */
+        'category' => 'string optional',
+
         /* fields for ticket industry */
         'event_sub_category_name' => 'string optional',
         'event_name' => 'string optional',

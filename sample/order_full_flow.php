@@ -26,12 +26,12 @@ use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 # Replace with the 'shop domain' of your account in Riskified
-$domain = "test.com";
+$domain = "[your shop domain as registered to Riskified]";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "1388add8a99252fc1a4974de471e73cd";
+$authToken = "[your authentication token string]";
 
-Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
+Riskified::init($domain, $authToken, Env::SANDBOX, Validations::ALL);
 
 $order_details = array(
     'id' => 'ch567',
@@ -62,7 +62,8 @@ $order_details = array(
             'quantity' => 4,
             'title' => 'ACME Spring',
             'product_id' => '202',
-            'sku' => 'EFGH'
+            'sku' => 'EFGH',
+            'category' => 'ACME Spring Category'
         ))
     ),
     'discount_codes' =>  new Model\DiscountCode(array(
@@ -70,6 +71,7 @@ $order_details = array(
         'code' => '12'
     )),
     'shipping_lines' => new Model\ShippingLine(array(
+        'title' => 'FedEx',
         'price' => 123.00,
         'code' => 'Free',
     )),
@@ -180,6 +182,7 @@ echo PHP_EOL."Refund Order succeeded. Response: ".PHP_EOL.json_encode($response)
 $fullfillments = new Model\Fulfillment(array (
     'id' => $order->id,
     'fulfillments' => array(new Model\FulfillmentDetails(array(
+        'fulfillment_id' => '123',
         'created_at' =>  '2013-04-23T13:36:50Z',
         'status' => 'success',
         'tracking_company' =>  'fedex',
