@@ -23,7 +23,7 @@ class Order extends AbstractModel {
 
     protected $_fields = array(
         'id' => 'string',
-        'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i',
+        'email' => 'string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i',
         'created_at' => 'date',
         'updated_at' => 'date',
         'currency' => 'string /^[A-Z]{3}$/i',
@@ -35,7 +35,7 @@ class Order extends AbstractModel {
         'line_items' => 'array object \LineItem',
         
         'name' => 'string optional',
-        'additional_emails' => 'array string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i optional',
+        'additional_emails' => 'array string /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i optional',
         'note' => 'string optional',
         'number' => 'number optional',
         'order_number' => 'number optional',
