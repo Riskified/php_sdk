@@ -44,6 +44,9 @@ class LineItem extends AbstractModel {
         'product_type' => 'string optional',
         'brand' => 'string optional',
 
+        /* add this field when the (digital) goods are to be delivered in future date */
+        'delivered_at' => 'date optional',
+
         /* adding product's category to php sdk */
         'category' => 'string optional',
 

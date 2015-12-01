@@ -57,6 +57,14 @@ $order_details = array(
             'product_id' => '101',
             'sku' => 'ABCD'
         )),
+        // Digital Goods product example using "requires_shipping":false
+        new Model\LineItem(array(
+            'title' => 'Giftcard',
+            'price' => 100,
+            'quantity' => 1,
+            'requires_shipping' => false,
+            'delivered_at' => '2017-03-10T11:00:00-05:00',
+        )),
         new Model\LineItem(array(
             'price' => 200,
             'quantity' => 4,
