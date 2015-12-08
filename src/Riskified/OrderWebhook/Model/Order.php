@@ -83,6 +83,8 @@ class Order extends AbstractModel {
         'authorization_error' => 'object \AuthorizationError optional',
         'nocharge_amount' => 'object \RefundDetails optional',
 
-        'decision' => 'object \DecisionDetails optional'
+        'decision' => 'object \DecisionDetails optional',
+
+        'charge_free_payment_details' => 'object\ChargeFreePaymentDetails optional'
     );
 }
