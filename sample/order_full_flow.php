@@ -36,7 +36,7 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::ALL);
 $order_details = array(
     'id' => 'ch567',
     'name' => '#1234',
-    'email' => 'great.customer@example.com',
+    'email' => 'erin.o\'neill@cbre.com',
     'created_at' => '2010-01-10T11:00:00-05:00',
     'closed_at' => null,
     'currency' => 'CAD',

@@ -22,7 +22,7 @@
 class Customer extends AbstractModel {
 
     protected $_fields = array(
-        'email' => 'string /^[A-Z0-9._%+\-!]+@[A-Z0-9.-]+\.[A-Z]{2,20}$/i',
+        'email' => "string /^[a-z0-9,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i",
         'first_name' => 'string',
         'last_name' => 'string',
 
