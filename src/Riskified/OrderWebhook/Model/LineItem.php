@@ -101,6 +101,8 @@ class LineItem extends AbstractModel {
 
         'properties' =>'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
-        'seller' => 'object \Seller optional'
+        'seller' => 'object \Seller optional',
+
+        'delivered_to'=> 'string optional'
     );
 }

@@ -55,7 +55,8 @@ $order_details = array(
             'quantity' => 1,
             'title' => 'ACME Widget',
             'product_id' => '101',
-            'sku' => 'ABCD'
+            'sku' => 'ABCD',
+            'delivered_to' => 'store_pickup'
         )),
         // Digital Goods product example using "requires_shipping":false
         new Model\LineItem(array(
