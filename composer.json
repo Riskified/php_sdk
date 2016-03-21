@@ -1,0 +1,8 @@
+{
+    "name": "riskified/php_sdk",
+    "autoload": {
+            "psr-4": {
+                "Riskified\\": "src/Riskified"
+            }    
+     }
+} 
