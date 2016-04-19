@@ -103,7 +103,8 @@ $order_details = array(
     'payment_details' => new Model\PaymentDetails(array(
         'credit_card_bin' => '370002',
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
-        'credit_card_company' => 'VISA'
+        'credit_card_company' => 'VISA',
+        'credit_card_token' => '0022334466'
     )),
     'customer' => new Model\Customer(array(
         'email' => 'email@address.com',

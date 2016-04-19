@@ -27,6 +27,7 @@ class PaymentDetails extends AbstractModel {
         'cvv_result_code' => 'string /^.+$/i',
         'credit_card_number' => 'string',
         'credit_card_company' => 'string',
+        'credit_card_token' => 'string',
 
         'payer_email' => 'string optional',
         'payer_status' => 'string optional',
