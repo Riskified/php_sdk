@@ -43,6 +43,9 @@ class Customer extends AbstractModel {
         'account_type' => 'string optional',
 
         'default_address' => 'object \Address optional',
-        'social' => 'array object \SocialDetails optional'
+        'social' => 'array object \SocialDetails optional',
+
+        'buy_attempts' => 'number optional',
+        'sell_attempts' => 'number optional'
     );
 }

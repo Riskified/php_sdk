@@ -56,8 +56,23 @@ $order_details = array(
             'title' => 'ACME Widget',
             'product_id' => '101',
             'sku' => 'ABCD',
-            'delivered_to' => 'store_pickup'
-        )),
+            'delivered_to' => 'store_pickup',
+            'size' => '13',
+            'release_date' => '2016-03-10T11:00:00-05:00',
+            'seller' => new Model\Seller(array(
+                'customer' => new Model\Customer(array(
+                    'email' => 'email@address.com',
+                    'first_name' => 'Firstname',
+                    'last_name' => 'Lastname',
+                    'id' => '1233',
+                    'created_at' => '2008-01-10T11:00:00-05:00',
+                    'orders_count' => 6,
+                    'verified_email' => true,
+                    'account_type' => 'free',
+                    'buy_attempts' => 3,
+                    'sell_attempts' => 44
+                )),
+        ))),
         // Digital Goods product example using "requires_shipping":false
         new Model\LineItem(array(
             'title' => 'Giftcard',
@@ -75,7 +90,7 @@ $order_details = array(
             'category' => 'ACME Spring Category',
             'sub_category' => 'ACME Spring Sub Category'
         ))
-    ),
+    )),
     'discount_codes' =>  new Model\DiscountCode(array(
         'amount' => 19.95,
         'code' => '12'
@@ -98,7 +113,9 @@ $order_details = array(
         'created_at' => '2008-01-10T11:00:00-05:00',
         'orders_count' => 6,
         'verified_email' => true,
-        'account_type' => 'free'
+        'account_type' => 'free',
+        'buy_attempts' => 5,
+        'sell_attempts' => 7
     )),
     'billing_address' => new Model\Address(array(
         'first_name' => 'John',
@@ -132,7 +149,7 @@ $order_details = array(
     )),
     'charge_free_payment_details' => new Model\ChargeFreePaymentDetails(array(
         'gateway' => 'giftcard',
-        'amount' => '50',
+        'amount' => '50'
     ))
 );
 
