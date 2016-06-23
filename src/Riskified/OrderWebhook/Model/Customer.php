@@ -46,6 +46,8 @@ class Customer extends AbstractModel {
         'social' => 'array object \SocialDetails optional',
 
         'buy_attempts' => 'number optional',
-        'sell_attempts' => 'number optional'
+        'sell_attempts' => 'number optional',
+
+        'address' => 'object \Address optional'
     );
 }

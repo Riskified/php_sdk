@@ -39,5 +39,6 @@ class Address extends AbstractModel {
         'zip' => 'string optional',
         'latitude' => 'float optional',
         'longitude' => 'float optional',
+        'verified_phone' => 'boolean optional'
     );
 }
