@@ -147,7 +147,7 @@ abstract class AbstractTransport {
 
     /**
      * Notify that a Checkout failed
-     * @param $checkout object Checkout to send (with AuthotizationError field)
+     * @param $checkout object Checkout to send (with PaymentDetails that include AuthotizationError field)
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */

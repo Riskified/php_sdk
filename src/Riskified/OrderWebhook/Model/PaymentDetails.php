@@ -35,6 +35,8 @@ class PaymentDetails extends AbstractModel {
         'protection_eligibility' => 'string optional',
         'payment_status' => 'string optional',
         'pending_reason' => 'string optional',
-        'authorization_id' => 'string optional'
+        'authorization_id' => 'string optional',
+
+        'authorization_error' => 'object \AuthorizationError optional'
     );
 }
