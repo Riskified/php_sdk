@@ -105,6 +105,12 @@ $order_details = array(
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
         'credit_card_company' => 'VISA',
         'credit_card_token' => '0022334466'
+
+### required for checkout denied: ###
+#        'authorization_error' => new Model\AuthorizationError(array(
+#                                                                      'created_at' => '2008-01-10T11:00:00-05:00',
+#                                                                      'error_code' => 'card_rejected'
+#                                                                  ))
     )),
     'customer' => new Model\Customer(array(
         'email' => 'email@address.com',
@@ -168,8 +174,8 @@ echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($respon
 
 
 #### Notify Checkout Denied
-# $response = $transport->deniedCheckout($checkout);
-# echo PHP_EOL . "Denied Checkout succeeded. Response: " . PHP_EOL . json_encode($response) . PHP_EOL;
+$response = $transport->deniedCheckout($checkout);
+echo PHP_EOL . "Denied Checkout succeeded. Response: " . PHP_EOL . json_encode($response) . PHP_EOL;
 
 
 #### Create and Submit Order
