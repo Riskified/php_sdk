@@ -134,6 +134,15 @@ abstract class AbstractTransport {
         return $this->send_order($decision, 'decision', true);
     }
 
+    /**
+     * Cancels an existing order
+     * @param $chargeback object ChargebackOrder with id and chargeback details
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function chargebackOrder($chargeback) {
+        return $this->send_order($chargeback, 'chargeback', false);
+    }
 
     /**
      * Send a Checkout to Riskified
