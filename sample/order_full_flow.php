@@ -51,6 +51,9 @@ $order_details = array(
     'referring_site' => 'google.com',
     'line_items' => array(
         new Model\LineItem(array(
+            'recipient' => new Model\Recipient(array(
+                'email' => '1@gmail.com'
+            )),
             'price' => 100,
             'quantity' => 1,
             'title' => 'ACME Widget',
@@ -117,7 +120,7 @@ $order_details = array(
         'first_name' => 'Firstname',
         'last_name' => 'Lastname',
         'id' => '1233',
-        'created_at' => '2008-01-10T11:00:00-05:00',
+        'created_at' => '2016-12-11T11:00:00-05:00',
         'orders_count' => 6,
         'verified_email' => true,
         'account_type' => 'free',

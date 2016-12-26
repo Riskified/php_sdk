@@ -106,6 +106,8 @@ class LineItem extends AbstractModel {
         'delivered_to'=> 'string optional',
 
         'release_date' => 'date optional',
-        'size' => 'string optional'
+        'size' => 'string optional',
+
+        'recipient' => 'object \Recipient optional'
     );
 }
