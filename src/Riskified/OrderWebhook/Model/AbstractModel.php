@@ -172,6 +172,9 @@ abstract class AbstractModel {
                     return $exception;
                 break;
             case 'date':
+                if($value instanceof \DateTime) {
+                    $value = $value->format('c');
+                }
                 if (!$this->is_date($value))
                     return $exception;
                 break;
