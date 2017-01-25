@@ -49,6 +49,10 @@ abstract class AbstractModel {
         foreach ($props as $key => $value) {
             if (!array_key_exists($key, $this->_fields))
                 throw new Exception\InvalidPropertyException($this, $key);
+
+            if($value instanceof \DateTime) {
+                $value = $value->format('c');
+            }
             $this->{$key} = $value;
         }
     }
