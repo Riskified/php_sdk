@@ -39,6 +39,6 @@ class PaymentDetails extends AbstractModel {
 
         'authorization_error' => 'object \AuthorizationError optional',
 
-        'card_holder_name' => 'string optional'
+        'cardholder_name' => 'string optional'
     );
 }
