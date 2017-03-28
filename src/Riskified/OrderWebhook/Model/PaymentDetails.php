@@ -37,6 +37,8 @@ class PaymentDetails extends AbstractModel {
         'pending_reason' => 'string optional',
         'authorization_id' => 'string optional',
 
-        'authorization_error' => 'object \AuthorizationError optional'
+        'authorization_error' => 'object \AuthorizationError optional',
+
+        'card_holder_name' => 'string optional'
     );
 }
