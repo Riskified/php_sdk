@@ -14,8 +14,8 @@
  * permissions and limitations under the License.
  */
 
-// A simple example of submitting an order.
-// Usage: php order_simple_submit.php
+// A simple example of synchronously analyzing an order.
+// Usage: php order_simple_analyze.php
 
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
@@ -31,11 +31,11 @@ $domain = "[your shop domain as registered to Riskified]";
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
 $authToken = "[your authentication token string]";
 
-Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
+Riskified::init($domain, $authToken, Env::PROD, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '1234',
+    'id' => 'abc1234',
     'name' => '#1234',
     'email' => 'great.customer@example.com',
     'created_at' => '2010-01-10T11:00:00-05:00',
@@ -152,10 +152,10 @@ $transport->timeout = 10;
 
 try {
     $response = $transport->analyzeOrder($order);
-    echo PHP_EOL."Submit Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+    echo PHP_EOL."Analyze Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 } catch(\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $uae) {
-    echo PHP_EOL."Submit Order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
+    echo PHP_EOL."Analyze Order not succeeded. Status code was: ".$uae->statusCode." and json body was: "
         .json_encode($uae->jsonResponse).PHP_EOL;
 } catch(Exception $e) {
-    echo PHP_EOL."Submit Order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
+    echo PHP_EOL."Analyze Order not succeeded. Exception: ".$e->getMessage().PHP_EOL;
 }

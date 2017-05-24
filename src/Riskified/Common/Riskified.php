@@ -72,7 +72,7 @@ class Riskified {
             case Env::STAGING:
                 return 's.riskified.com';
             case Env::PROD:
-                return 'wh.riskified.com';
+                return 'wh-sync.riskified.com';
             case Env::DEV:
                 return 'localhost:3000';
             default:

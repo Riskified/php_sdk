@@ -63,6 +63,16 @@ abstract class AbstractTransport {
     public function updateMerchantSettings($settings) {
         return $this->send_settings($settings);
     }
+    
+    /**
+     * Analyze an Order synchronously
+     * @param $order object Order to submit
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function analyzeOrder($order) {
+        return $this->send_order($order, 'analyze', true);
+    }
 
     /**
      * Submit an Order to Riskified for review
