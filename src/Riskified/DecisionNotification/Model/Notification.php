@@ -81,6 +81,36 @@ class Notification {
     }
 
     /**
+     * iterates over the order object and sets the response fields
+     * @param $order object to format
+     */
+    private function set_responses($order) {
+      $response_values = array(
+        'id',
+        'status',
+        'oldStatus',
+        'description',
+        'category',
+        'decisionCode'
+      );
+      foreach($order as $key => $value) {
+        $formatted_key = $this->snake_to_camel($key);
+        if (in_array($formatted_key, $response_values)) {
+          $this->$formatted_key = $value;
+        }
+      }
+    }
+
+    /**
+     * takes a string and changes snakecase to camelcase
+     * @param string to format
+     * @return string
+     */
+    private function snake_to_camel($string) {
+      return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $string))));
+    }
+
+    /**
      * extracts parameters from HTTP POST body
      * @throws \Riskified\DecisionNotification\Exception\BadPostJsonException on bad or missing parameters
      */
@@ -93,13 +123,6 @@ class Notification {
         if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
-        //foreach($order as $key => $value)
-        //    $this->$key = $value;
-        $this->id = $order->{'id'};
-        $this->status = $order->{'status'};
-        $this->oldStatus = $order->{'old_status'};
-        $this->description = $order->{'description'};
-        $this->category = $order->{'category'};
-        $this->decisionCode = $order->{'decision_code'};
+        $this->set_responses($order);
     }
 }
