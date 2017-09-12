@@ -26,7 +26,7 @@ class DisputeDetails extends AbstractModel {
         'status' => 'string',
         'disputed_at' => 'datetime',
         'expected_resolution_date' => 'datetime',
-        'dispute_type' => string,
+        'dispute_type' => 'string',
         'issuer_poc_phone_number' => 'string'
     );
 }
