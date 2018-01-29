@@ -85,6 +85,16 @@ abstract class AbstractTransport {
     }
 
     /**
+     * Send an Order to Riskified, will be synchronously reviewed based on current plan
+     * @param $order object Order to send
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+    */
+    public function decideOrder($order) {
+        return $this->send_order($order, 'decide', true);
+    }
+    
+    /**
      * Update an existing order
      * @param $order object Order with updated fields
      * @return object Response object
