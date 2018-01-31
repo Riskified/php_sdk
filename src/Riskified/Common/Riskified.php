@@ -73,6 +73,8 @@ class Riskified {
                 return 's.riskified.com';
             case Env::PROD:
                 return 'wh.riskified.com';
+            case Env::PRODSYNC:
+                return 'wh-sync.riskified.com';
             case Env::DEV:
                 return 'localhost:3000';
             default:
