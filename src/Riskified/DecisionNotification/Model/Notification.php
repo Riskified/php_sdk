@@ -1,4 +1,4 @@
-<?php namespace Riskified\DecisionNotification\Model;
+<?php
 /**
  * Copyright 2013-2015 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -13,6 +13,8 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+namespace Riskified\DecisionNotification\Model;
 
 use Riskified\DecisionNotification\Exception;
 
