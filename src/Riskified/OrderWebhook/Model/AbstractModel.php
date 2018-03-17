@@ -14,6 +14,7 @@
  * permissions and limitations under the License.
  */
 
+use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
