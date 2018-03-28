@@ -37,16 +37,16 @@ $order_details = array(
     'id' => 'ch567',
     'name' => '#1234',
     'email' => 'erin.o\'neill@cbre.com',
-    'created_at' => '2010-01-10T11:00:00-05:00',
+    'created_at' => '2018-03-27T11:00:00-05:00',
     'closed_at' => null,
     'currency' => 'CAD',
-    'updated_at' => '2010-01-10T11:00:00-05:00',
+    'updated_at' => '2018-03-27T11:00:00-05:00',
     'gateway' => 'mypaymentprocessor',
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
-    'additional_emails' => array('my@email.com','second@email.co.uk', 'third!2@email.rr.com'),
+    'additional_emails' => array('my@email.com', 'second@email.co.uk', 'third!2@email.rr.com'),
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
     'line_items' => array(
@@ -74,7 +74,7 @@ $order_details = array(
                     'account_type' => 'free',
                     'buy_attempts' => 3,
                     'sell_attempts' => 44
-                )),
+                ))
         ))),
         // Digital Goods product example using "requires_shipping":false
         new Model\LineItem(array(
@@ -82,7 +82,7 @@ $order_details = array(
             'price' => 100,
             'quantity' => 1,
             'requires_shipping' => false,
-            'delivered_at' => '2017-03-10T11:00:00-05:00',
+            'delivered_at' => '2017-03-10T11:00:00-05:00'
         )),
         new Model\LineItem(array(
             'price' => 200,
@@ -101,7 +101,7 @@ $order_details = array(
     'shipping_lines' => new Model\ShippingLine(array(
         'title' => 'FedEx',
         'price' => 123.00,
-        'code' => 'Free',
+        'code' => 'Free'
     )),
     'payment_details' => new Model\PaymentDetails(array(
         'credit_card_bin' => '370002',
@@ -178,7 +178,7 @@ echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($respon
 
 #### Notify Checkout Denied
 $response = $transport->deniedCheckout($checkout);
-echo PHP_EOL . "Denied Checkout succeeded. Response: " . PHP_EOL . json_encode($response) . PHP_EOL;
+echo PHP_EOL."Denied Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 
 #### Create and Submit Order
@@ -198,12 +198,16 @@ echo PHP_EOL."Submit Order succeeded. Response: ".PHP_EOL.json_encode($response)
 #### Update Order
 $updatedOrder = new Model\Order(array(
     'id' => $order->id,
-    'email' => 'another.email@example.com',
+    'email' => 'another.email@example.com'
 ));
 
 $response = $transport->updateOrder($updatedOrder);
 echo PHP_EOL."Update Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
+
+#### Decide Order
+$response = $transport->decideOrder($order);
+echo PHP_EOL."Decide Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### Partially Refund Order
 $refund = new Model\Refund(array(

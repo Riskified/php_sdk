@@ -68,15 +68,27 @@ class Riskified {
 
         switch ($env){
             case Env::SANDBOX:
-                return 'sandbox.riskified.com';
+                return array('default' => 'sandbox.riskified.com');
             case Env::STAGING:
-                return 's.riskified.com';
+                return array('default' => 's.riskified.com');
             case Env::PROD:
-                return 'wh.riskified.com';
+                return array(
+                    'default' => 'wh.riskified.com',
+                    'sync' => 'wh-sync.riskified.com'
+                );
             case Env::DEV:
-                return 'localhost:3000';
+                return array('default' => 'localhost:3000');
             default:
-                return 'localhost:3000';
+                return array('default' => 'localhost:3000');
+        }
+    }
+
+    public static function getHost($flow_strategy = 'default') {
+        $host_array = self::getHostByEnv();
+        if (isset($host_array[$flow_strategy])) {
+            return $host_array[$flow_strategy];
+        } else {
+            return $host_array['default'];
         }
     }
 }

@@ -49,7 +49,7 @@ abstract class AbstractTransport {
      */
     public function __construct($signature, $url = null) {
         $this->signature = $signature;
-        $this->url = ($url == null) ? Riskified::getHostByEnv() : $url;
+        $this->url = ($url == null) ? Riskified::getHost() : $url;
         $this->user_agent = 'riskified_php_sdk/' . Riskified::VERSION;
         $this->use_https = Riskified::$env != Env::DEV;
     }
@@ -91,6 +91,7 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
     */
     public function decideOrder($order) {
+        $this->url = Riskified::getHost('sync');
         return $this->send_order($order, 'decide', true);
     }
     
