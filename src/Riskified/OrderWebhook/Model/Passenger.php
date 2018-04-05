@@ -23,17 +23,17 @@ namespace Riskified\OrderWebhook\Model;
  */
 class Passenger extends AbstractModel {
 
-	protected $_fields = array(
-		'first_name'               => 'string',
-		'last_name'                => 'string',
-		'date_of_birth'            => "date optional",
-		'nationality_code'         => 'date optional',
-		'insurance_type'           => 'string optional',
-		'insurance_price'          => 'float optional',
-		'document_number'          => 'string optional',
-		'document_type'            => 'string optional',
-		'document_issue_date'      => 'date optional',
-		'document_expiration_date' => 'string optional',
-		'passenger_type'           => 'string optional',
-	);
+    protected $_fields = array(
+        'first_name'               => 'string',
+        'last_name'                => 'string',
+        'date_of_birth'            => 'date',
+        'nationality_code'         => 'date',
+        'document_number'          => 'string',
+        'document_type'            => 'string',
+        'insurance_type'           => 'string optional',
+        'insurance_price'          => 'float optional',
+        'document_issue_date'      => 'date optional',
+        'document_expiration_date' => 'string optional',
+        'passenger_type'           => 'string optional'
+    );
 }
