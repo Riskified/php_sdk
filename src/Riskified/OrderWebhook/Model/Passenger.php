@@ -27,7 +27,7 @@ class Passenger extends AbstractModel {
         'first_name'               => 'string',
         'last_name'                => 'string',
         'date_of_birth'            => 'date',
-        'nationality_code'         => 'date',
+        'nationality_code'         => 'string',
         'document_number'          => 'string',
         'document_type'            => 'string',
         'insurance_type'           => 'string optional',
