@@ -34,6 +34,7 @@ class Order extends AbstractModel {
 
         'customer' => 'object \Customer',
         'line_items' => 'array object \LineItem',
+        'passengers' => 'array object \Passenger',
         
         'name' => 'string optional',
         'additional_emails' => "array /^[a-z0-9,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i",

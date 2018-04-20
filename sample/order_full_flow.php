@@ -157,6 +157,16 @@ $order_details = array(
         'province_code' => 'NY',
         'zip' => '64155'
     )),
+    'passengers' => array(
+        new Model\Passenger(array(
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'date_of_birth' => '1980-01-10',
+            'nationality_code' => 'US',
+            'document_number' => '123abc',
+            'document_type' => 'passport'
+        ))
+    ),
     'charge_free_payment_details' => new Model\ChargeFreePaymentDetails(array(
         'gateway' => 'giftcard',
         'amount' => '50'
