@@ -82,7 +82,9 @@ $order_details = array(
             'price' => 100,
             'quantity' => 1,
             'requires_shipping' => false,
-            'delivered_at' => '2017-03-10T11:00:00-05:00'
+            'delivered_at' => '2017-03-10T11:00:00-05:00',
+            'sender_name' => 'John Doe',
+            'sender_email' => 'email@address.com'
         )),
         new Model\LineItem(array(
             'price' => 200,
