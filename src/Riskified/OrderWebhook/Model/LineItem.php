@@ -69,6 +69,7 @@ class LineItem extends AbstractModel {
         'card_type' => 'string optional',
         'card_subtype' => 'string optional',
         'sender_name'=> 'string optional',
+        'sender_email'=> 'string optional',
 
         /* fields for travel industry */
         'leg_id'=> 'string optional',
