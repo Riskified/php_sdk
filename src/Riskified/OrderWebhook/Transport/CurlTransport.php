@@ -37,6 +37,7 @@ class CurlTransport extends AbstractTransport {
     protected function send_json_request($json, $endpoint) {
         $ch = curl_init($this->endpoint_prefix().$endpoint);
         $curl_options = array(
+	    CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2,
             CURLOPT_POSTFIELDS => $json,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_RETURNTRANSFER => true,
