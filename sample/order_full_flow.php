@@ -257,3 +257,18 @@ echo PHP_EOL."Fulfill Order succeeded. Response: ".PHP_EOL.json_encode($response
 #### Cancel (Full Refund) Order
 $response = $transport->cancelOrder($order);
 echo PHP_EOL."Cancel Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+
+#### Check if order is eligible for Deco Payment and opt-in to Deco payment
+$checkout = new Model\Checkout($order_details);
+$response = $transport->createCheckout($checkout);
+echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+
+$order = new Model\Order(array(
+    'id' => $checkout->id
+));
+
+$response = $transport->eligible($order);
+echo PHP_EOL."Eligible. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
+
+$response = $transport->opt_in($order);
+echo PHP_EOL."Opt-in. Response: ".PHP_EOL.json_encode($response).PHP_EOL;

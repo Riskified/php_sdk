@@ -175,6 +175,28 @@ abstract class AbstractTransport {
         return $this->send_checkout($checkout, 'checkout_denied');
     }
 
+    /**
+     * Check eligibility for Deco payment
+     * @param $order object Order to send (only order id required)
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function eligible($order) {
+        $this->url = Riskified::getHost('deco');
+        return $this->send_order($order, 'eligible', false);
+    }
+
+    /**
+     * Opt-in to Deco payment
+     * @param $order object Order to send (only order id required)
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function opt_in($order) {
+        $this->url = Riskified::getHost('deco');
+        return $this->send_order($order, 'opt_in', false);
+    }
+
     public function sendHistoricalOrders($orders) {
         $joined = join(',',array_map(function($order) { return $order->toJson(); }, $orders));
         $json = '{"orders":['.$joined.']}';
