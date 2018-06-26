@@ -62,6 +62,41 @@ class CurlTransport extends AbstractTransport {
     }
 
     /**
+     * @param $json object Account Event to send
+     * @param $endpoint String API endpoint to send request
+     * @return mixed
+     * @throws \Riskified\OrderWebhook\Exception\UnsuccessfulActionException
+     * @throws \Riskified\OrderWebhook\Exception\CurlException
+     * @throws Exception\MalformedJsonException
+     */
+    protected function send_account_json_request($json, $endpoint) {
+        $ch = curl_init($this->endpoint_prefix('customers').$endpoint);
+        $curl_options = array(
+            CURLOPT_POSTFIELDS => $json,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $this->headers($json),
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT => $this->user_agent,
+            CURLOPT_TIMEOUT => $this->timeout,
+            CURLOPT_DNS_USE_GLOBAL_CACHE => $this->dns_cache,
+            CURLOPT_FAILONERROR => false
+        );
+        curl_setopt_array($ch, $curl_options);
+
+
+        $body = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new Exception\CurlException(curl_error($ch), curl_errno($ch));
+        }
+
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return $this->json_response($body, $status);
+    }
+
+    /**
      * @param $body
      * @param $status
      * @return mixed

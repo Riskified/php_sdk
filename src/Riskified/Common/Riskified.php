@@ -68,13 +68,17 @@ class Riskified {
 
         switch ($env){
             case Env::SANDBOX:
-                return array('default' => 'sandbox.riskified.com');
+                return array(
+                    'default' => 'sandbox.riskified.com',
+                    'account' => 'api-sandbox.riskified.com'
+                );
             case Env::STAGING:
                 return array('default' => 's.riskified.com');
             case Env::PROD:
                 return array(
                     'default' => 'wh.riskified.com',
-                    'sync' => 'wh-sync.riskified.com'
+                    'sync' => 'wh-sync.riskified.com',
+                    'account' => 'api.riskified.com'
                 );
             case Env::DEV:
                 return array('default' => 'localhost:3000');

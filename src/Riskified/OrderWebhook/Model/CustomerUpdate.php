@@ -15,17 +15,23 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class Order
+ * main data model, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class ClientDetails extends AbstractModel {
+class CustomerUpdate extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'user_agent' => 'string optional',
-
-        'browser_ip' => 'string /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/ optional',
-        'session_hash' => 'string optional'
+        'customer_id' => 'string',
+        'password_changed' => 'boolean',
+        'phone_mandatory' => 'boolean optional',
+        'referrer_customer_id' => 'string optional',
+        'social_signup_type' => 'string optional',
+        'client_details' => 'object \ClientDetails',
+        'session_details' => 'object \SessionDetails',
+        'customer' => 'object \Customer',
+        'payment_details' => 'array object \PaymentDetails optional',
+        'billing_address' => 'array object \Address optional',
+        'shipping_address' => 'array object \Address optional'
     );
 }
