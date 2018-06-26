@@ -70,12 +70,14 @@ class Riskified {
             case Env::SANDBOX:
                 return array(
                     'default' => 'sandbox.riskified.com',
+                    'account' => 'api-sandbox.riskified.com',
                     'deco' => 'sandboxw.decopayments.com'
                 );
             case Env::PROD:
                 return array(
                     'default' => 'wh.riskified.com',
                     'sync' => 'wh-sync.riskified.com',
+                    'account' => 'api.riskified.com',
                     'deco' => 'w.decopayments.com'
                 );
             case Env::DEV:

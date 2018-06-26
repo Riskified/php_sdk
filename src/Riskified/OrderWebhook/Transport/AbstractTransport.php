@@ -43,6 +43,13 @@ abstract class AbstractTransport {
     abstract protected function send_json_request($json, $endpoint);
 
     /**
+     * submit an order as json
+     * @param $json object Order to send
+     * @param $endpoint String API endpoint to send request
+     */
+    abstract protected function send_account_json_request($json, $endpoint);
+
+    /**
      * set up transport
      * @param $signature object Signature object for authentication handling
      * @param $url string Riskified endpoint (optional)
@@ -197,6 +204,46 @@ abstract class AbstractTransport {
         return $this->send_order($order, 'opt_in', false);
     }
 
+    public function login($login) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($login, 'login');
+    }
+
+    public function customerCreate($customer_create) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($customer_create, 'customer_create');
+    }
+
+    public function customerUpdate($customer_update) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($customer_update, 'customer_update');
+    }
+
+    public function logout($logout) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($logout, 'logout');
+    }
+
+    public function resetPasswordRequest($reset_password_request) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($reset_password_request, 'reset_password');
+    }
+
+    public function wishlistChanges($wishlist_changes) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($wishlist_changes, 'wishlist');
+    }
+
+    public function redeem($redeem) {
+        $this->url = riskified::gethost('account');
+        return $this->send_account_event($redeem, 'redeem');
+    }
+
+    public function customerReachOut($customer_reach_out) {
+        $this->url = riskified::gethost('account');
+        return $this->send_account_event($customer_reach_out, 'contact');
+    }
+
     public function sendHistoricalOrders($orders) {
         $joined = join(',',array_map(function($order) { return $order->toJson(); }, $orders));
         $json = '{"orders":['.$joined.']}';
@@ -209,6 +256,11 @@ abstract class AbstractTransport {
             return $this->send_json_request($json, $endpoint);
         }
         return null;
+    }
+
+    protected function send_account_event($accountEvent, $endpoint) {
+        $json = $accountEvent->toJson();
+        return $this->send_account_json_request($json, $endpoint);
     }
 
     protected function send_settings($settings) {
@@ -233,11 +285,12 @@ abstract class AbstractTransport {
 
     /**
      * path prefix to the Riskified endpoint
+     * @param $routing
      * @return string
      */
-    protected function endpoint_prefix() {
+    protected function endpoint_prefix($routing='api') {
         $protocol = ($this->use_https) ? 'https' : 'http';
-        return "$protocol://$this->url/api/";
+        return "$protocol://$this->url/$routing/";
     }
 
     /**
