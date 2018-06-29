@@ -22,6 +22,7 @@ namespace Riskified\Common;
  */
 class Env {
     const PROD = 'prod';
+    const PRODSYNC = 'prodsync';
     const STAGING = 'staging';
     const SANDBOX = 'sandbox';
     const DEV = 'development';
