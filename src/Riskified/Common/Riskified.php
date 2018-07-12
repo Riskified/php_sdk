@@ -39,6 +39,10 @@ class Riskified {
      * @var string validation mode [SKIP, IGNORE_MISSING, ALL]
      */
     public static $validations;
+    /**
+     * @var array array of model key combinations to skip required validation for
+     */
+    public static $validationOverrides = [];
 
 
     /**
@@ -61,6 +65,16 @@ class Riskified {
 
         // suppress timezone warnings:
         date_default_timezone_set(@date_default_timezone_get());
+    }
+
+	/**
+	 * Set an array of model name and property name combinations to ignore
+	 * required validation for
+	 *
+	 * @param array $overrides
+	 */
+    public static function overrideValidations(Array $overrides) {
+	    self::$validationOverrides = $overrides;
     }
 
     public static function getHostByEnv(){
