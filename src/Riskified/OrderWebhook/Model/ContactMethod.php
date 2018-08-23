@@ -17,6 +17,7 @@
 /**
  * Class Order
  * main data model, includes nested models
+ * 'contact_method_type' can be: 'email', 'website_chat', 'facebook', 'phone', and 'other',
  * @package Riskified\OrderWebhook\Model
  */
 class ContactMethod extends AbstractModel {

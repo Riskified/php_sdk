@@ -35,19 +35,16 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '1234',
-    'name' => '#1234',
+    'id' => '1234phpsdksimple0',
     'email' => 'great.customer@example.com',
-    'created_at' => '2010-01-10T11:00:00-05:00',
-    'closed_at' => null,
-    'currency' => 'CAD',
-    'updated_at' => '2010-01-10T11:00:00-05:00',
+    'created_at' => '2018-08-22T11:00:00-05:00',
+    'currency' => 'USD',
+    'updated_at' => '2018-08-22T11:00:00-05:00',
     'gateway' => 'mypaymentprocessor',
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
-    'additional_emails' => array('my@email.com','second@email.co.uk'),
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com'
 ));
@@ -74,16 +71,16 @@ $discountCode = new Model\DiscountCode(array(
     'amount' => 19.95,
     'code' => '12'
 ));
-$order->discount_codes = $discountCode;
+$order->discount_codes = array($discountCode);
 
 # ShippingLines    
 $shippingLine = new Model\ShippingLine(array(
     'price' => 123.00,
     'code' => 'Free',
 ));
-$order->shipping_lines = $shippingLine;
+$order->shipping_lines = array($shippingLine);
 
-# PaymentDetais 
+# PaymentDetails
 $paymentDetails = new Model\PaymentDetails(array(
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',

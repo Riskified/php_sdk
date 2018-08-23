@@ -24,7 +24,7 @@ class SessionDetails extends AbstractModel {
     protected $_fields = array(
         'created_at' => 'date',
         'cart_token' => 'string',
-        'browser_ip' => 'string',
+        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
         'source' => 'string',
         'referring_site' => 'string optional'
     );

@@ -15,14 +15,16 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class Login
+ * data model for Login, includes nested models
+ * 'social_login_type' value can be: 'facebook', 'google', 'linkedin', 'twitter', 'yahoo', or 'other'
  * @package Riskified\OrderWebhook\Model
  */
 class Login extends AbstractModel {
 
     protected $_fields = array(
         'customer_id' => 'string',
+        'email' => 'string /^[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i',
         'login_at_checkout' => 'boolean optional',
         'social_login_type' => 'string optional',
         'login_status' => 'object \LoginStatus',

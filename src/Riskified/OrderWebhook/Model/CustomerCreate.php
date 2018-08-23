@@ -15,8 +15,9 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class CustomerCreate
+ * data model for CustomerCreate action, includes nested models
+ * 'social_signup_type' can be: 'facebook', 'google', 'linkedin', 'twitter', 'yahoo', or 'other'
  * @package Riskified\OrderWebhook\Model
  */
 class CustomerCreate extends AbstractModel {

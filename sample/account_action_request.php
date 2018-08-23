@@ -14,8 +14,8 @@
  * permissions and limitations under the License.
  */
 
-// An example of a complete order flow.
-// Usage: php order_full_flow.php
+// Examples of all account actions.
+// Usage: php account_action_request.php
 
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
@@ -33,253 +33,14 @@ $authToken = "[your authentication token string]";
 
 Riskified::init($domain, $authToken, Env::SANDBOX, Validations::ALL);
 
-$order_details = array(
-    'id' => 'ch567phpsdkfullflow0',
-    'name' => '#1234',
-    'email' => 'erin.o\'neill@cbre.com',
-    'created_at' => '2018-08-23T11:00:00-05:00',
-    'closed_at' => null,
-    'currency' => 'CAD',
-    'updated_at' => '2018-08-23T11:00:00-05:00',
-    'gateway' => 'mypaymentprocessor',
-    'browser_ip' => '124.185.86.55',
-    'total_price' => 113.23,
-    'total_discounts' => 5.0,
-    'cart_token' => '1sdaf23j212',
-    'additional_emails' => array('my@email.com', 'second@email.co.uk', 'third2@email.rr.com'),
-    'note' => 'Shipped to my hotel.',
-    'referring_site' => 'google.com',
-    'line_items' => array(
-        new Model\LineItem(array(
-            'recipient' => new Model\Recipient(array(
-                'email' => '1@gmail.com'
-            )),
-            'price' => 100,
-            'quantity' => 1,
-            'title' => 'ACME Widget',
-            'product_id' => '101',
-            'sku' => 'ABCD',
-            'delivered_to' => 'store_pickup',
-            'size' => '13',
-            'release_date' => '2016-03-10T11:00:00-05:00',
-            'seller' => new Model\Seller(array(
-                'customer' => new Model\Customer(array(
-                    'email' => 'email@address.com',
-                    'first_name' => 'Firstname',
-                    'last_name' => 'Lastname',
-                    'id' => '1233',
-                    'created_at' => '2008-01-10T11:00:00-05:00',
-                    'orders_count' => 6,
-                    'verified_email' => true,
-                    'account_type' => 'free',
-                    'buy_attempts' => 3,
-                    'sell_attempts' => 44
-                ))
-        ))),
-        // Digital Goods product example using "requires_shipping":false
-        new Model\LineItem(array(
-            'title' => 'Giftcard',
-            'price' => 100,
-            'quantity' => 1,
-            'requires_shipping' => false,
-            'delivered_at' => '2017-03-10T11:00:00-05:00',
-            'sender_name' => 'John Doe',
-            'sender_email' => 'email@address.com'
-        )),
-        new Model\LineItem(array(
-            'price' => 200,
-            'quantity' => 4,
-            'title' => 'ACME Spring',
-            'product_id' => '202',
-            'sku' => 'EFGH',
-            'category' => 'ACME Spring Category',
-            'sub_category' => 'ACME Spring Sub Category'
-        ))
-    )),
-    'discount_codes' =>  array(
-        new Model\DiscountCode(array(
-            'amount' => 19.95,
-            'code' => '12'
-        ))
-    ),
-    'shipping_lines' => array(
-        new Model\ShippingLine(array(
-            'title' => 'FedEx',
-            'price' => 123.00,
-            'code' => 'Free'
-        ))
-    ),
-    'payment_details' => new Model\PaymentDetails(array(
-        'credit_card_bin' => '370002',
-        'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
-        'credit_card_company' => 'VISA',
-        'credit_card_token' => '0022334466'
-
-### required for checkout denied: ###
-#        'authorization_error' => new Model\AuthorizationError(array(
-#                                                                      'created_at' => '2008-01-10T11:00:00-05:00',
-#                                                                      'error_code' => 'card_rejected'
-#                                                                  ))
-    )),
-    'customer' => new Model\Customer(array(
-        'email' => 'email@address.com',
-        'first_name' => 'Firstname',
-        'last_name' => 'Lastname',
-        'id' => '1233',
-        'created_at' => '2016-12-11T11:00:00-05:00',
-        'orders_count' => 6,
-        'verified_email' => true,
-        'account_type' => 'free',
-        'buy_attempts' => 5,
-        'sell_attempts' => 7
-    )),
-    'billing_address' => new Model\Address(array(
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-        'address1' => '108 Main Street',
-        'company' => 'Kansas Computers',
-        'country' => 'United States',
-        'country_code' => 'US',
-        'phone' => '1234567',
-        'city' => 'NYC',
-        'name' => 'John Doe',
-        'address2' => 'Apartment 12',
-        'province' => 'New York',
-        'province_code' => 'NY',
-        'zip' => '64155'
-    )),
-    'shipping_address' => new Model\Address(array(
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-        'address1' => '108 Main Street',
-        'company' => 'Kansas Computers',
-        'country' => 'United States',
-        'country_code' => 'US',
-        'phone' => '1234567',
-        'city' => 'NYC',
-        'name' => 'John Doe',
-        'address2' => 'Apartment 12',
-        'province' => 'New York',
-        'province_code' => 'NY',
-        'zip' => '64155'
-    )),
-    'passengers' => array(
-        new Model\Passenger(array(
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'date_of_birth' => '1980-01-10',
-            'nationality_code' => 'US',
-            'document_number' => '123abc',
-            'document_type' => 'passport'
-        ))
-    ),
-    'charge_free_payment_details' => new Model\ChargeFreePaymentDetails(array(
-        'gateway' => 'giftcard',
-        'amount' => '50'
-    ))
-);
-
-
 # Create a curl transport to the Riskified Server
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 10;
 
-
-#### Create Checkout
-$checkout = new Model\Checkout($order_details);
-
-$response = $transport->createCheckout($checkout);
-echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Notify Checkout Denied
-$response = $transport->deniedCheckout($checkout);
-echo PHP_EOL."Denied Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Create and Submit Order
-$order = new Model\Order($order_details);
-$order->checkout_id = $order->id;
-$order->id = 'or1234';
-$order->payment_details->avs_result_code = 'Y';
-$order->payment_details->cvv_result_code = 'N';
-
-$response = $transport->createOrder($order);
-echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-$response = $transport->submitOrder($order);
-echo PHP_EOL."Submit Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Update Order
-$updatedOrder = new Model\Order(array(
-    'id' => $order->id,
-    'email' => 'another.email@example.com'
-));
-
-$response = $transport->updateOrder($updatedOrder);
-echo PHP_EOL."Update Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Decide Order
-$response = $transport->decideOrder($order);
-echo PHP_EOL."Decide Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-#### Partially Refund Order
-$refund = new Model\Refund(array(
-    'id' => $order->id,
-    'refunds' => array(new Model\RefundDetails(array(
-        'refund_id' => 'refund_001',
-        'amount' => 33.12,
-        'currency' => 'USD',
-        'reason' => 'Product Missing'
-    )))
-));
-$response = $transport->refundOrder($refund);
-echo PHP_EOL."Refund Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Notify Order Fulfillment
-$fullfillments = new Model\Fulfillment(array (
-    'id' => $order->id,
-    'fulfillments' => array(new Model\FulfillmentDetails(array(
-        'fulfillment_id' => '123',
-        'created_at' =>  '2013-04-23T13:36:50Z',
-        'status' => 'success',
-        'tracking_company' =>  'fedex',
-        'tracking_numbers' => 'abc123',
-        'tracking_urls' => 'http://fedex.com/track?q=abc123',
-        'message' => 'estimated delivery 2 days',
-        'receipt' => 'authorization: 765656'
-    )))
-));
-
-$response = $transport->fulfillOrder($fullfillments);
-echo PHP_EOL."Fulfill Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-
-#### Cancel (Full Refund) Order
-$response = $transport->cancelOrder($order);
-echo PHP_EOL."Cancel Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-#### Check if order is eligible for Deco Payment and opt-in to Deco payment
-$checkout = new Model\Checkout($order_details);
-$response = $transport->createCheckout($checkout);
-echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-$order = new Model\Order(array(
-    'id' => $checkout->id
-));
-
-$response = $transport->eligible($order);
-echo PHP_EOL."Eligible. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
-$response = $transport->opt_in($order);
-echo PHP_EOL."Opt-in. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
-
 #### Login Account Action
 $login = new Model\Login(array(
     'customer_id' => '207119551',
+    'email' => 'bob.norman@hostmail.com',
     'login_status' => new Model\LoginStatus(array(
         'login_status_type' => 'success'
     )),
@@ -504,7 +265,8 @@ $wishlist_changes = new Model\WishlistChanges(array(
         'title' => 'IPod Nano - 8gb - green',
         'product_id' => '632910392',
         'brand' => 'Apple',
-        'product_type' => 'physical'
+        'product_type' => 'physical',
+        'category' => 'electronics'
     ))
 ));
 
