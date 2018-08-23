@@ -236,9 +236,12 @@ abstract class AbstractTransport {
         return null;
     }
 
-    protected function send_account_event($accountEvent, $endpoint) {
-        $json = $accountEvent->toJson();
-        return $this->send_account_json_request($json, $endpoint);
+    protected function send_account_event($accountEvent, $endpoint, $enforce_required_keys = true) {
+        if ($this->validate($accountEvent, $enforce_required_keys)) {
+            $json = $accountEvent->toJson();
+            return $this->send_account_json_request($json, $endpoint);
+        }
+        return null;
     }
 
     protected function send_settings($settings) {

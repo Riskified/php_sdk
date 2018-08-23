@@ -25,6 +25,7 @@ class ClientDetails extends AbstractModel {
         'accept_language' => 'string optional',
         'user_agent' => 'string optional',
 
+        /* 'browser_ip' and 'session_hash' are deprecated fields for this model */
         'browser_ip' => 'string /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/ optional',
         'session_hash' => 'string optional'
     );

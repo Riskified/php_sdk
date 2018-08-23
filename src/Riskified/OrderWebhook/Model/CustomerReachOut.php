@@ -15,8 +15,8 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class CustomerReachOut
+ * data model for CustomerReachOut account action, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
 class CustomerReachOut extends AbstractModel {

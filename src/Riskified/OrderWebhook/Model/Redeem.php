@@ -15,8 +15,9 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class Redeem
+ * data model for Redeem account action, includes nested models
+ * 'redeem_type' can be: 'promo code', 'loyalty points', 'gift card', or 'other',
  * @package Riskified\OrderWebhook\Model
  */
 class Redeem extends AbstractModel {

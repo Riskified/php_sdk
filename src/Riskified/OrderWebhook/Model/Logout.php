@@ -15,8 +15,8 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class Logout
+ * data model for Logout action, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
 class Logout extends AbstractModel {

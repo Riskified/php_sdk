@@ -15,8 +15,10 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class WishlistChanges
+ * data model for WishlistChanges account action, includes nested models
+ * 'wishlist_action' can be: 'add' or 'remove'
+ * 'line_item.category' must be set
  * @package Riskified\OrderWebhook\Model
  */
 class WishlistChanges extends AbstractModel {

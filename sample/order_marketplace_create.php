@@ -75,14 +75,18 @@ $order = new Model\Order(array(
             ))
         ))
     ),
-    'discount_codes' => new Model\DiscountCode(array(
-        'amount' => 19.95,
-        'code' => '12'
-    )),
-    'shipping_lines' => new Model\ShippingLine(array(
-        'price' => 123.00,
-        'code' => 'Free',
-    )),
+    'discount_codes' => array(
+        new Model\DiscountCode(array(
+            'amount' => 19.95,
+            'code' => '12'
+        ))
+    ),
+    'shipping_lines' => array(
+        new Model\ShippingLine(array(
+            'price' => 123.00,
+            'code' => 'Free',
+        ))
+    ),
     'payment_details' => new Model\PaymentDetails(array(
         'credit_card_bin' => '370002',
         'avs_result_code' => 'Y',

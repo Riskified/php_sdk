@@ -15,8 +15,11 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class LoginStatus
+ * data model for LoginStatus
+ * 'login_status_type' can be: 'success' or 'failure'
+ * 'failure_reason' can be: 'wrong_password', 'captcha', 'disabled_account', 'nonexistent_account', or 'other'
+ * only use 'failure_reason' if 'login_status_type' == 'failure'
  * @package Riskified\OrderWebhook\Model
  */
 class LoginStatus extends AbstractModel {

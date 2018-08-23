@@ -15,8 +15,8 @@
  */
 
 /**
- * Class Order
- * main data model, includes nested models
+ * Class ResetPasswordRequest
+ * data model for ResetPasswordRequest account action, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
 class ResetPasswordRequest extends AbstractModel {
