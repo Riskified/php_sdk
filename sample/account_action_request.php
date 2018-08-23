@@ -207,7 +207,6 @@ $response = $transport->customerUpdate($customer_update);
 echo PHP_EOL."Customer Update event succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### Logout account action
-
 $logout = new Model\Logout(array(
     'customer_id' => '207119551',
     'client_details' => new Model\ClientDetails(array(
@@ -226,7 +225,6 @@ $response = $transport->logout($logout);
 echo PHP_EOL."Logout event succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### ResetPasswordRequest account action
-
 $resetPasswordRequest = new Model\ResetPasswordRequest(array(
     'customer_id' => '207119551',
     'client_details' => new Model\ClientDetails(array(
@@ -245,7 +243,6 @@ $response = $transport->resetPasswordRequest($resetPasswordRequest);
 echo PHP_EOL."ResetPasswordRequest event succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### WishlistChanges account action
-
 $wishlist_changes = new Model\WishlistChanges(array(
     'customer_id' => '207119551',
     'wishlist_action' => 'add',
@@ -274,7 +271,6 @@ $response = $transport->wishlistChanges($wishlist_changes);
 echo PHP_EOL."WishlistChanges event succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### Redeem account action
-
 $redeem = new Model\Redeem(array(
     'customer_id' => '207119551',
     'redeem_type' => 'promo code',
@@ -294,7 +290,6 @@ $response = $transport->redeem($redeem);
 echo PHP_EOL."Redeem event succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### CustomerReachOut account action
-
 $customer_reach_out = new Model\CustomerReachOut(array(
     'customer_id' => '207119551',
     'order_id' => '450789469',
