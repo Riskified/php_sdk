@@ -14,6 +14,7 @@
  * permissions and limitations under the License.
  */
 
+use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -134,14 +135,22 @@ abstract class AbstractModel {
         $this->_enforce_required_keys = $enforce_required_keys;
         $exceptions = array();
         foreach ($this->_fields as $propertyName => $constraints) {
-            $types = explode(' ', $constraints);
-            if (is_null($this->$propertyName)) {
-                if ($this->_enforce_required_keys && end($types) != 'optional') {
-                    $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
-                }
-            } else {
-                $exceptions = array_merge($exceptions, $this->validate_key($propertyName, $types, $this->$propertyName));
-            }
+	        // check if validation is overridden before testing
+	        $model = (new \ReflectionClass($this))->getShortName();
+	        if (
+	        	!isset(Riskified::$validationOverrides[$model]) ||
+		        !in_array($propertyName, Riskified::$validationOverrides[$model])
+	        ) {
+
+		        $types = explode(' ', $constraints);
+		        if (is_null($this->$propertyName)) {
+			        if ($this->_enforce_required_keys && end($types) != 'optional') {
+				        $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
+			        }
+		        } else {
+			        $exceptions = array_merge($exceptions, $this->validate_key($propertyName, $types, $this->$propertyName));
+		        }
+	        }
         }
         return array_filter($exceptions);
     }
