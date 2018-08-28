@@ -72,8 +72,6 @@ class Riskified {
                     'default' => 'sandbox.riskified.com',
                     'deco' => 'sandboxw.decopayments.com'
                 );
-            case Env::STAGING:
-                return array('default' => 's.riskified.com');
             case Env::PROD:
                 return array(
                     'default' => 'wh.riskified.com',
