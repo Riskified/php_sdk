@@ -17,14 +17,13 @@
 /**
  * Class Redeem
  * data model for Redeem account action, includes nested models
- * 'redeem_type' can be: 'promo code', 'loyalty points', 'gift card', or 'other',
  * @package Riskified\OrderWebhook\Model
  */
 class Redeem extends AbstractModel {
 
     protected $_fields = array(
         'customer_id' => 'string',
-        'redeem_type' => 'string',
+        'redeem_type' => 'string /^(:?promo code|loyalty points|gift card|other)$/',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails'
     );

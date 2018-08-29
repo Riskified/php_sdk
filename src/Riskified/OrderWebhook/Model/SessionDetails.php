@@ -25,7 +25,7 @@ class SessionDetails extends AbstractModel {
         'created_at' => 'date',
         'cart_token' => 'string',
         'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
-        'source' => 'string',
+        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|other)$/',
         'referring_site' => 'string optional'
     );
 }

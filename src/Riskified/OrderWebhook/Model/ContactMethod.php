@@ -17,13 +17,12 @@
 /**
  * Class Order
  * main data model, includes nested models
- * 'contact_method_type' can be: 'email', 'website_chat', 'facebook', 'phone', and 'other',
  * @package Riskified\OrderWebhook\Model
  */
 class ContactMethod extends AbstractModel {
 
     protected $_fields = array(
-        'contact_method_type' => 'string',
+        'contact_method_type' => 'string /^(:?email|website_chat|facebook|phone|other)$/',
         'email' => 'string optional',
         'phone' => 'string optional',
         'facebook_account_url' => 'string optional',

@@ -17,7 +17,6 @@
 /**
  * Class CustomerCreate
  * data model for CustomerCreate action, includes nested models
- * 'social_signup_type' can be: 'facebook', 'google', 'linkedin', 'twitter', 'yahoo', or 'other'
  * @package Riskified\OrderWebhook\Model
  */
 class CustomerCreate extends AbstractModel {
@@ -26,7 +25,7 @@ class CustomerCreate extends AbstractModel {
         'customer_id' => 'string',
         'phone_mandatory' => 'boolean optional',
         'referrer_customer_id' => 'string optional',
-        'social_signup_type' => 'string optional',
+        'social_signup_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|other)$/ optional',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails',
         'customer' => 'object \Customer',
