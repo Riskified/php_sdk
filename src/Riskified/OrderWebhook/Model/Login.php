@@ -17,7 +17,6 @@
 /**
  * Class Login
  * data model for Login, includes nested models
- * 'social_login_type' value can be: 'facebook', 'google', 'linkedin', 'twitter', 'yahoo', or 'other'
  * @package Riskified\OrderWebhook\Model
  */
 class Login extends AbstractModel {
@@ -26,7 +25,7 @@ class Login extends AbstractModel {
         'customer_id' => 'string',
         'email' => 'string /^[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i',
         'login_at_checkout' => 'boolean optional',
-        'social_login_type' => 'string optional',
+        'social_login_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|other)$/ optional',
         'login_status' => 'object \LoginStatus',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails'

@@ -17,15 +17,13 @@
 /**
  * Class LoginStatus
  * data model for LoginStatus
- * 'login_status_type' can be: 'success' or 'failure'
- * 'failure_reason' can be: 'wrong_password', 'captcha', 'disabled_account', 'nonexistent_account', or 'other'
  * only use 'failure_reason' if 'login_status_type' == 'failure'
  * @package Riskified\OrderWebhook\Model
  */
 class LoginStatus extends AbstractModel {
 
     protected $_fields = array(
-        'login_status_type' => 'string',
-        'failure_reason' => 'string optional'
+        'login_status_type' => 'string /^(:?success|failure)$/',
+        'failure_reason' => 'string /^(:?wrong_password|captcha|disabled_account|nonexistent_account|other)$/ optional'
     );
 }

@@ -17,7 +17,6 @@
 /**
  * Class CustomerUpdate
  * main data model for CustomerUpdate action, includes nested models
- * 'social_signup_type' can be: 'facebook', 'google', 'linkedin', 'twitter', 'yahoo', or 'other'
  * @package Riskified\OrderWebhook\Model
  */
 class CustomerUpdate extends AbstractModel {
@@ -27,7 +26,7 @@ class CustomerUpdate extends AbstractModel {
         'password_changed' => 'boolean',
         'phone_mandatory' => 'boolean optional',
         'referrer_customer_id' => 'string optional',
-        'social_signup_type' => 'string optional',
+        'social_signup_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|other)$/ optional',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails',
         'customer' => 'object \Customer',

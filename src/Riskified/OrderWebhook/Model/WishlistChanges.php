@@ -17,7 +17,6 @@
 /**
  * Class WishlistChanges
  * data model for WishlistChanges account action, includes nested models
- * 'wishlist_action' can be: 'add' or 'remove'
  * 'line_item.category' must be set
  * @package Riskified\OrderWebhook\Model
  */
@@ -25,7 +24,7 @@ class WishlistChanges extends AbstractModel {
 
     protected $_fields = array(
         'customer_id' => 'string',
-        'wishlist_action' => 'string',
+        'wishlist_action' => 'string /^(:?add|remove)$/',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails',
         'line_item' => 'object \LineItem'
