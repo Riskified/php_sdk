@@ -43,8 +43,8 @@ abstract class AbstractTransport {
     abstract protected function send_json_request($json, $endpoint);
 
     /**
-     * submit an order as json
-     * @param $json object Order to send
+     * submit an account action as json
+     * @param $json object account action to send
      * @param $endpoint String API endpoint to send request
      */
     abstract protected function send_account_json_request($json, $endpoint);
