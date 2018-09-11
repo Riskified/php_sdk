@@ -15,18 +15,18 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class WishlistChanges
+ * data model for WishlistChanges account action, includes nested models
+ * 'line_item.category' must be set
  * @package Riskified\OrderWebhook\Model
  */
-class ClientDetails extends AbstractModel {
+class WishlistChanges extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'user_agent' => 'string optional',
-
-        /* 'browser_ip' and 'session_hash' are deprecated fields for this model */
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i optional',
-        'session_hash' => 'string optional'
+        'customer_id' => 'string',
+        'wishlist_action' => 'string /^(:?add|remove)$/',
+        'client_details' => 'object \ClientDetails',
+        'session_details' => 'object \SessionDetails',
+        'line_item' => 'object \LineItem'
     );
 }

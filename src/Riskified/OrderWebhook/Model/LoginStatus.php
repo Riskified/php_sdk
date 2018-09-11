@@ -15,18 +15,15 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class LoginStatus
+ * data model for LoginStatus
+ * only use 'failure_reason' if 'login_status_type' == 'failure'
  * @package Riskified\OrderWebhook\Model
  */
-class ClientDetails extends AbstractModel {
+class LoginStatus extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'user_agent' => 'string optional',
-
-        /* 'browser_ip' and 'session_hash' are deprecated fields for this model */
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i optional',
-        'session_hash' => 'string optional'
+        'login_status_type' => 'string /^(:?success|failure)$/',
+        'failure_reason' => 'string /^(:?wrong_password|captcha|disabled_account|nonexistent_account|other)$/ optional'
     );
 }

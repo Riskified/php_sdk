@@ -15,18 +15,17 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class CustomerReachOut
+ * data model for CustomerReachOut account action, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class ClientDetails extends AbstractModel {
+class CustomerReachOut extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'user_agent' => 'string optional',
-
-        /* 'browser_ip' and 'session_hash' are deprecated fields for this model */
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i optional',
-        'session_hash' => 'string optional'
+        'customer_id' => 'string',
+        'order_id' => 'string optional',
+        'contact_method' => 'object \ContactMethod',
+        'client_details' => 'object \ClientDetails optional',
+        'session_details' => 'object \SessionDetails optional'
     );
 }

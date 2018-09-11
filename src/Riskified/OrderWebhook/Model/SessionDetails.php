@@ -19,14 +19,13 @@
  * data model of client details of customer placing order
  * @package Riskified\OrderWebhook\Model
  */
-class ClientDetails extends AbstractModel {
+class SessionDetails extends AbstractModel {
 
     protected $_fields = array(
-        'accept_language' => 'string optional',
-        'user_agent' => 'string optional',
-
-        /* 'browser_ip' and 'session_hash' are deprecated fields for this model */
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i optional',
-        'session_hash' => 'string optional'
+        'created_at' => 'date',
+        'cart_token' => 'string',
+        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
+        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|other)$/',
+        'referring_site' => 'string optional'
     );
 }
