@@ -23,7 +23,7 @@ class Redeem extends AbstractModel {
 
     protected $_fields = array(
         'customer_id' => 'string',
-        'redeem_type' => 'string /^(:?promo code|loyalty points|gift card|other)$/',
+        'redeem_type' => 'string /^(:?promo\040code|loyalty\040points|gift\040card|other)$/',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails'
     );
