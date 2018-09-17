@@ -87,13 +87,13 @@ $order = new Model\Order(array(
             'code' => 'Free',
         ))
     ),
-    'payment_details' => new Model\PaymentDetails(array(
+    'payment_details' => array(new Model\PaymentDetails(array(
         'credit_card_bin' => '370002',
         'avs_result_code' => 'Y',
         'cvv_result_code' => 'N',
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
         'credit_card_company' => 'VISA'
-    )),
+    ))),
     'customer' => new Model\Customer(array(
         'email' => 'email@address.com',
         'first_name' => 'Firstname',
