@@ -41,14 +41,6 @@ abstract class AbstractModel {
     protected $_enforce_required_keys = true;
 
     /**
-     * Allows for validation on field that can accept multiple types of models
-     * @var array
-     */
-    private $object_exceptions = array(
-        "PaymentDetails" => array("BankWirePaymentDetails")
-    );
-
-    /**
      * Initialize a new model, optionally passing an array of properties
      * @param array $props List of Key => Value pairs for setting model properties
      * @throws \Exception If $props contain an invalid Key
@@ -212,19 +204,10 @@ abstract class AbstractModel {
         $class = '\\'.end($parts);
 
         if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
-            if ($this->object_hash_exception(ltrim($types[1], '\\'), ltrim($class, '\\'))) {
-                return array(new Exception\ClassMismatchPropertyException($this, $key, $types, $object));
-            }
+            return array(new Exception\ClassMismatchPropertyException($this, $key, $types, $object));
         }
 
         return $object->validation_exceptions($this->_enforce_required_keys);
-    }
-
-    private function object_hash_exception($type, $class) {
-        if (isset($this->object_exceptions[$type]) && in_array($class, $this->object_exceptions[$type])) {
-            return false;
-        }
-        return true;
     }
 
     /**
