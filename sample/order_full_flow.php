@@ -109,7 +109,7 @@ $order_details = array(
             'code' => 'Free'
         ))
     ),
-    'payment_details' => new Model\PaymentDetails(array(
+    'payment_details' => array(new Model\PaymentDetails(array(
         'credit_card_bin' => '370002',
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
         'credit_card_company' => 'VISA',
@@ -120,7 +120,7 @@ $order_details = array(
 #                                                                      'created_at' => '2008-01-10T11:00:00-05:00',
 #                                                                      'error_code' => 'card_rejected'
 #                                                                  ))
-    )),
+    ))),
     'customer' => new Model\Customer(array(
         'email' => 'email@address.com',
         'first_name' => 'Firstname',
@@ -201,8 +201,8 @@ echo PHP_EOL."Denied Checkout succeeded. Response: ".PHP_EOL.json_encode($respon
 $order = new Model\Order($order_details);
 $order->checkout_id = $order->id;
 $order->id = 'or1234';
-$order->payment_details->avs_result_code = 'Y';
-$order->payment_details->cvv_result_code = 'N';
+$order->payment_details[0]->avs_result_code = 'Y';
+$order->payment_details[0]->cvv_result_code = 'N';
 
 $response = $transport->createOrder($order);
 echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;

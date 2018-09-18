@@ -81,14 +81,14 @@ $shippingLine = new Model\ShippingLine(array(
 $order->shipping_lines = array($shippingLine);
 
 # PaymentDetails
-$paymentDetails = new Model\PaymentDetails(array(
+$paymentDetails = array(new Model\PaymentDetails(array(
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
     'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
     'credit_card_company' => 'VISA'
-));
-$order->payment_details = $paymentDetails;
+)));
+$order->payment_details = array($paymentDetails);
 
 # Customer  
 $customer = new Model\Customer(array(
