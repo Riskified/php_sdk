@@ -22,11 +22,11 @@
 class PaymentDetails extends AbstractModel {
 
     protected $_fields = array(
-        'credit_card_bin' => 'string',
-        'avs_result_code' => 'string /^.+$/i',
-        'cvv_result_code' => 'string /^.+$/i',
-        'credit_card_number' => 'string',
-        'credit_card_company' => 'string',
+        'credit_card_bin' => 'string optional',
+        'avs_result_code' => 'string /^.+$/i optional',
+        'cvv_result_code' => 'string /^.+$/i optional',
+        'credit_card_number' => 'string optional',
+        'credit_card_company' => 'string optional',
         'credit_card_token' => 'string optional',
 
         'payer_email' => 'string optional',
@@ -36,6 +36,9 @@ class PaymentDetails extends AbstractModel {
         'payment_status' => 'string optional',
         'pending_reason' => 'string optional',
         'authorization_id' => 'string optional',
+
+        'account_number' => 'string optional',
+        'routing_number' => 'string optional',
 
         'authorization_error' => 'object \AuthorizationError optional',
 
