@@ -46,7 +46,9 @@ $first_order = new Model\Order(array(
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
     'note' => 'Shipped to my hotel.',
-    'referring_site' => 'google.com'
+    'referring_site' => 'google.com',
+    'source' => 'desktop_web'
+
 ));
 
 $second_order = new Model\Order(array(
@@ -63,6 +65,7 @@ $second_order = new Model\Order(array(
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
     'note' => 'Shipped to my hotel.',
+    'source' => 'mobile_web',
     'referring_site' => 'google.com'
 ));
 
