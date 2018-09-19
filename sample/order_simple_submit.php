@@ -46,7 +46,8 @@ $order = new Model\Order(array(
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
     'note' => 'Shipped to my hotel.',
-    'referring_site' => 'google.com'
+    'referring_site' => 'google.com',
+    'source' => 'desktop_web'
 ));
 
 # LineItems   
@@ -76,18 +77,18 @@ $order->discount_codes = array($discountCode);
 # ShippingLines    
 $shippingLine = new Model\ShippingLine(array(
     'price' => 123.00,
-    'code' => 'Free',
+    'title' => 'Free Shipping'
 ));
 $order->shipping_lines = array($shippingLine);
 
 # PaymentDetails
-$paymentDetails = array(new Model\PaymentDetails(array(
+$paymentDetails = new Model\PaymentDetails(array(
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
     'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
     'credit_card_company' => 'VISA'
-)));
+));
 $order->payment_details = array($paymentDetails);
 
 # Customer  

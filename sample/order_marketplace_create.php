@@ -46,6 +46,7 @@ $order = new Model\Order(array(
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
     'total_discounts' => 5.0,
+    'source' => 'desktop_web',
     'cart_token' => '1sdaf23j212',
     'additional_emails' => array('my@email.com','second@email.co.uk'),
     'note' => 'Shipped to my hotel.',

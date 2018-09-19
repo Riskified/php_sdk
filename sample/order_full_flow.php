@@ -49,6 +49,7 @@ $order_details = array(
     'additional_emails' => array('my@email.com', 'second@email.co.uk', 'third2@email.rr.com'),
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
+    'source' => 'desktop_web',
     'line_items' => array(
         new Model\LineItem(array(
             'recipient' => new Model\Recipient(array(
