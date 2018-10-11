@@ -106,10 +106,10 @@ class CurlTransport extends AbstractTransport {
     private function json_response($body, $status) {
         $response = json_decode($body);
 
+        if ($status != 200)
+            throw new Exception\UnsuccessfulActionException($body, $status);
         if (!$response)
             throw new Exception\MalformedJsonException($body, $status);
-        if($status != 200)
-            throw new Exception\UnsuccessfulActionException($body, $status);
 
         return $response;
     }
