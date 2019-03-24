@@ -99,7 +99,13 @@ class Notification {
         $this->status = $order->{'status'};
         $this->oldStatus = $order->{'old_status'};
         $this->description = $order->{'description'};
-        $this->category = $order->{'category'};
-        $this->decisionCode = $order->{'decision_code'};
+
+        if (array_key_exists('category', $order)) {
+            $this->category = $order->{'category'};
+        }
+
+        if (array_key_exists('decision_code', $order)) {
+            $this->decisionCode = $order->{'decision_code'};
+        }
     }
 }
