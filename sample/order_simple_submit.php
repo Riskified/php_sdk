@@ -26,10 +26,10 @@ use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 # Replace with the 'shop domain' of your account in Riskified
-$domain = "richstestsite.com";
+$domain = "xxxxxxxxxxxxx";
 
 # Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "67775933g7f1hh9fg3g741e936fhf1";
+$authToken = "xxxxxxxxxxxx";
 
 Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
