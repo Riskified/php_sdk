@@ -35,8 +35,8 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '1234phpsdksimple0',
-    'email' => 'great.customer@example.com',
+    'id' => '1234phpsdksimple43001',
+    'email' => 'test@approve.com',
     'created_at' => '2018-08-22T11:00:00-05:00',
     'currency' => 'USD',
     'updated_at' => '2018-08-22T11:00:00-05:00',
@@ -50,31 +50,33 @@ $order = new Model\Order(array(
     'source' => 'desktop_web'
 ));
 
-# LineItems   
+# LineItems
 $lineItem1 = new Model\LineItem(array(
     'price' => 100,
     'quantity' => 1,
     'title' => 'ACME Widget',
     'product_id' => '101',
-    'sku' => 'ABCD'
+    'sku' => 'ABCD',
+    'registry_type' => 'baby'
 ));
 $lineItem2 = new Model\LineItem(array(
     'price' => 200,
     'quantity' => 4,
     'title' => 'ACME Spring',
     'product_id' => '202',
-    'sku' => 'EFGH'
+    'sku' => 'EFGH',
+    'registry_type' => 'wedding'
 ));
 $order->line_items = array($lineItem1, $lineItem2);
 
-# DiscountCodes  
+# DiscountCodes
 $discountCode = new Model\DiscountCode(array(
     'amount' => 19.95,
     'code' => '12'
 ));
 $order->discount_codes = array($discountCode);
 
-# ShippingLines    
+# ShippingLines
 $shippingLine = new Model\ShippingLine(array(
     'price' => 123.00,
     'title' => 'Free Shipping'
@@ -91,7 +93,7 @@ $paymentDetails = new Model\PaymentDetails(array(
 ));
 $order->payment_details = array($paymentDetails);
 
-# Customer  
+# Customer
 $customer = new Model\Customer(array(
     'email' => 'email@address.com',
     'first_name' => 'Firstname',
@@ -104,7 +106,7 @@ $customer = new Model\Customer(array(
 ));
 $order->customer = $customer;
 
-# BillingAddress    
+# BillingAddress
 $billingAddress = new Model\Address(array(
     'first_name' => 'John',
     'last_name' => 'Doe',
@@ -122,7 +124,7 @@ $billingAddress = new Model\Address(array(
 ));
 $order->billing_address = $billingAddress;
 
-# ShippingAddress  
+# ShippingAddress
 $shippingAddress = new Model\Address(array(
     'first_name' => 'John',
     'last_name' => 'Doe',
@@ -143,7 +145,7 @@ $order->shipping_address = $shippingAddress;
 echo "\nORDER REQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
 
-# Create a curl transport to the Riskified Server    
+# Create a curl transport to the Riskified Server
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
 $transport->timeout = 10;
 
