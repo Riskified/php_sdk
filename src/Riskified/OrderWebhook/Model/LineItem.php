@@ -108,6 +108,7 @@ class LineItem extends AbstractModel {
 
         'release_date' => 'date optional',
         'size' => 'string optional',
+        'registry_type' => 'string /^(:?wedding|baby|other)$/ optional',
 
         'recipient' => 'object \Recipient optional'
     );
