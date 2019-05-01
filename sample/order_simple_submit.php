@@ -36,7 +36,7 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 # Order
 $order = new Model\Order(array(
     'id' => '1234phpsdksimple43001',
-    'email' => 'great@customer.example.com',
+    'email' => 'great.customer@example.com',
     'created_at' => '2018-08-22T11:00:00-05:00',
     'currency' => 'USD',
     'updated_at' => '2018-08-22T11:00:00-05:00',
