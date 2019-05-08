@@ -87,8 +87,8 @@ class Notification {
      * Shop URL may also be added to the API notifications from Riskified depending on your account
      * configuration (contact your Account Manager or Integration Engineer for details)
      *
-     *The Shop URL will reflect the URL of the Riskified account processing the order in case your
-     *technical team would like to use the parameter for routing in your back-end systems.
+     * The Shop URL will reflect the URL of the Riskified account processing the order in case your
+     * technical team would like to use the parameter for routing in your back-end systems.
      *
      */
     protected function parse_body() {
