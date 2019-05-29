@@ -14,6 +14,11 @@
  * permissions and limitations under the License.
  */
 
+/**
+ * Shop URL is available as a notification parameter depending on your account's setup; please contact your Integration Engineer or Account Manager if you have questions on this.
+ * It is a NON-best-practice to use shop URL in the notifications programmatically as this field will not be supported long term in API notifications.
+ */
+
 use Riskified\DecisionNotification\Exception;
 
 /**
@@ -83,13 +88,6 @@ class Notification {
     /**
      * extracts parameters from HTTP POST body
      * @throws \Riskified\DecisionNotification\Exception\BadPostJsonException on bad or missing parameters
-     *
-     * Shop URL may also be added to the API notifications from Riskified depending on your account
-     * configuration (contact your Account Manager or Integration Engineer for details)
-     *
-     * The Shop URL will reflect the URL of the Riskified account processing the order in case your
-     * technical team would like to use the parameter for routing in your back-end systems.
-     *
      */
     protected function parse_body() {
         $body = json_decode($this->body);
