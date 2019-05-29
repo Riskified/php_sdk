@@ -14,6 +14,11 @@
  * permissions and limitations under the License.
  */
 
+/**
+ * Shop URL is available as a notification parameter depending on your account's setup; please contact your Integration Engineer or Account Manager if you have questions on this.
+ * It is a NON-best-practice to use shop URL in the notifications programmatically as this field will not be supported long term in API notifications.
+ */
+
 use Riskified\DecisionNotification\Exception;
 
 /**
