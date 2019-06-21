@@ -183,6 +183,16 @@ abstract class AbstractTransport {
     }
 
     /**
+     * Send an Advise request to Riskified
+     * @param $checkout object Checkout to send
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
+    public function adviseOrder($checkout) {
+        return $this->send_checkout($checkout, 'advise');
+    }
+
+    /**
      * Check eligibility for Deco payment
      * @param $order object Order to send (only order id required)
      * @return object Response object

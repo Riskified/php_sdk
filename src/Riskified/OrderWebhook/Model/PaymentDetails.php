@@ -37,6 +37,12 @@ class PaymentDetails extends AbstractModel {
         'pending_reason' => 'string optional',
         'authorization_id' => 'string optional',
 
+        '_type' => 'string optional',
+        'id' => 'string optional',
+        'gateway' => 'string optional',
+        'acquirer_bin' => 'string optional',
+        'mid' => 'string optional',
+
         'account_number' => 'string optional',
         'routing_number' => 'string optional',
 

@@ -89,6 +89,8 @@ class Order extends AbstractModel {
 
         'decision' => 'object \DecisionDetails optional',
 
-        'charge_free_payment_details' => 'object\ChargeFreePaymentDetails optional'
+        'charge_free_payment_details' => 'object\ChargeFreePaymentDetails optional',
+
+        'authentication_result' => 'object \AuthenticationResult optional'
     );
 }

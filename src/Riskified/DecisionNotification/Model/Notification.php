@@ -52,6 +52,14 @@ class Notification {
      * @var string Decision Code of Decision
      */
     public $decisionCode;
+    /**
+     * @var integer Risk score (0-99)
+     */
+    public $score;
+    /**
+     * @var AuthenticationType details of the authentication for 3DS transactions
+     */
+    public $AuthenticationType;
 
     protected $signature;
     protected $headers;
@@ -111,6 +119,11 @@ class Notification {
 
         if (array_key_exists('decision_code', $order)) {
             $this->decisionCode = $order->{'decision_code'};
+        }
+
+        if (array_key_exists('score', $order) && array_key_exists('AuthenticationType', $order)) {
+            $this->score = $order->{'score'};
+            $this->AuthenticationType = $order->{'AuthenticationType'};
         }
     }
 }
