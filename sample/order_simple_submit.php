@@ -35,7 +35,7 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '1234phpsdksimple71202',
+    'id' => '1234phpsdksimple',
     'email' => 'great.customer@example.com',
     'created_at' => '2018-08-22T11:00:00-05:00',
     'currency' => 'USD',
@@ -76,7 +76,8 @@ $lineItem3 = new Model\LineItem(array(
     'event_date' => '2019-07-12T19:00:00-4:00',
     'country_code' => 'US',
     'latitude' => '40.8296 N',
-    'longitude' => '73.9262 W'
+    'longitude' => '73.9262 W',
+    'product_type' => 'event'
 ));
 $order->line_items = array($lineItem1, $lineItem2, $lineItem3);
 
