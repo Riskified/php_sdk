@@ -13,21 +13,17 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 /**
  * Shop URL is available as a notification parameter depending on your account's setup; please contact your Integration Engineer or Account Manager if you have questions on this.
  * It is a NON-best-practice to use shop URL in the notifications programmatically as this field will not be supported long term in API notifications.
  */
-
 use Riskified\DecisionNotification\Exception;
-
 /**
  * Class Notification
  * Parses and validates Decision Notification callbacks from Riskified
  * @package Riskified\DecisionNotification\Model
  */
 class Notification {
-
     /**
      * @var string Order ID
      */
@@ -52,19 +48,9 @@ class Notification {
      * @var string Decision Code of Decision
      */
     public $decisionCode;
-    /**
-     * @var integer Risk score (0-99)
-     */
-    public $score;
-    /**
-     * @var AuthenticationType details of the authentication for 3DS transactions
-     */
-    public $AuthenticationType;
-
     protected $signature;
     protected $headers;
     protected $body;
-
     /**
      * Inits and validates the request.
      * @param $signature Signature An instance of a Signature class that handles authentication
@@ -76,11 +62,9 @@ class Notification {
         $this->signature = $signature;
         $this->headers = $headers;
         $this->body = $body;
-
         $this->test_authorization();
         $this->parse_body();
     }
-
     /**
      * assets that the request authentication is valid
      * @throws \Riskified\DecisionNotification\Exception\AuthorizationException on HMAC mismatch
@@ -92,7 +76,6 @@ class Notification {
         if ($remote_hmac != $local_hmac)
             throw new Exception\AuthorizationException($this->headers, $this->body, $local_hmac, $remote_hmac);
     }
-
     /**
      * extracts parameters from HTTP POST body
      * @throws \Riskified\DecisionNotification\Exception\BadPostJsonException on bad or missing parameters
@@ -101,29 +84,20 @@ class Notification {
         $body = json_decode($this->body);
         if (!array_key_exists('order', $body))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
-
         $order = $body->{'order'};
         if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
-
         //foreach($order as $key => $value)
         //    $this->$key = $value;
         $this->id = $order->{'id'};
         $this->status = $order->{'status'};
         $this->oldStatus = $order->{'old_status'};
         $this->description = $order->{'description'};
-
         if (array_key_exists('category', $order)) {
             $this->category = $order->{'category'};
         }
-
         if (array_key_exists('decision_code', $order)) {
             $this->decisionCode = $order->{'decision_code'};
-        }
-
-        if (array_key_exists('score', $order) && array_key_exists('AuthenticationType', $order)) {
-            $this->score = $order->{'score'};
-            $this->AuthenticationType = $order->{'AuthenticationType'};
         }
     }
 }
