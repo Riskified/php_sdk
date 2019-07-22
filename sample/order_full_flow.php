@@ -213,7 +213,7 @@ $order->payment_details[0]->cvv_result_code = 'N';
 
 ##REQUIRED FOR PSD2 ORDERS##
 //$authenticationResult = new Model\AuthenticationResult(array(
-//    'created_at' => '2019-07-17T15:00:00-05:00
+//    'created_at' => '2019-07-17T15:00:00-05:00',
 //    'eci' => '07',
 //    'cavv' => '05',
 //    'trans_status' => 'Y',
