@@ -52,12 +52,11 @@ class LineItem extends AbstractModel {
         'sub_category' => 'string optional',
 
         /* fields for ticket industry */
-        'event_name' => 'string optional',
-        'event_section_name' => 'string optional',
+        'section' => 'string optional',
         'event_date' => 'date optional',
-        'event_country' => 'string optional',
-        'event_city' => 'string optional',
-        'event_location' => 'string optional',
+        'country_code' => 'string optional',
+        'latitude' => 'string optional',
+        'longitude' => 'string optional',
 
         /* fields for giftcard industry */
         'photo_url' => 'string optional',
