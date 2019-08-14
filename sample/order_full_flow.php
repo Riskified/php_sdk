@@ -200,8 +200,8 @@ echo PHP_EOL."Denied Checkout succeeded. Response: ".PHP_EOL.json_encode($respon
 
 #### Create and Submit Order
 $order = new Model\Order($order_details);
-$order->checkout_id = $order->id;
-$order->id = 'or1234';
+$order->checkout_id = 'phpcheckoutorder00';
+$order->id = 'phpfullorder00';
 $order->payment_details[0]->avs_result_code = 'Y';
 $order->payment_details[0]->cvv_result_code = 'N';
 
