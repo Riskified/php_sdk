@@ -98,6 +98,23 @@ class LineItem extends AbstractModel {
         'cancellation_policy' => 'string optional',
         'accommodation_type' => 'string optional',
 
+        /* fields for rides industry */
+        'pickup_date' => 'date optional',
+        'pickup_latitude' => 'float optional',
+        'pickup_longitude' => 'float optional',
+        'pickup_address' => 'object \Address optional',
+        'dropoff_date' => 'date optional',
+        'dropoff_latitude' => 'float optional',
+        'dropoff_longitude' => 'float optional',
+        'dropoff_address' => 'object \Address optional',
+        'price_by' => 'string optional',
+        'vehicle_class' => 'string optional',
+        'driver_id' => 'string optional',
+        'tariff' => 'string optional',
+        'note_to_driver' => 'string optional',
+        'meet_n_greet' => 'string optional',
+        'authorized_payments' => 'float optional',
+
 
         'properties' =>'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
