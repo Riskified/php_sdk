@@ -219,7 +219,7 @@ $order->payment_details[0]->cvv_result_code = 'N';
 //    'trans_status' => 'Y',
 //    'trans_status_reason' => '01'
 //));
-//$order->authentication_result = $authenticationResult;
+//$order->payment_details[0]->$authenticationResult;
 
 $response = $transport->createOrder($order);
 echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
