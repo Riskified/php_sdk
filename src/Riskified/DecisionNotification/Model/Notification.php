@@ -93,8 +93,8 @@ class Notification {
         $body = json_decode($this->body);
         if (!array_key_exists('order', $body))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
-        $order = $body->{'order'};
 
+        $order = $body->{'order'};
         if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
@@ -108,7 +108,7 @@ class Notification {
         if (array_key_exists('category', $order)) {
             $this->category = $order->{'category'};
         }
-        
+
         if (array_key_exists('decision_code', $order)) {
             $this->decisionCode = $order->{'decision_code'};
         }

@@ -115,7 +115,7 @@ $order_details = array(
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
         'credit_card_company' => 'VISA',
         'credit_card_token' => '0022334466',
-        '_type' => 'credit_card',
+        '_type' => 'credit_card'
 
 ### required for checkout denied: ###
 #        'authorization_error' => new Model\AuthorizationError(array(
@@ -217,7 +217,8 @@ $order->payment_details[0]->cvv_result_code = 'N';
 //    'eci' => '07',
 //    'cavv' => '05',
 //    'trans_status' => 'Y',
-//    'trans_status_reason' => '01'
+//    'trans_status_reason' => '01',
+//    'liability_shift' => true 
 //));
 //$order->payment_details[0]->$authenticationResult;
 
