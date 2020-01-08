@@ -36,7 +36,7 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::ALL);
 $order_details = array(
     'id' => 'ch567phpsdkfullflow0',
     'name' => '#1234',
-    'email' => 'erin.o\'neill@cbre.com',
+    'email' => 'great.customer@email.com',
     'created_at' => '2019-07-23T11:00:00-05:00',
     'closed_at' => null,
     'currency' => 'CAD',
@@ -299,6 +299,8 @@ echo PHP_EOL."Opt-in. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 #### Login Account Action
 $login = new Model\Login(array(
     'customer_id' => '207119551',
+    'customer_created_at' => '2020-01-08T11:38-5:00',
+    'email' => 'great.customer@email.com',
     'login_status' => new Model\LoginStatus(array(
         'login_status_type' => 'success'
     )),
