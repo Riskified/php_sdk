@@ -227,6 +227,9 @@ echo PHP_EOL."Logout event succeeded. Response: ".PHP_EOL.json_encode($response)
 #### ResetPasswordRequest account action
 $resetPasswordRequest = new Model\ResetPasswordRequest(array(
     'customer_id' => '207119551',
+    'status' => 'success',
+    'reason' => 'user_requested',
+    'email' => 'great.customer@email.com',
     'client_details' => new Model\ClientDetails(array(
         'accept_language' => 'en_CA',
         'user_agent' => 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)'

@@ -23,6 +23,9 @@ class ResetPasswordRequest extends AbstractModel {
 
     protected $_fields = array(
         'customer_id' => 'string',
+        'status' => 'string /^(:?pending|success|failure)$/',
+        'reason' => 'string /^(:?user_requested|forgot_password|forced_reset)$/',
+        'email' => 'string',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails'
     );
