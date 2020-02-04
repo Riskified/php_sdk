@@ -91,11 +91,11 @@ class Notification {
      */
     protected function parse_body() {
         $body = json_decode($this->body);
-        if (!array_key_exists('order', $body))
+        if (!isset($body["order"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
         $order = $body->{'order'};
-        if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
+        if (!isset($order["id"]) || !isset($order["status"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
         //foreach($order as $key => $value)
@@ -105,11 +105,11 @@ class Notification {
         $this->oldStatus = $order->{'old_status'};
         $this->description = $order->{'description'};
 
-        if (array_key_exists('category', $order)) {
+        if (isset($order["category"])) {
             $this->category = $order->{'category'};
         }
 
-        if (array_key_exists('decision_code', $order)) {
+        if (isset($order["decision_code"])) {
             $this->decisionCode = $order->{'decision_code'};
         }
     }
