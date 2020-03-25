@@ -45,6 +45,7 @@ $order = new Model\Order(array(
     'total_price' => 113.23,
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
+    'device_id' => '01234567-89ABCDEF-01234567-89ABCDEF',
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
     'source' => 'desktop_web'
