@@ -44,6 +44,7 @@ class Order extends AbstractModel {
         'cancelled_at' => 'date optional',
         'closed_at' => 'date optional',
         'cart_token' => 'string optional',
+        'device_id' => 'string optional',
         'checkout_token' => 'string optional',
         'token' => 'string optional',
         'referring_site' => 'string optional',
