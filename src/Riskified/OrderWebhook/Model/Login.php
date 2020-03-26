@@ -26,7 +26,7 @@ class Login extends AbstractModel {
         'email' => 'string /^[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!#$%&\'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i',
         'customer_created_at' => 'date optional',
         'login_at_checkout' => 'boolean optional',
-        'social_login_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|other)$/ optional',
+        'social_login_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|amazon|other)$/ optional',
         'login_status' => 'object \LoginStatus',
         'client_details' => 'object \ClientDetails',
         'session_details' => 'object \SessionDetails'
