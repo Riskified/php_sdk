@@ -41,6 +41,7 @@ $transport->timeout = 10;
 $login = new Model\Login(array(
     'customer_id' => '207119551',
     'email' => 'bob.norman@hostmail.com',
+    'social_login_type' => 'amazon',
     'login_status' => new Model\LoginStatus(array(
         'login_status_type' => 'success'
     )),
