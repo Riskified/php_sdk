@@ -55,7 +55,7 @@ class Order extends AbstractModel {
         'landing_site' => 'string optional',
         'landing_site_ref' => 'string optional',
         'location_id' => 'string optional',
-        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|web|chat|third_party|phone|in_store|shopify_draft_order|unknown)$/',
+        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|web|chat|third_party|phone|in_store|shopify_draft_order|unknown|mobile_app_android|mobile_app_ios)$/',
         'source_identifier' => 'string optional',
         'source_name' => 'string optional',
         'source_url' => 'string optional',
