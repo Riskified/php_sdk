@@ -72,6 +72,7 @@ class Order extends AbstractModel {
         'tags' => 'string optional',
         'vendor_id' => 'string optional',
         'vendor_name' => 'string optional',
+        'vendor_integration_type' => 'string optional',
         'order_type' => 'string optional',
         'submission_reason' => 'string optional',
 
