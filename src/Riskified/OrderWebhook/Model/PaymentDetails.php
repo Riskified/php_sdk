@@ -28,6 +28,7 @@ class PaymentDetails extends AbstractModel {
         'credit_card_number' => 'string optional',
         'credit_card_company' => 'string optional',
         'credit_card_token' => 'string optional',
+        'installments' => 'number optional',
 
         'payer_email' => 'string optional',
         'payer_status' => 'string optional',
