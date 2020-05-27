@@ -90,7 +90,7 @@ class Notification {
      * @throws \Riskified\DecisionNotification\Exception\BadPostJsonException on bad or missing parameters
      */
     protected function parse_body() {
-        $body = json_decode($this->body);
+        $body = json_decode($this->body, true);
         if (!isset($body["order"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
