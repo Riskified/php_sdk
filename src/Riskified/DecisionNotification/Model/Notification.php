@@ -94,23 +94,23 @@ class Notification {
         if (!isset($body["order"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
-        $order = $body->{'order'};
+        $order = $body["order"];
         if (!isset($order["id"]) || !isset($order["status"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
         //foreach($order as $key => $value)
         //    $this->$key = $value;
-        $this->id = $order->{'id'};
-        $this->status = $order->{'status'};
-        $this->oldStatus = $order->{'old_status'};
-        $this->description = $order->{'description'};
+        $this->id = $order["id"];
+        $this->status = $order["status"];
+        $this->oldStatus = $order["old_status"];
+        $this->description = $order["description"];
 
         if (isset($order["category"])) {
-            $this->category = $order->{'category'};
+            $this->category = $order["category"];
         }
 
         if (isset($order["decision_code"])) {
-            $this->decisionCode = $order->{'decision_code'};
+            $this->decisionCode = $order["decision_code"];
         }
     }
 }
