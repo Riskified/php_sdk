@@ -15,15 +15,14 @@
  */
 
 /**
- * Class LoginStatus
- * data model for LoginStatus
- * only use 'failure_reason' if 'login_status_type' == 'failure'
+ * Class VerificationSessionDetails
+ * data model for Verification Session Details
  * @package Riskified\OrderWebhook\Model
  */
-class LoginStatus extends AbstractModel {
+class VerificationSessionDetails extends AbstractModel {
 
     protected $_fields = array(
-        'login_status_type' => 'string /^(:?success|failure)$/',
-        'failure_reason' => 'string /^(:?wrong\040password|captcha|disabled\040account|nonexistent\040account|other|expired)$/ optional'
+        'cart_token' => 'string optional',
+        'browser_ip' => 'string optional'
     );
 }

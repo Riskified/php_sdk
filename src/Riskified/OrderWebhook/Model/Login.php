@@ -29,6 +29,9 @@ class Login extends AbstractModel {
         'social_login_type' => 'string /^(:?facebook|google|linkedin|twitter|yahoo|amazon|apple|other)$/ optional',
         'login_status' => 'object \LoginStatus',
         'client_details' => 'object \ClientDetails',
-        'session_details' => 'object \SessionDetails'
+        'session_details' => 'object \SessionDetails',
+        'vendor_name' => 'string optional',
+        'authentication_mechanism' => 'string optional',
+        'redirect_url' => 'string optional'
     );
 }
