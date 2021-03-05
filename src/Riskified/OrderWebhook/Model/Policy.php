@@ -1,6 +1,6 @@
 <?php namespace Riskified\OrderWebhook\Model;
 /**
- * Copyright 2013-2015 Riskified.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2013-2021 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
  */
 
 /**
- * Class DiscountCode
- * data model of discounts in order
+ * Class Policy
+ * data model of policy information
  * @package Riskified\OrderWebhook\Model
  */
-class DiscountCode extends AbstractModel {
+class Policy extends AbstractModel {
 
     protected $_fields = array(
-        'code' => 'string',
-        'amount' => 'float',
-        'policy' => 'object \Policy optional',
+        'evaluate' => 'boolean'
     );
 }

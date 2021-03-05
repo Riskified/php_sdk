@@ -43,6 +43,7 @@ class LineItem extends AbstractModel {
         'condition' => 'string optional',
         'product_type' => 'string optional',
         'brand' => 'string optional',
+        'policy' => 'object \Policy optional',
 
         /* add this field when the (digital) goods are to be delivered in future date */
         'delivered_at' => 'date optional',
