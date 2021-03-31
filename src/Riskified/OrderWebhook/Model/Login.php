@@ -32,6 +32,7 @@ class Login extends AbstractModel {
         'session_details' => 'object \SessionDetails',
         'vendor_name' => 'string optional',
         'authentication_mechanism' => 'string optional',
-        'redirect_url' => 'string optional'
+        'challenge_redirect_url' => 'string optional',
+        'account_recovery_url' => 'string optional'
     );
 }
