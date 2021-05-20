@@ -153,7 +153,7 @@ $shippingAddress = new Model\Address(array(
     'province_code' => 'NY',
     'zip' => '64155'
 ));
-$order->shipping_address = $shippingAddress;
+$order->shipping_address = array($shippingAddress);
 
 echo "\nORDER REQUEST:".PHP_EOL.json_encode(json_decode($order->toJson())).PHP_EOL;
 
