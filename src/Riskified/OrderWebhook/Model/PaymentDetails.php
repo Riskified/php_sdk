@@ -48,6 +48,9 @@ class PaymentDetails extends AbstractModel {
 
         'authorization_error' => 'object \AuthorizationError optional',
 
-        'cardholder_name' => 'string optional'
+        'cardholder_name' => 'string optional',
+
+        'acquirer_region' => 'string /^(:?EU|NONEU)$/ optional',
+        'credit_card_country' => 'string optional'
     );
 }
