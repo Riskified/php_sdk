@@ -1,7 +1,7 @@
 Riskified PHP SDK
 =================
 
-version: 1.9.2
+version: 1.9.3
 -------------------
 
 See *samples/* for examples on how to use this SDK.

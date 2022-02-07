@@ -1,5 +1,6 @@
 {
     "name": "riskified/php_sdk",
+    "description": "Implementation of the Riskified API in php",
     "autoload": {
             "psr-4": {
                 "Riskified\\": "src/Riskified"
