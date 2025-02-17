@@ -114,7 +114,8 @@ $order_details = array(
         'credit_card_bin' => '370002',
         'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
         'credit_card_company' => 'VISA',
-        'credit_card_token' => '0022334466'
+        'credit_card_token' => '0022334466',
+        '_type' => 'credit_card'
 
 ### required for checkout denied: ###
 #        'authorization_error' => new Model\AuthorizationError(array(
@@ -192,6 +193,11 @@ $checkout = new Model\Checkout($order_details);
 $response = $transport->createCheckout($checkout);
 echo PHP_EOL."Create Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
+#### Advise Checkout (uncomment if eligible for /advise)
+//$checkout = new Model\Checkout($order_details);
+//
+//$response = $transport->adviseOrder($checkout);
+//echo PHP_EOL."Advise Checkout succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
 #### Notify Checkout Denied
 $response = $transport->deniedCheckout($checkout);
@@ -204,6 +210,17 @@ $order->checkout_id = 'phpcheckoutorder00';
 $order->id = 'phpfullorder00';
 $order->payment_details[0]->avs_result_code = 'Y';
 $order->payment_details[0]->cvv_result_code = 'N';
+
+##REQUIRED FOR PSD2 ORDERS##
+//$authenticationResult = new Model\AuthenticationResult(array(
+//    'created_at' => '2019-07-17T15:00:00-05:00',
+//    'eci' => '07',
+//    'cavv' => '05',
+//    'trans_status' => 'Y',
+//    'trans_status_reason' => '01',
+//    'liability_shift' => true 
+//));
+//$order->payment_details[0]->authentication_result = $authenticationResult;
 
 $response = $transport->createOrder($order);
 echo PHP_EOL."Create Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
