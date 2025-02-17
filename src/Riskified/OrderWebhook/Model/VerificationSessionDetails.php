@@ -15,18 +15,14 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class VerificationSessionDetails
+ * data model for Verification Session Details
  * @package Riskified\OrderWebhook\Model
  */
-class SessionDetails extends AbstractModel {
+class VerificationSessionDetails extends AbstractModel {
 
     protected $_fields = array(
-        'created_at' => 'date',
-        'cart_token' => 'string',
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
-        'source' => 'string /^(:?desktop_web|mobile_app|web|mobile_web|other)$/',
-        'device_id' => 'string optional',
-        'referring_site' => 'string optional'
+        'cart_token' => 'string optional',
+        'browser_ip' => 'string optional'
     );
 }

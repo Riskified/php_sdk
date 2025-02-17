@@ -1,6 +1,6 @@
 <?php namespace Riskified\OrderWebhook\Model;
 /**
- * Copyright 2013-2015 Riskified.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2013-2021 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -15,18 +15,13 @@
  */
 
 /**
- * Class ClientDetails
- * data model of client details of customer placing order
+ * Class Policy
+ * data model of policy information
  * @package Riskified\OrderWebhook\Model
  */
-class SessionDetails extends AbstractModel {
+class Policy extends AbstractModel {
 
     protected $_fields = array(
-        'created_at' => 'date',
-        'cart_token' => 'string',
-        'browser_ip' => 'string /^(:?[0-9a-f]{0,5}[:\.])+[0-9a-f]{0,4}$/i',
-        'source' => 'string /^(:?desktop_web|mobile_app|web|mobile_web|other)$/',
-        'device_id' => 'string optional',
-        'referring_site' => 'string optional'
+        'evaluate' => 'boolean'
     );
 }

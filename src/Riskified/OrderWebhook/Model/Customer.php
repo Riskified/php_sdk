@@ -57,6 +57,9 @@ class Customer extends AbstractModel {
         'buy_attempts' => 'number optional',
         'sell_attempts' => 'number optional',
 
+        'document_id' => 'string optional',
+        'document_type' => 'string optional',
+
         'address' => 'object \Address optional'
     );
 }

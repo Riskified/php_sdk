@@ -90,27 +90,27 @@ class Notification {
      * @throws \Riskified\DecisionNotification\Exception\BadPostJsonException on bad or missing parameters
      */
     protected function parse_body() {
-        $body = json_decode($this->body);
-        if (!array_key_exists('order', $body))
+        $body = json_decode($this->body, true);
+        if (!isset($body["order"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
-        $order = $body->{'order'};
-        if (!array_key_exists('id', $order) || !array_key_exists('status', $order))
+        $order = $body["order"];
+        if (!isset($order["id"]) || !isset($order["status"]))
             throw new Exception\BadPostJsonException($this->headers, $this->body);
 
         //foreach($order as $key => $value)
         //    $this->$key = $value;
-        $this->id = $order->{'id'};
-        $this->status = $order->{'status'};
-        $this->oldStatus = $order->{'old_status'};
-        $this->description = $order->{'description'};
+        $this->id = $order["id"];
+        $this->status = $order["status"];
+        $this->oldStatus = $order["old_status"];
+        $this->description = $order["description"];
 
-        if (array_key_exists('category', $order)) {
-            $this->category = $order->{'category'};
+        if (isset($order["category"])) {
+            $this->category = $order["category"];
         }
 
-        if (array_key_exists('decision_code', $order)) {
-            $this->decisionCode = $order->{'decision_code'};
+        if (isset($order["decision_code"])) {
+            $this->decisionCode = $order["decision_code"];
         }
     }
 }

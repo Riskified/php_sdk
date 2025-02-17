@@ -43,6 +43,7 @@ class LineItem extends AbstractModel {
         'condition' => 'string optional',
         'product_type' => 'string optional',
         'brand' => 'string optional',
+        'policy' => 'object \Policy optional',
 
         /* add this field when the (digital) goods are to be delivered in future date */
         'delivered_at' => 'date optional',
@@ -52,12 +53,11 @@ class LineItem extends AbstractModel {
         'sub_category' => 'string optional',
 
         /* fields for ticket industry */
-        'event_name' => 'string optional',
-        'event_section_name' => 'string optional',
+        'section' => 'string optional',
         'event_date' => 'date optional',
-        'event_country' => 'string optional',
-        'event_city' => 'string optional',
-        'event_location' => 'string optional',
+        'country_code' => 'string optional',
+        'latitude' => 'string optional',
+        'longitude' => 'string optional',
 
         /* fields for giftcard industry */
         'photo_url' => 'string optional',
@@ -98,6 +98,23 @@ class LineItem extends AbstractModel {
         'number_of_guests'=> 'number optional',
         'cancellation_policy' => 'string optional',
         'accommodation_type' => 'string optional',
+
+        /* fields for rides industry */
+        'pickup_date' => 'date optional',
+        'pickup_latitude' => 'float optional',
+        'pickup_longitude' => 'float optional',
+        'pickup_address' => 'object \Address optional',
+        'dropoff_date' => 'date optional',
+        'dropoff_latitude' => 'float optional',
+        'dropoff_longitude' => 'float optional',
+        'dropoff_address' => 'object \Address optional',
+        'price_by' => 'string optional',
+        'vehicle_class' => 'string optional',
+        'driver_id' => 'string optional',
+        'tariff' => 'string optional',
+        'note_to_driver' => 'string optional',
+        'meet_n_greet' => 'string optional',
+        'authorized_payments' => 'float optional',
 
 
         'properties' =>'array object \Attribute optional',

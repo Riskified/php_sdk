@@ -35,7 +35,7 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 # Order
 $order = new Model\Order(array(
-    'id' => '1234phpsdksimple43001',
+    'id' => '1234phpsdksimple',
     'email' => 'great.customer@example.com',
     'created_at' => '2018-08-22T11:00:00-05:00',
     'currency' => 'USD',
@@ -45,6 +45,7 @@ $order = new Model\Order(array(
     'total_price' => 113.23,
     'total_discounts' => 5.0,
     'cart_token' => '1sdaf23j212',
+    'device_id' => '01234567-89ABCDEF-01234567-89ABCDEF',
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
     'source' => 'desktop_web'
@@ -67,7 +68,19 @@ $lineItem2 = new Model\LineItem(array(
     'sku' => 'EFGH',
     'registry_type' => 'wedding'
 ));
-$order->line_items = array($lineItem1, $lineItem2);
+$lineItem3 = new Model\LineItem(array(
+    'price' => 150,
+    'quantity' => 2,
+    'title' => "New York Yankees game",
+    'section' => 'Bleachers',
+    'city' => 'New York City',
+    'event_date' => '2019-07-12T19:00:00-4:00',
+    'country_code' => 'US',
+    'latitude' => '40.8296 N',
+    'longitude' => '73.9262 W',
+    'product_type' => 'event'
+));
+$order->line_items = array($lineItem1, $lineItem2, $lineItem3);
 
 # DiscountCodes
 $discountCode = new Model\DiscountCode(array(

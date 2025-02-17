@@ -23,6 +23,7 @@ class DiscountCode extends AbstractModel {
 
     protected $_fields = array(
         'code' => 'string',
-        'amount' => 'float'
+        'amount' => 'float',
+        'policy' => 'object \Policy optional',
     );
 }

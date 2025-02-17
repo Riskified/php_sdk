@@ -25,7 +25,7 @@ class RefundDetails extends AbstractModel {
         'refund_id' => 'string',
         'amount' => 'double',
         'currency' => 'string /^[A-Z]{3}$/i',
-
+        'sku' => 'string optional',
         'refunded_at' => 'date optional',
         'reason' => 'string optional'
     );

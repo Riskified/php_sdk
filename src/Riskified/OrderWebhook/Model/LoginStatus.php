@@ -24,6 +24,6 @@ class LoginStatus extends AbstractModel {
 
     protected $_fields = array(
         'login_status_type' => 'string /^(:?success|failure)$/',
-        'failure_reason' => 'string /^(:?wrong_password|captcha|disabled_account|nonexistent_account|other)$/ optional'
+        'failure_reason' => 'string /^(:?wrong\040password|captcha|disabled\040account|nonexistent\040account|other|expired)$/ optional'
     );
 }

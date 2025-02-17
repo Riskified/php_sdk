@@ -31,6 +31,7 @@ class CustomerCreate extends AbstractModel {
         'customer' => 'object \Customer',
         'payment_details' => 'array object \PaymentDetails optional',
         'billing_address' => 'array object \Address optional',
-        'shipping_address' => 'array object \Address optional'
+        'shipping_address' => 'array object \Address optional',
+        'vendor_name' => 'string optional'
     );
 }

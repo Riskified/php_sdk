@@ -23,8 +23,7 @@ class Order extends AbstractModel {
 
     protected $_fields = array(
         'id' => 'string',
-        'email' => "string /^[a-z0-9,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+[0-9a-zá-úàü_\-\.,!#\$%&'\*\+\/=\?\^_`\{\|}~-][0-9_a-zá-úàü_\-\.,!#\$%&'\*\+\/=\?\^_`\{\|}~-]+(?:\.[a-z0-9,!.#\$%&'\*\+\/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:[a-z]{2,})$/i",
-
+        'email' => '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])',
         'created_at' => 'date',
         'updated_at' => 'date',
         'currency' => 'string /^[A-Z]{3}$/i',
@@ -45,6 +44,7 @@ class Order extends AbstractModel {
         'cancelled_at' => 'date optional',
         'closed_at' => 'date optional',
         'cart_token' => 'string optional',
+        'device_id' => 'string optional',
         'checkout_token' => 'string optional',
         'token' => 'string optional',
         'referring_site' => 'string optional',
@@ -55,7 +55,7 @@ class Order extends AbstractModel {
         'landing_site' => 'string optional',
         'landing_site_ref' => 'string optional',
         'location_id' => 'string optional',
-        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|web|chat|third_party|phone|in_store|shopify_draft_order|unknown)$/',
+        'source' => 'string /^(:?desktop_web|mobile_app|mobile_web|web|chat|third_party|phone|in_store|shopify_draft_order|unknown|mobile_app_android|mobile_app_ios)$/',
         'source_identifier' => 'string optional',
         'source_name' => 'string optional',
         'source_url' => 'string optional',
@@ -72,6 +72,7 @@ class Order extends AbstractModel {
         'tags' => 'string optional',
         'vendor_id' => 'string optional',
         'vendor_name' => 'string optional',
+        'vendor_integration_type' => 'string optional',
         'order_type' => 'string optional',
         'submission_reason' => 'string optional',
 

@@ -29,6 +29,12 @@ class PaymentDetails extends AbstractModel {
         'credit_card_company' => 'string optional',
         'credit_card_token' => 'string optional',
 
+        'installments' => 'number optional',
+
+        'stored_payment_created_at' => 'date optional',
+        'stored_payment_updated_at' => 'date optional',
+
+
         'payer_email' => 'string optional',
         'payer_status' => 'string optional',
         'payer_address_status' => 'string optional',

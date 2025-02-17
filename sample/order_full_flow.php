@@ -36,11 +36,11 @@ Riskified::init($domain, $authToken, Env::SANDBOX, Validations::ALL);
 $order_details = array(
     'id' => 'ch567phpsdkfullflow0',
     'name' => '#1234',
-    'email' => 'erin.o\'neill@cbre.com',
-    'created_at' => '2018-08-23T11:00:00-05:00',
+    'email' => 'great.customer@email.com',
+    'created_at' => '2019-07-23T11:00:00-05:00',
     'closed_at' => null,
     'currency' => 'CAD',
-    'updated_at' => '2018-08-23T11:00:00-05:00',
+    'updated_at' => '2019-08-08T11:00:00-05:00',
     'gateway' => 'mypaymentprocessor',
     'browser_ip' => '124.185.86.55',
     'total_price' => 113.23,
@@ -206,8 +206,8 @@ echo PHP_EOL."Denied Checkout succeeded. Response: ".PHP_EOL.json_encode($respon
 
 #### Create and Submit Order
 $order = new Model\Order($order_details);
-$order->checkout_id = $order->id;
-$order->id = 'or1234';
+$order->checkout_id = 'phpcheckoutorder00';
+$order->id = 'phpfullorder00';
 $order->payment_details[0]->avs_result_code = 'Y';
 $order->payment_details[0]->cvv_result_code = 'N';
 
@@ -275,6 +275,24 @@ $fullfillments = new Model\Fulfillment(array (
 $response = $transport->fulfillOrder($fullfillments);
 echo PHP_EOL."Fulfill Order succeeded. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 
+### Notify Final Order Decision
+$decision = new Model\Decision(array(
+    'id' => $order->id,
+    'decision' => new Model\DecisionDetails(array(
+        'external_status' => 'approved',
+        'decided_at' => '2019-08-08T13:16:00Z',
+        'reason' => 'trusted customer',
+        'amount' => 113.23,
+        'currency' => 'USD'
+    )),
+    'payment_details' => new Model\PaymentDetails(array(
+        'authorization_id' => '0000123572134'
+    ))
+));
+
+$response = $transport->decisionOrder($decision);
+echo PHP_EOL."Decision Order succeeded. Response: ".PHP_EOL.json_encode(response).PHP_EOL;
+
 
 #### Cancel (Full Refund) Order
 $response = $transport->cancelOrder($order);
@@ -298,6 +316,8 @@ echo PHP_EOL."Opt-in. Response: ".PHP_EOL.json_encode($response).PHP_EOL;
 #### Login Account Action
 $login = new Model\Login(array(
     'customer_id' => '207119551',
+    'customer_created_at' => '2020-01-08T11:38-5:00',
+    'email' => 'great.customer@email.com',
     'login_status' => new Model\LoginStatus(array(
         'login_status_type' => 'success'
     )),

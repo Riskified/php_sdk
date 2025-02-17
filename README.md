@@ -1,6 +1,9 @@
 Riskified PHP SDK
 =================
 
+version: 1.9.3
+-------------------
+
 See *samples/* for examples on how to use this SDK.
 
 Migrating to API Version 2
