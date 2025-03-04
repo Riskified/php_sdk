@@ -45,6 +45,7 @@ class PaymentDetails extends AbstractModel {
 
         'account_number' => 'string optional',
         'routing_number' => 'string optional',
+        'token' => 'string optional',
 
         'authorization_error' => 'object \AuthorizationError optional',
 
