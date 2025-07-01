@@ -101,7 +101,7 @@ abstract class AbstractTransport {
         $this->url = Riskified::getHost('sync');
         return $this->send_order($order, 'decide', true);
     }
-    
+
     /**
      * Update an existing order
      * @param $order object Order with updated fields
@@ -162,6 +162,10 @@ abstract class AbstractTransport {
         return $this->send_order($chargeback, 'chargeback', false);
     }
 
+    public function advise($order) {
+        return $this->send_order($order, 'advice', false);
+    }
+
     /**
      * Send a Checkout to Riskified
      * @param $checkout object Checkout to send
@@ -212,6 +216,11 @@ abstract class AbstractTransport {
     public function customerCreate($customer_create) {
         $this->url = Riskified::getHost('account');
         return $this->send_account_event($customer_create, 'customer_create');
+    }
+
+    public function verification($event) {
+        $this->url = Riskified::getHost('account');
+        return $this->send_account_event($event, 'verification');
     }
 
     public function customerUpdate($customer_update) {
@@ -304,6 +313,7 @@ abstract class AbstractTransport {
     protected function headers($data_string) {
         $signature = $this->signature;
         return array(
+            'api-version: 2',
             'Content-Type: application/json',
             'Content-Length: '.strlen($data_string),
             $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
