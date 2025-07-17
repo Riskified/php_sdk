@@ -163,7 +163,7 @@ abstract class AbstractTransport {
     }
 
     public function advise($order) {
-        return $this->send_order($order, 'advice', false);
+        return $this->send_order($order, 'advise', false);
     }
 
     /**
@@ -246,11 +246,6 @@ abstract class AbstractTransport {
     public function redeem($redeem) {
         $this->url = riskified::gethost('account');
         return $this->send_account_event($redeem, 'redeem');
-    }
-
-    public function customerReachOut($customer_reach_out) {
-        $this->url = riskified::gethost('account');
-        return $this->send_account_event($customer_reach_out, 'contact');
     }
 
     public function sendHistoricalOrders($orders) {
