@@ -314,7 +314,7 @@ abstract class AbstractTransport {
      */
     protected function headers($data_string) {
         $signature = $this->signature;
-        var_dump($this->signature->calc_hmac($data_string));
+        
         return array(
             'api-version: 2',
             'Content-Type: application/json',
