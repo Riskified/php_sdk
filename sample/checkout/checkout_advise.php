@@ -18,16 +18,16 @@ use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
 // Replace with the 'shop domain' of your account in Riskified
-$domain = "www.yossirtest_post.com";
+$domain = "[your shop domain as registered to Riskified]";
 
 // Replace with the 'auth token' listed in the Riskified web app under the 'Settings' Tab
-$authToken = "6a21f867852d8a097b46803fa09ea61d";
+$authToken = "[your authentication token string]";
 
 // Initialize Riskified SDK
 Riskified::init($domain, $authToken, Env::SANDBOX, Validations::IGNORE_MISSING);
 
 // Create Checkout
-$checkout = new Model\Checkout(array(
+$checkout = new Model\Checkout([
     'id' => '1234phpsdksimple',
     'email' => 'great.customer@example.com',
     'created_at' => '2018-08-22T11:00:00-05:00',
@@ -42,28 +42,28 @@ $checkout = new Model\Checkout(array(
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
     'source' => 'desktop_web'
-));
+]);
 
 // Create Line Items
-$lineItem1 = new Model\LineItem(array(
+$lineItem1 = new Model\LineItem([
     'price' => 100,
     'quantity' => 1,
     'title' => 'ACME Widget',
     'product_id' => '101',
     'sku' => 'ABCD',
     'registry_type' => 'baby'
-));
+]);
 
-$lineItem2 = new Model\LineItem(array(
+$lineItem2 = new Model\LineItem([
     'price' => 200,
     'quantity' => 4,
     'title' => 'ACME Spring',
     'product_id' => '202',
     'sku' => 'EFGH',
     'registry_type' => 'wedding'
-));
+]);
 
-$lineItem3 = new Model\LineItem(array(
+$lineItem3 = new Model\LineItem([
     'price' => 150,
     'quantity' => 2,
     'title' => "New York Yankees game",
@@ -74,36 +74,36 @@ $lineItem3 = new Model\LineItem(array(
     'latitude' => '40.8296 N',
     'longitude' => '73.9262 W',
     'product_type' => 'event'
-));
+]);
 
 $checkout->line_items = [$lineItem1, $lineItem2, $lineItem3];
 
 // Create Discount Codes
-$discountCode = new Model\DiscountCode(array(
+$discountCode = new Model\DiscountCode([
     'amount' => 19.95,
     'code' => '12'
-));
-$checkout->discount_codes = array($discountCode);
+]);
+$checkout->discount_codes = [$discountCode];
 
 // Create Shipping Lines
-$shippingLine = new Model\ShippingLine(array(
+$shippingLine = new Model\ShippingLine([
     'price' => 123.00,
     'title' => 'Free Shipping'
-));
-$checkout->shipping_lines = array($shippingLine);
+]);
+$checkout->shipping_lines = [$shippingLine];
 
 // Create Payment Details
-$paymentDetails = new Model\PaymentDetails(array(
+$paymentDetails = new Model\PaymentDetails([
     'credit_card_bin' => '370002',
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
     'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
     'credit_card_company' => 'VISA'
-));
-$checkout->payment_details = array($paymentDetails);
+]);
+$checkout->payment_details = [$paymentDetails];
 
 // Create Customer
-$customer = new Model\Customer(array(
+$customer = new Model\Customer([
     'email' => 'email@address.com',
     'first_name' => 'Firstname',
     'last_name' => 'Lastname',
@@ -112,11 +112,11 @@ $customer = new Model\Customer(array(
     'orders_count' => 6,
     'verified_email' => true,
     'account_type' => 'free'
-));
+]);
 $checkout->customer = $customer;
 
 // Create Billing Address
-$billingAddress = new Model\Address(array(
+$billingAddress = new Model\Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -130,11 +130,11 @@ $billingAddress = new Model\Address(array(
     'province' => 'New York',
     'province_code' => 'NY',
     'zip' => '64155'
-));
+]);
 $checkout->billing_address = $billingAddress;
 
 // Create Shipping Address
-$shippingAddress = new Model\Address(array(
+$shippingAddress = new Model\Address([
     'first_name' => 'John',
     'last_name' => 'Doe',
     'address1' => '108 Main Street',
@@ -148,11 +148,11 @@ $shippingAddress = new Model\Address(array(
     'province' => 'New York',
     'province_code' => 'NY',
     'zip' => '64155'
-));
+]);
 $checkout->shipping_address = $shippingAddress;
 
 // Display checkout request
-echo "\nCHECKOUT REQUEST:" . PHP_EOL . json_encode(json_decode($checkout->toJson())) . PHP_EOL;
+echo "\nCHECKOUT REQUEST:" . PHP_EOL .$checkout->toJson() . PHP_EOL;
 
 // Create a curl transport to the Riskified Server
 $transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
@@ -160,7 +160,7 @@ $transport->timeout = 10;
 
 // Submit the checkout to Riskified
 try {
-    $response = $transport->createCheckout($checkout);
+    $response = $transport->advise($checkout);
     echo PHP_EOL . "Checkout submission successful. Riskified response: " . PHP_EOL . 
          json_encode($response, JSON_PRETTY_PRINT) . PHP_EOL;
 } catch (\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $unsuccessfulException) {

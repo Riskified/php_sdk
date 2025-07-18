@@ -18,6 +18,9 @@ use Riskified\Common\Env;
 use Riskified\Common\Riskified;
 use Riskified\Common\Validations;
 
+use Riskified\OrderWebhook\Model\Checkout;
+use Riskified\OrderWebhook\Model\Order;
+
 /**
  * Class AbstractTransport
  * A base class for Transports for sending order data to Riskified
@@ -162,8 +165,12 @@ abstract class AbstractTransport {
         return $this->send_order($chargeback, 'chargeback', false);
     }
 
-    public function advise($order) {
-        return $this->send_order($order, 'advise', false);
+    public function advise(Checkout $checkout) {
+        return $this->send_checkout($checkout, 'advise', false);
+    }
+
+    public function checkout_decide(Order $order) {
+        return $this->send_order($order, 'decide', false);
     }
 
     /**
@@ -307,6 +314,7 @@ abstract class AbstractTransport {
      */
     protected function headers($data_string) {
         $signature = $this->signature;
+        var_dump($this->signature->calc_hmac($data_string));
         return array(
             'api-version: 2',
             'Content-Type: application/json',
