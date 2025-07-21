@@ -47,6 +47,7 @@ class PaymentDetails extends AbstractModel {
         'routing_number' => 'string optional',
 
         'authorization_error' => 'object \AuthorizationError optional',
+        'authentication_result' => 'object \AuthenticationResult optional',
 
         'cardholder_name' => 'string optional'
     );

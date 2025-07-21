@@ -19,13 +19,17 @@
  * failed result of an authorization attempt by a payment gateway.
  * @package Riskified\OrderWebhook\Model
  */
-class AuthorizationError extends Order {
+class AuthenticationResult extends Order {
 
     protected $_fields = array(
-        'created_at' => 'date',
-        'error_code' => 'string',
-        'drop_off' => 'string optional',
-        'message' => 'string optional'
+        'created_at' => 'date optional',
+        'eci' => 'string',
+        'liability_shift' => 'boolean',
+        'cavv' => 'string optional',
+        'trans_status' => 'string optional',
+        'three_d_challenge' => 'boolean optional',
+        'TRA_exemption' => 'boolean optional',
+        'trans_status_reason' => 'string optional',
     );
 
 }
