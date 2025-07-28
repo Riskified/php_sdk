@@ -24,7 +24,7 @@ class AuthorizationError extends Order {
     protected $_fields = array(
         'created_at' => 'date',
         'error_code' => 'string',
-        'drop_off' => 'string optional',
+        'drop_off' => 'boolean optional',
         'message' => 'string optional'
     );
 
