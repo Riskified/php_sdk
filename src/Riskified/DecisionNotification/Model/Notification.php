@@ -48,6 +48,19 @@ class Notification {
      * @var string Category of Decision
      */
     public $category;
+
+    /**
+     * @var string risk score provided by Riskified
+     * Note: This field may be null if your account is not set up to receive risk
+     */
+    public $riskScore;
+
+    /**
+     * @var array risk indicators provided by Riskified
+     * Note: This field may be null if your account is not set up to receive risk indicators
+     */
+    public $riskIndicators;
+
     /**
      * @var string Decision Code of Decision
      */
@@ -103,9 +116,11 @@ class Notification {
         $this->id = $order["id"];
         $this->status = $order["status"];
         $this->oldStatus = $order["old_status"];
+        $this->riskScore = $order["risk_score"] ?? 0;
+        $this->riskIndicators = $order["risk_indicators"] ?? [];
         $this->description = $order["description"];
 
-        if (isset($order["category"])) {
+        if (isset($order["category"])) { 
             $this->category = $order["category"];
         }
 
