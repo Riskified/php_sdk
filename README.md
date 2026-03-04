@@ -1,7 +1,7 @@
 Riskified PHP SDK
 =================
 
-version: 1.9.5
+version: 1.10.0
 -------------------
 
 See *samples/* for examples on how to use this SDK.
@@ -42,7 +42,6 @@ Notification requests in API version 2 now contain a JSON encoded payload which 
 
 If you are already using the `Notification` class in version 1, there are no additional actions required to support the
 migration to JSON, as this SDK handles the new data format seamlessly.
-
 
 
 
