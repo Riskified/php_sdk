@@ -74,6 +74,7 @@ class Order extends AbstractModel {
         'vendor_name' => 'string optional',
         'vendor_integration_type' => 'string optional',
         'order_type' => 'string optional',
+        'partner_sub_merchant_id' => 'string optional',
         'submission_reason' => 'string optional',
 
         'shipping_address' => 'object \Address optional',
