@@ -77,7 +77,7 @@ class Order extends AbstractModel {
         'partner_sub_merchant_id' => 'string optional',
         'submission_reason' => 'string optional',
 
-        'shipping_address' => 'object \Address optional',
+        'shipping_address' => 'array object \Address optional',
         'billing_address' => 'object \Address optional',
         'payment_details' => 'array object \PaymentDetails optional',
         'client_details' => 'object \ClientDetails optional',
