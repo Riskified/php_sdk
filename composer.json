@@ -1,9 +1,17 @@
 {
     "name": "riskified/php_sdk",
     "description": "Implementation of the Riskified API in php",
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
     "autoload": {
-            "psr-4": {
-                "Riskified\\": "src/Riskified"
-            }    
-     }
-} 
+        "psr-4": {
+            "Riskified\\": "src/Riskified"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Riskified\\Tests\\": "tests/"
+        }
+    }
+}
