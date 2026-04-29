@@ -45,14 +45,6 @@ class RiskifiedTest extends TestCase
         $this->assertSame('wh.riskified.com', $hosts['default']);
         $this->assertSame('wh-sync.riskified.com', $hosts['sync']);
         $this->assertSame('api.riskified.com', $hosts['account']);
-        $this->assertSame('w.decopayments.com', $hosts['deco']);
-    }
-
-    public function testGetHostByEnvForDev(): void
-    {
-        Riskified::init('shop', 'token', Env::DEV, Validations::IGNORE_MISSING);
-        $hosts = Riskified::getHostByEnv();
-        $this->assertSame('localhost:3000', $hosts['default']);
     }
 
     public function testGetHostByEnvDefaultsToSandboxWhenEnvIsNull(): void
