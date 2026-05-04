@@ -31,8 +31,6 @@ class AuthorizationException extends NotificationException{
     }
 
     protected function customMessage() {
-        return parent::customMessage().
-        ', Expected HMAC: '.$this->expected_hmac.
-        '. Received HMAC: '.$this->received_hmac;
+        return parent::customMessage().', Authorization Error: HMAC does not match';
     }
 }
