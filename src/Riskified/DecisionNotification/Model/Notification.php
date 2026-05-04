@@ -95,7 +95,7 @@ class Notification {
         $remote_hmac = $this->headers[$signature::HMAC_HEADER_NAME];
         $local_hmac = $signature->calc_hmac($this->body);
         if (!hash_equals($remote_hmac, $local_hmac))
-            throw new Exception\AuthorizationException($this->headers, $this->body, $local_hmac, $remote_hmac);
+            throw new Exception\AuthorizationException($this->headers, $this->body);
     }
 
     /**

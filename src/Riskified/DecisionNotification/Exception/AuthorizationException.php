@@ -21,12 +21,7 @@
  */
 class AuthorizationException extends NotificationException{
 
-    protected $expected_hmac;
-    protected $received_hmac;
-
-    public function __construct($headers, $body, $expected_hmac, $received_hmac) {
-        $this->expected_hmac = $expected_hmac;
-        $this->received_hmac = $received_hmac;
+    public function __construct($headers, $body) {
         parent::__construct($headers, $body);
     }
 
