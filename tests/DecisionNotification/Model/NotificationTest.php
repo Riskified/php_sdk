@@ -198,6 +198,24 @@ JSON;
         );
     }
 
+    public function testAuthorizationExceptionMessageContainsMaskedHmacSuffix(): void
+    {
+        $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
+        $sig = $this->signature();
+        $wrongHmac = 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890';
+
+        try {
+            new Notification($sig, [$sig::HMAC_HEADER_NAME => $wrongHmac], $body);
+            $this->fail('Expected AuthorizationException was not thrown');
+        } catch (AuthorizationException $e) {
+            $this->assertStringContainsString(
+                '***'.substr($wrongHmac, -3),
+                $e->getMessage(),
+                'Masked HMAC (last 3 chars) must appear in exception message'
+            );
+        }
+    }
+
     public function testParsesUsingSdkHttpDataSignature(): void
     {
         $prevToken = Riskified::$auth_token;
