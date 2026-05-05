@@ -15,6 +15,7 @@
  */
 
 use Riskified\Common\Exception\BaseException;
+use Riskified\Common\Signature\HttpDataSignature;
 
 /**
  * Class NotificationException
@@ -33,7 +34,12 @@ class NotificationException extends BaseException {
     }
 
     protected function headersString() {
-        return '[ '.join(', ',$this->headers).' ]';
+        $headers = $this->headers;
+        $hmacKey = HttpDataSignature::HMAC_HEADER_NAME;
+        if (isset($headers[$hmacKey])) {
+            $headers[$hmacKey] = '***'.substr($headers[$hmacKey], -3);
+        }
+        return '[ '.join(', ', $headers).' ]';
     }
 
     protected function customMessage() {
