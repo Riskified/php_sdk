@@ -50,6 +50,9 @@ class PaymentDetails extends AbstractModel {
         'authentication_result' => 'object \AuthenticationResult optional',
 
         'cardholder_name' => 'string optional',
-        'payment_type' => 'string optional'
+        'payment_type' => 'string optional',
+
+        'account_identity' => 'object \AccountIdentity optional',
+        'account_balance' => 'object \AccountBalance optional'
     );
 }
