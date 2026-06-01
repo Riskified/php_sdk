@@ -15,15 +15,17 @@
  */
 
 /**
- * Class LoginStatus
- * data model for LoginStatus
- * only use 'failure_reason' if 'login_status_type' == 'failure'
+ * Class AccountIdentity
+ * Represents identity information associated with a payment account.
+ * All fields are optional.
  * @package Riskified\OrderWebhook\Model
  */
-class LoginStatus extends AbstractModel {
+class AccountIdentity extends AbstractModel {
 
     protected $_fields = array(
-        'login_status_type' => 'string /^(:?success|failure)$/',
-        'failure_reason' => 'string /^(:?wrong\040password|captcha|disabled\040account|nonexistent\040account|other|expired)$/ optional'
+        'names' => 'array string optional',
+        'addresses' => 'array object \Address optional',
+        'phone_numbers' => 'array string optional',
+        'emails' => 'array string optional'
     );
 }

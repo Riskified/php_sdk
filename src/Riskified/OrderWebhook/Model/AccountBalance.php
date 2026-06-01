@@ -15,15 +15,16 @@
  */
 
 /**
- * Class LoginStatus
- * data model for LoginStatus
- * only use 'failure_reason' if 'login_status_type' == 'failure'
+ * Class AccountBalance
+ * Represents account balance information from a financial data provider.
  * @package Riskified\OrderWebhook\Model
  */
-class LoginStatus extends AbstractModel {
+class AccountBalance extends AbstractModel {
 
     protected $_fields = array(
-        'login_status_type' => 'string /^(:?success|failure)$/',
-        'failure_reason' => 'string /^(:?wrong\040password|captcha|disabled\040account|nonexistent\040account|other|expired)$/ optional'
+        'available_balance' => 'float',
+        'service_name' => 'string /^(:?plaid|mx|stripe|truelayer|klarna|visa|mastercard|yodlee)$/',
+        'updated_at' => 'date',
+        'currency_code' => 'string /^[A-Z]{3}$/i'
     );
 }

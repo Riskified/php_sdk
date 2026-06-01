@@ -1,6 +1,6 @@
 <?php namespace Riskified\OrderWebhook\Model;
 /**
- * Copyright 2013-2015 Riskified.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -50,6 +50,9 @@ class PaymentDetails extends AbstractModel {
         'authentication_result' => 'object \AuthenticationResult optional',
 
         'cardholder_name' => 'string optional',
-        'payment_type' => 'string optional'
+        'payment_type' => 'string optional',
+
+        'account_identity' => 'object \AccountIdentity optional',
+        'account_balance' => 'object \AccountBalance optional'
     );
 }

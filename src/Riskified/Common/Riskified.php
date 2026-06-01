@@ -1,7 +1,7 @@
 <?php namespace Riskified\Common;
 
     /**
-     * Copyright 2013-2015 Riskified.com, Inc. or its affiliates. All Rights Reserved.
+     * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
      *
      * Licensed under the Apache License, Version 2.0 (the "License").
      * You may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * @package Riskified\Common
  */
 class Riskified {
-    const VERSION = '1.10.2';
+    const VERSION = '1.11.0';
     const API_VERSION = '2';
 
     /**
