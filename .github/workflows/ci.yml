@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  quality:
+    name: Lint, analyse & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Coding standard (phpcs / PSR-12 + PHP 5.5 compatibility)
+        run: composer lint
+
+      - name: Static analysis (phpstan)
+        run: composer analyse
+
+      - name: Tests (phpunit)
+        run: vendor/bin/phpunit

@@ -94,6 +94,7 @@ class Notification {
         $signature = $this->signature;
         $remote_hmac = $this->headers[$signature::HMAC_HEADER_NAME];
         $local_hmac = $signature->calc_hmac($this->body);
+        // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.hash_equalsFound -- provided on PHP < 5.6 by symfony/polyfill-php56
         if (!hash_equals($remote_hmac, $local_hmac))
             throw new Exception\AuthorizationException($this->headers, $this->body);
     }
@@ -116,8 +117,8 @@ class Notification {
         $this->id = $order["id"];
         $this->status = $order["status"];
         $this->oldStatus = $order["old_status"];
-        $this->riskScore = $order["risk_score"] ?? 0;
-        $this->riskIndicators = $order["risk_indicators"] ?? [];
+        $this->riskScore = isset($order["risk_score"]) ? $order["risk_score"] : 0;
+        $this->riskIndicators = isset($order["risk_indicators"]) ? $order["risk_indicators"] : array();
         $this->description = $order["description"];
 
         if (isset($order["category"])) { 

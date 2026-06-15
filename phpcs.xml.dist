@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Riskified PHP SDK">
+    <description>Coding standard (PSR-12) and PHP 5.5+ runtime compatibility for the Riskified PHP SDK.</description>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <!-- Show sniff codes (s) and progress (p) so violations are easy to silence/fix. -->
+    <arg value="sp"/>
+
+    <!-- Layout / formatting standard, applied to both production and test code. -->
+    <rule ref="PSR12"/>
+
+    <!--
+        Runtime compatibility: production code must stay valid for every PHP version
+        from 5.5 upwards. Test code is intentionally excluded - it runs on modern PHP
+        via PHPUnit 10.
+    -->
+    <config name="testVersion" value="5.5-"/>
+    <rule ref="PHPCompatibility">
+        <include-pattern>src/*</include-pattern>
+    </rule>
+</ruleset>

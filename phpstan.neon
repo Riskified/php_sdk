@@ -1,0 +1,10 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+    # NOTE: PHPStan cannot target PHP 5.5 (its analysis floor is far higher), so it
+    # runs against the dev PHP version and is used purely for logic/type bug-finding.
+    # PHP 5.5 runtime compatibility is enforced separately by PHPCompatibility (phpcs).
