@@ -7,16 +7,16 @@ use Riskified\OrderWebhook\Model\MerchantSettings;
 
 class MerchantSettingsTest extends TestCase {
     public function testSerializesSettingsArray(): void {
-        $settings = new MerchantSettings([
+        $expected = [
             'settings' => [
                 'notify_url' => 'https://example.com/hook',
                 'mode' => 'active',
             ],
-        ]);
+        ];
+        $settings = new MerchantSettings($expected);
 
         $json = $settings->toJson();
-        $this->assertStringContainsString('"settings"', $json);
-        $this->assertStringContainsString('"notify_url":"https://example.com/hook"', $json);
+        $this->assertSame($expected, json_decode($json, true));
     }
 
     public function testValidateSucceedsForStringAssociativeSettings(): void {
