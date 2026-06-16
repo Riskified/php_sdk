@@ -14,9 +14,6 @@
  * permissions and limitations under the License.
  */
 
-// Ensure functions missing on older PHP versions are available, regardless of how the SDK was loaded.
-require_once __DIR__ . '/polyfill.php';
-
 function riskifiedAutoload($class) {
     $parts = explode('\\', $class);
     if (array_shift($parts) == 'Riskified') {

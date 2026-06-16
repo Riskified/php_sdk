@@ -11,7 +11,7 @@ For full API details, see the [Riskified API reference](https://apiref.riskified
 
 ## Requirements
 
-- PHP >= 5.5
+- PHP >= 7.0
 - The `curl` and `json` PHP extensions
 
 ## Installation

@@ -2,8 +2,7 @@
     "name": "riskified/php_sdk",
     "description": "Implementation of the Riskified API in php",
     "require": {
-        "php": ">=5.5.0",
-        "symfony/polyfill-php56": "^1.0"
+        "php": ">=7.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.5",
