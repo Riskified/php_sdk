@@ -1,7 +1,6 @@
 {
     "name": "riskified/php_sdk",
     "description": "Implementation of the Riskified API in php",
-    "license": "Apache-2.0",
     "require": {
         "php": ">=5.5.0",
         "symfony/polyfill-php56": "^1.0"
