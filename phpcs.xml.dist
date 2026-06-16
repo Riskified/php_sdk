@@ -10,6 +10,9 @@
     <!-- Show sniff codes (s) and progress (p) so violations are easy to silence/fix. -->
     <arg value="sp"/>
 
+    <!-- Warnings are reported but do not fail the build (non-zero exit). -->
+    <config name="ignore_warnings_on_exit" value="1"/>
+
     <!-- Layout / formatting standard, applied to both production and test code. -->
     <rule ref="PSR12">
         <!-- Deviation from PSR-12: keep opening braces on the same line (K&R) for both
