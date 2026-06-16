@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -13,6 +14,8 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+namespace Riskified\OrderWebhook\Exception;
 
 use Riskified\Common\Exception\BaseException;
 
@@ -32,14 +35,12 @@ class UnsuccessfulActionException extends BaseException {
     }
 
     protected function customMessage() {
-        return 'Http Status Code: '.$this->statusCode.
-        ', Error was: '.$this->jsonResponse;
+        return 'Http Status Code: ' . $this->statusCode .
+        ', Error was: ' . $this->jsonResponse;
     }
 
-    function __get($name)
-    {
+    // phpcs:ignore Squiz.Scope.MethodScope.Missing -- visibility omitted for backward compatibility
+    function __get($name) {
         return isset($this->$name) ? $this->$name : null;
     }
-
-
 }

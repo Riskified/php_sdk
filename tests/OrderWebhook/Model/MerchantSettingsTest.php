@@ -5,10 +5,8 @@ namespace Riskified\Tests\OrderWebhook\Model;
 use PHPUnit\Framework\TestCase;
 use Riskified\OrderWebhook\Model\MerchantSettings;
 
-class MerchantSettingsTest extends TestCase
-{
-    public function testSerializesSettingsArray(): void
-    {
+class MerchantSettingsTest extends TestCase {
+    public function testSerializesSettingsArray(): void {
         $settings = new MerchantSettings([
             'settings' => [
                 'notify_url' => 'https://example.com/hook',
@@ -21,8 +19,7 @@ class MerchantSettingsTest extends TestCase
         $this->assertStringContainsString('"notify_url":"https://example.com/hook"', $json);
     }
 
-    public function testValidateSucceedsForStringAssociativeSettings(): void
-    {
+    public function testValidateSucceedsForStringAssociativeSettings(): void {
         $settings = new MerchantSettings([
             'settings' => ['feature_x' => 'on'],
         ]);

@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Exception;
+
 use Riskified\Common\Exception\BaseException;
 
 /**
@@ -22,7 +25,6 @@ use Riskified\Common\Exception\BaseException;
  * @package Riskified\OrderWebhook\Exception
  */
 class MalformedJsonException extends BaseException {
-
     protected $body;
     protected $status;
 
@@ -33,9 +35,7 @@ class MalformedJsonException extends BaseException {
     }
 
     protected function customMessage() {
-        return 'Status Code: '.$this->status.
-        ', Body: '.$this->body;
+        return 'Status Code: ' . $this->status .
+        ', Body: ' . $this->body;
     }
-
-
 }

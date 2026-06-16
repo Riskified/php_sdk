@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
 * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -19,14 +22,10 @@
  * data model of recipient details for digital goods line item (product)
  * @package Riskified\OrderWebhook\Model
  */
-class Recipient extends AbstractModel
-{
-
+class Recipient extends AbstractModel {
     protected $_fields = array(
         'email' => 'string optional',
         'phone' => 'string optional',
         'social' => 'object \SocialDetails optional',
     );
-
 }
-

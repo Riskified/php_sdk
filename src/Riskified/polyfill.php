@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *

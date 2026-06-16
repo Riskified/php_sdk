@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
+namespace Riskified\OrderWebhook\Exception;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19,4 +22,5 @@
  * thrown when property value does not match the format regex
  * @package Riskified\OrderWebhook\Exception
  */
-class FormatMismatchPropertyException extends PropertyException {}
+class FormatMismatchPropertyException extends PropertyException {
+}

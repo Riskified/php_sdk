@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
     /**
      * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
      *
@@ -20,12 +23,10 @@
  * @package Riskified\OrderWebhook\Model
  */
 class AuthorizationError extends Order {
-
     protected $_fields = array(
         'created_at' => 'date',
         'error_code' => 'string',
         'drop_off' => 'boolean optional',
         'message' => 'string optional'
     );
-
 }

@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
+namespace Riskified\OrderWebhook\Exception;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19,4 +22,5 @@
  * thrown when wrong object assigned to field
  * @package Riskified\OrderWebhook\Exception
  */
-class ClassMismatchPropertyException extends PropertyException {}
+class ClassMismatchPropertyException extends PropertyException {
+}

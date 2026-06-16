@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -20,7 +23,6 @@
  * @package Riskified\OrderWebhook\Model
  */
 class AccountBalance extends AbstractModel {
-
     protected $_fields = array(
         'available_balance' => 'float',
         'service_name' => 'string /^(:?plaid|mx|stripe|truelayer|klarna|visa|mastercard|yodlee)$/',

@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Exception;
+
 use Riskified\Common\Exception\BaseException;
 
 /**
@@ -22,7 +25,6 @@ use Riskified\Common\Exception\BaseException;
  * @package Riskified\OrderWebhook\Exception
  */
 class MultiplePropertiesException extends BaseException {
-
     public $exceptions;
 
     public function __construct($exceptions) {
@@ -31,12 +33,11 @@ class MultiplePropertiesException extends BaseException {
     }
 
     public function customMessage() {
-        $sep = PHP_EOL.' ';
-        return $this->count_string().$sep.join($sep, $this->exceptions).PHP_EOL;
+        $sep = PHP_EOL . ' ';
+        return $this->count_string() . $sep . join($sep, $this->exceptions) . PHP_EOL;
     }
 
     protected function count_string() {
-        return 'Exception count: '.count($this->exceptions);
+        return 'Exception count: ' . count($this->exceptions);
     }
-
-} 
+}

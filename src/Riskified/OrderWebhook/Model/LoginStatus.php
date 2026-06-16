@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -21,7 +24,6 @@
  * @package Riskified\OrderWebhook\Model
  */
 class LoginStatus extends AbstractModel {
-
     protected $_fields = array(
         'login_status_type' => 'string /^(:?success|failure)$/',
         'failure_reason' => 'string /^(:?wrong\040password|captcha|disabled\040account|nonexistent\040account|other|expired)$/ optional'

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -22,7 +23,6 @@ namespace Riskified\OrderWebhook\Model;
  * @package Riskified\OrderWebhook\Model
  */
 class Passenger extends AbstractModel {
-
     protected $_fields = array(
         'first_name'               => 'string',
         'last_name'                => 'string',

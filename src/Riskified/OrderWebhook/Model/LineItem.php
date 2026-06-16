@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -20,7 +23,6 @@
  * @package Riskified\OrderWebhook\Model
  */
 class LineItem extends AbstractModel {
-
     protected $_fields = array(
         'price' => 'float',
         'quantity' => 'number',
@@ -67,34 +69,34 @@ class LineItem extends AbstractModel {
         'greeting_message' => 'string optional',
         'card_type' => 'string optional',
         'card_subtype' => 'string optional',
-        'sender_name'=> 'string optional',
-        'sender_email'=> 'string optional',
+        'sender_name' => 'string optional',
+        'sender_email' => 'string optional',
 
         /* fields for travel industry */
-        'leg_id'=> 'string optional',
-        'departure_port_code'=> 'string optional',
-        'departure_city'=> 'string optional',
-        'departure_country_code'=> 'string optional',
-        'arrival_port_code'=> 'string optional',
-        'arrival_city'=> 'string optional',
-        'arrival_country_code'=> 'string optional',
-        'departure_date'=> 'datetime optional',
-        'arrival_date'=> 'datetime optional',
-        'carrier_name'=> 'string optional',
-        'carrier_code'=> 'string optional',
-        'route_index'=> 'number optional',
-        'leg_index'=> 'number optional',
-        'ticket_class'=> 'string optional',
-        'transport_method'=> 'string optional',
+        'leg_id' => 'string optional',
+        'departure_port_code' => 'string optional',
+        'departure_city' => 'string optional',
+        'departure_country_code' => 'string optional',
+        'arrival_port_code' => 'string optional',
+        'arrival_city' => 'string optional',
+        'arrival_country_code' => 'string optional',
+        'departure_date' => 'datetime optional',
+        'arrival_date' => 'datetime optional',
+        'carrier_name' => 'string optional',
+        'carrier_code' => 'string optional',
+        'route_index' => 'number optional',
+        'leg_index' => 'number optional',
+        'ticket_class' => 'string optional',
+        'transport_method' => 'string optional',
 
         /* fields for accommodation industry */
-        'room_type'=> 'string optional',
-        'city'=> 'string optional',
-        'country_code'=> 'string optional',
-        'check_in_date'=> 'date optional',
-        'check_out_date'=> 'date optional',
-        'rating'=> 'float optional',
-        'number_of_guests'=> 'number optional',
+        'room_type' => 'string optional',
+        'city' => 'string optional',
+        'country_code' => 'string optional',
+        'check_in_date' => 'date optional',
+        'check_out_date' => 'date optional',
+        'rating' => 'float optional',
+        'number_of_guests' => 'number optional',
         'cancellation_policy' => 'string optional',
         'accommodation_type' => 'string optional',
 
@@ -116,11 +118,11 @@ class LineItem extends AbstractModel {
         'authorized_payments' => 'float optional',
 
 
-        'properties' =>'array object \Attribute optional',
+        'properties' => 'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
         'seller' => 'object \Seller optional',
 
-        'delivered_to'=> 'string optional',
+        'delivered_to' => 'string optional',
 
         'release_date' => 'date optional',
         'size' => 'string optional',

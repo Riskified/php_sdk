@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Transport;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,10 +15,11 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Transport;
+
 use Riskified\Common\Env;
 use Riskified\Common\Riskified;
 use Riskified\Common\Validations;
-
 use Riskified\OrderWebhook\Model\Checkout;
 use Riskified\OrderWebhook\Model\Order;
 
@@ -29,7 +31,6 @@ use Riskified\OrderWebhook\Model\Order;
  * @package Riskified
  */
 abstract class AbstractTransport {
-
     /**
      * @var boolean set false to use HTTP instead
      */
@@ -256,8 +257,10 @@ abstract class AbstractTransport {
     }
 
     public function sendHistoricalOrders($orders) {
-        $joined = join(',',array_map(function($order) { return $order->toJson(); }, $orders));
-        $json = '{"orders":['.$joined.']}';
+        $joined = join(',', array_map(function ($order) {
+            return $order->toJson();
+        }, $orders));
+        $json = '{"orders":[' . $joined . ']}';
         return $this->send_json_request($json, 'historical');
     }
 
@@ -292,9 +295,10 @@ abstract class AbstractTransport {
         return null;
     }
 
-    protected function validate($order, $enforce_required_keys=true) {
-        if (Riskified::$validations == Validations::SKIP)
+    protected function validate($order, $enforce_required_keys = true) {
+        if (Riskified::$validations == Validations::SKIP) {
             return true;
+        }
         return $order->validate($enforce_required_keys && Riskified::$validations == Validations::ALL);
     }
 
@@ -303,7 +307,7 @@ abstract class AbstractTransport {
      * @param $routing
      * @return string
      */
-    protected function endpoint_prefix($routing='api') {
+    protected function endpoint_prefix($routing = 'api') {
         $protocol = ($this->use_https) ? 'https' : 'http';
         return "$protocol://$this->url/$routing/";
     }
@@ -315,14 +319,14 @@ abstract class AbstractTransport {
      */
     protected function headers($data_string) {
         $signature = $this->signature;
-        
+
         return array(
             'api-version: 2',
             'Content-Type: application/json',
-            'Content-Length: '.strlen($data_string),
-            $signature::SHOP_DOMAIN_HEADER_NAME.':'.Riskified::$domain,
-            $signature::HMAC_HEADER_NAME.':'.$this->signature->calc_hmac($data_string),
-            'Accept: application/vnd.riskified.com; version='.Riskified::API_VERSION
+            'Content-Length: ' . strlen($data_string),
+            $signature::SHOP_DOMAIN_HEADER_NAME . ':' . Riskified::$domain,
+            $signature::HMAC_HEADER_NAME . ':' . $this->signature->calc_hmac($data_string),
+            'Accept: application/vnd.riskified.com; version=' . Riskified::API_VERSION
         );
     }
 }

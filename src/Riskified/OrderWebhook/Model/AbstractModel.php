@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Model;
+
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -22,7 +25,6 @@ use Riskified\OrderWebhook\Exception;
  * @package Riskified
  */
 abstract class AbstractModel {
-
     /**
      * @internal describes allowed fields and their associated validation requirements
      */
@@ -47,10 +49,11 @@ abstract class AbstractModel {
      */
     public function __construct($props = array()) {
         foreach ($props as $key => $value) {
-            if (!array_key_exists($key, $this->_fields))
+            if (!array_key_exists($key, $this->_fields)) {
                 throw new Exception\InvalidPropertyException($this, $key);
+            }
 
-            if($value instanceof \DateTime) {
+            if ($value instanceof \DateTime) {
                 $value = $value->format('c');
             }
             $this->{$key} = $value;
@@ -83,14 +86,14 @@ abstract class AbstractModel {
         } else {
             throw new Exception\InvalidPropertyException($this, $key);
         }
-    }       
+    }
 
     /**
      * Get the short name of the model, ie. without the namespace prefix
      * @return string Short name of the model
      */
     public function __toString() {
-        $parts = explode('\\',get_class($this));
+        $parts = explode('\\', get_class($this));
         return end($parts);
     }
 
@@ -118,10 +121,11 @@ abstract class AbstractModel {
      * @return bool True if object hierarchy is valid
      * @throws \Riskified\OrderWebhook\Exception\MultiplePropertiesException on any or multiple issues
      */
-    public function validate($enforce_required_keys=true) {
+    public function validate($enforce_required_keys = true) {
         $exceptions = $this->validation_exceptions($enforce_required_keys);
-        if ($exceptions)
+        if ($exceptions) {
             throw new Exception\MultiplePropertiesException($exceptions);
+        }
         return true;
     }
 
@@ -130,11 +134,12 @@ abstract class AbstractModel {
      * @param $enforce_required_keys boolean if FALSE then skip validation of missing fields, only report format exceptions
      * @return array All property validation issues or empty array if no issues found
      */
-    protected function validation_exceptions($enforce_required_keys=true) {
+    protected function validation_exceptions($enforce_required_keys = true) {
         $this->_enforce_required_keys = $enforce_required_keys;
         $exceptions = array();
         foreach ($this->_fields as $propertyName => $constraints) {
             $types = explode(' ', $constraints);
+            // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- is_null() is intentional here
             if (is_null($this->$propertyName)) {
                 if ($this->_enforce_required_keys && end($types) != 'optional') {
                     $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
@@ -158,26 +163,32 @@ abstract class AbstractModel {
         $exception = array(new Exception\TypeMismatchPropertyException($this, $key, $types, $value));
         switch ($type) {
             case 'string':
-                if (!is_string($value))
+                if (!is_string($value)) {
                     return $exception;
-                if (count($types) > 1 && $types[1][0] == '/' && !preg_match($types[1], $value))
+                }
+                if (count($types) > 1 && $types[1][0] == '/' && !preg_match($types[1], $value)) {
                     return array(new Exception\FormatMismatchPropertyException($this, $key, $types, $value));
+                }
                 break;
             case 'number':
-                if (!preg_match('/^[0-9]+$/', $value))
+                if (!preg_match('/^[0-9]+$/', $value)) {
                     return $exception;
+                }
                 break;
             case 'float':
-                if (!is_numeric($value))
+                if (!is_numeric($value)) {
                     return $exception;
+                }
                 break;
             case 'boolean':
-                if (!is_bool($value))
+                if (!is_bool($value)) {
                     return $exception;
+                }
                 break;
             case 'date':
-                if (!$this->is_date($value))
+                if (!$this->is_date($value)) {
                     return $exception;
+                }
                 break;
             case 'object':
                 return $this->validate_object($key, $types, $value);
@@ -199,11 +210,12 @@ abstract class AbstractModel {
      * @return array  All  validation issues or null if no issues found
      */
     private function validate_object($key, $types, $object) {
-        if (!is_object($object))
+        if (!is_object($object)) {
             return array(new Exception\TypeMismatchPropertyException($this, $key, $types, $object));
+        }
 
         $parts = explode('\\', get_class($object));
-        $class = '\\'.end($parts);
+        $class = '\\' . end($parts);
 
         if (count($types) > 1 && $types[1][0] == '\\' && $class != $types[1]) {
             return array(new Exception\ClassMismatchPropertyException($this, $key, $types, $object));
@@ -221,7 +233,7 @@ abstract class AbstractModel {
      */
     private function validate_array($key, $types, $array) {
 
-        $childTypes = array_slice($types,1); // remove the 'array' and validate each element by defined type+regex that come after
+        $childTypes = array_slice($types, 1); // remove the 'array' and validate each element by defined type+regex that come after
         if (is_array($array)) {
             $exceptions = array();
             foreach ($array as $element) {
@@ -256,13 +268,17 @@ abstract class AbstractModel {
      */
     private function process_array($array) {
         unset($array['_fields']);
-        foreach($array as $key => $value) {
-            if (is_null($value))
+        foreach ($array as $key => $value) {
+            // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- is_null() is intentional here
+            if (is_null($value)) {
                 unset($array[$key]);
-            if (is_object($value))
+            }
+            if (is_object($value)) {
                 $array[$key] = $value->to_array();
-            if (is_array($value))
+            }
+            if (is_array($value)) {
                 $array[$key] = $this->process_array($value);
+            }
         }
         return $array;
     }
@@ -275,10 +291,10 @@ abstract class AbstractModel {
     private function array_to_xml($order, &$xml_order_info) {
         foreach ($order as $key => $value) {
             if (is_array($value)) {
-                if (!is_numeric($key)){
+                if (!is_numeric($key)) {
                     $subnode = $xml_order_info->addChild($key);
                     $this->array_to_xml($value, $subnode);
-                } else{
+                } else {
                     $subnode = $xml_order_info->addChild('item$key');
                     $this->array_to_xml($value, $subnode);
                 }

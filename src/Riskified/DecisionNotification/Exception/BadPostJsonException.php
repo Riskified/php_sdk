@@ -1,4 +1,7 @@
-<?php namespace Riskified\DecisionNotification\Exception;
+<?php
+
+namespace Riskified\DecisionNotification\Exception;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19,4 +22,5 @@
  * Thrown on bad POST parameters in notification received
  * @package Riskified\DecisionNotification\Exception
  */
-class BadPostJsonException extends NotificationException {}
+class BadPostJsonException extends NotificationException {
+}

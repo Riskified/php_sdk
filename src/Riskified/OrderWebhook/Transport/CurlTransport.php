@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Transport;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,13 +15,15 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Transport;
+
 use Riskified\OrderWebhook\Exception;
+
 /**
  * Class CurlTransport
  * @package Riskified
  */
 class CurlTransport extends AbstractTransport {
-
     /**
      * @var int
      */
@@ -34,7 +37,7 @@ class CurlTransport extends AbstractTransport {
      * @throws \Riskified\OrderWebhook\Exception\CurlException
      */
     protected function send_json_request($json, $endpoint) {
-        $ch = curl_init($this->endpoint_prefix().$endpoint);
+        $ch = curl_init($this->endpoint_prefix() . $endpoint);
         $curl_options = array(
             CURLOPT_POSTFIELDS => $json,
             CURLOPT_CUSTOMREQUEST => 'POST',
@@ -54,6 +57,7 @@ class CurlTransport extends AbstractTransport {
         }
 
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- kept for PHP < 8.0 where curl_close() is still required
         curl_close($ch);
 
         return $this->json_response($body, $status);
@@ -68,7 +72,7 @@ class CurlTransport extends AbstractTransport {
      * @throws Exception\MalformedJsonException
      */
     protected function send_account_json_request($json, $endpoint) {
-        $ch = curl_init($this->endpoint_prefix('customers').$endpoint);
+        $ch = curl_init($this->endpoint_prefix('customers') . $endpoint);
         $curl_options = array(
             CURLOPT_POSTFIELDS => $json,
             CURLOPT_CUSTOMREQUEST => 'POST',
@@ -88,6 +92,7 @@ class CurlTransport extends AbstractTransport {
         }
 
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- kept for PHP < 8.0 where curl_close() is still required
         curl_close($ch);
 
         return $this->json_response($body, $status);
@@ -103,10 +108,12 @@ class CurlTransport extends AbstractTransport {
     private function json_response($body, $status) {
         $response = json_decode($body);
 
-        if ($status != 200)
+        if ($status != 200) {
             throw new Exception\UnsuccessfulActionException($body, $status);
-        if (!$response)
+        }
+        if (!$response) {
             throw new Exception\MalformedJsonException($body, $status);
+        }
 
         return $response;
     }

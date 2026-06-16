@@ -1,4 +1,7 @@
-<?php namespace Riskified\DecisionNotification\Exception;
+<?php
+
+namespace Riskified\DecisionNotification\Exception;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19,13 +22,12 @@
  * Thrown on HMAC mismatch
  * @package Riskified\DecisionNotification\Exception
  */
-class AuthorizationException extends NotificationException{
-
+class AuthorizationException extends NotificationException {
     public function __construct($headers, $body) {
         parent::__construct($headers, $body);
     }
 
     protected function customMessage() {
-        return parent::customMessage().', Authorization Error: HMAC does not match';
+        return parent::customMessage() . ', Authorization Error: HMAC does not match';
     }
 }

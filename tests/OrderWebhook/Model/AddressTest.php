@@ -6,13 +6,11 @@ use PHPUnit\Framework\TestCase;
 use Riskified\OrderWebhook\Exception\MultiplePropertiesException;
 use Riskified\OrderWebhook\Model\Address;
 
-class AddressTest extends TestCase
-{
+class AddressTest extends TestCase {
     /**
      * @return array<string, mixed>
      */
-    private function minimalAddressProps(): array
-    {
+    private function minimalAddressProps(): array {
         return [
             'first_name' => 'Jane',
             'last_name' => 'Doe',
@@ -23,14 +21,12 @@ class AddressTest extends TestCase
         ];
     }
 
-    public function testOptionalIdIsNullByDefault(): void
-    {
+    public function testOptionalIdIsNullByDefault(): void {
         $address = new Address($this->minimalAddressProps());
         $this->assertNull($address->id);
     }
 
-    public function testSerializesSnakeCaseFields(): void
-    {
+    public function testSerializesSnakeCaseFields(): void {
         $address = new Address($this->minimalAddressProps() + [
             'province_code' => 'NY',
             'address1' => '1 Main St',
@@ -42,8 +38,7 @@ class AddressTest extends TestCase
         $this->assertStringContainsString('"address1":"1 Main St"', $json);
     }
 
-    public function testInvalidCountryCodeFormatFailsValidation(): void
-    {
+    public function testInvalidCountryCodeFormatFailsValidation(): void {
         $props = $this->minimalAddressProps();
         $props['country_code'] = 'USA';
 
