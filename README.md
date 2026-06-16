@@ -22,18 +22,6 @@ Install via [Composer](https://getcomposer.org):
 composer require riskified/php_sdk
 ```
 
-Then include Composer's autoloader in your application:
-
-```php
-require __DIR__ . '/vendor/autoload.php';
-```
-
-If you are not using Composer, you can include the bundled autoloader directly:
-
-```php
-require __DIR__ . '/path/to/php_sdk/src/Riskified/autoloader.php';
-```
-
 ## Getting started
 
 Initialize the SDK once with your shop domain and authentication token (both available in the Riskified
