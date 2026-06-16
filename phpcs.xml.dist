@@ -16,6 +16,7 @@
              functions/methods and classes/interfaces/traits. -->
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
         <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
     </rule>
 
     <!-- Enforce same-line (K&R) opening braces. -->
