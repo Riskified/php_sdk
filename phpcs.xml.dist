@@ -11,7 +11,16 @@
     <arg value="sp"/>
 
     <!-- Layout / formatting standard, applied to both production and test code. -->
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+        <!-- Deviation from PSR-12: keep opening braces on the same line (K&R) for both
+             functions/methods and classes/interfaces/traits. -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
+    </rule>
+
+    <!-- Enforce same-line (K&R) opening braces. -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+    <rule ref="Generic.Classes.OpeningBraceSameLine"/>
 
     <!--
         Runtime compatibility: production code must stay valid for every PHP version
@@ -22,4 +31,43 @@
     <rule ref="PHPCompatibility">
         <include-pattern>src/*</include-pattern>
     </rule>
+
+    <!-- Tier 1: bug catchers -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+    <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
+    <rule ref="Generic.PHP.NoSilencedErrors"/>
+
+    <!-- Tier 2: discourage risky / legacy constructs -->
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Generic.PHP.BacktickOperator"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="is_null" value="null"/>
+                <element key="sizeof" value="count"/>
+                <element key="create_function" value="null"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Tier 3: hygiene metrics, warnings only (never fail the build) -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <type>warning</type>
+    </rule>
+    <rule ref="Generic.Metrics.NestingLevel">
+        <type>warning</type>
+    </rule>
+    <rule ref="Generic.Commenting.Todo"/>
 </ruleset>
