@@ -66,7 +66,7 @@ abstract class AbstractTransport {
 
     /**
      * Update a merchant's settings
-     * @param hash object named 'settings' with a key-value structure
+     * @param $settings object named 'settings' with a key-value structure
      * @return object Response object
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
@@ -166,7 +166,7 @@ abstract class AbstractTransport {
     }
 
     public function advise(Checkout $checkout) {
-        return $this->send_checkout($checkout, 'advise', false);
+        return $this->send_checkout($checkout, 'advise');
     }
 
     public function checkout_decide(Order $order) {
@@ -280,6 +280,7 @@ abstract class AbstractTransport {
     protected function send_settings($settings) {
         $json = $settings->toJson();
         return $this->send_json_request($json, 'settings');
+        // @phpstan-ignore deadCode.unreachable
         return null;
     }
 

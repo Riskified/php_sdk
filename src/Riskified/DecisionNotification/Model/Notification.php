@@ -77,6 +77,7 @@ class Notification {
      * @param $body string The raw body of the Request
      * @throws NotificationException on issues with the request
      */
+    // @phpstan-ignore throws.notThrowable
     public function __construct($signature, $headers, $body) {
         $this->signature = $signature;
         $this->headers = $headers;

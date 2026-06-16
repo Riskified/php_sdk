@@ -55,7 +55,6 @@ class LineItem extends AbstractModel {
         /* fields for ticket industry */
         'section' => 'string optional',
         'event_date' => 'date optional',
-        'country_code' => 'string optional',
         'latitude' => 'string optional',
         'longitude' => 'string optional',
 

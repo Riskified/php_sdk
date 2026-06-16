@@ -181,9 +181,11 @@ abstract class AbstractModel {
                 break;
             case 'object':
                 return $this->validate_object($key, $types, $value);
+                // @phpstan-ignore deadCode.unreachable
                 break;
             case 'array':
                 return $this->validate_array($key, $types, $value);
+                // @phpstan-ignore deadCode.unreachable
                 break;
         }
         return array();
