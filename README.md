@@ -7,7 +7,7 @@ notifications Riskified sends back to your application.
 - **Current version:** 1.12.0
 - **API version:** 2
 
-For full API details, see the [Riskified API reference](https://apiref.riskified.com).
+For full API details, see the [Riskified API reference](https://developers.riskified.com/).
 
 ## Requirements
 
@@ -27,44 +27,7 @@ composer require riskified/php_sdk
 Initialize the SDK once with your shop domain and authentication token (both available in the Riskified
 web app under **Settings**), then build and submit an order.
 
-```php
-use Riskified\Common\Riskified;
-use Riskified\Common\Env;
-use Riskified\Common\Validations;
-use Riskified\Common\Signature;
-use Riskified\OrderWebhook\Model;
-use Riskified\OrderWebhook\Transport;
-
-Riskified::init(
-    'your-shop-domain.com',          // shop domain registered with Riskified
-    'your-auth-token',               // auth token from the Riskified web app
-    Env::SANDBOX,                    // Env::SANDBOX | Env::PROD | Env::DEV
-    Validations::IGNORE_MISSING      // validation mode
-);
-
-$order = new Model\Order(array(
-    'id'          => '1234',
-    'email'       => 'great.customer@example.com',
-    'created_at'  => '2026-06-16T11:00:00-05:00',
-    'currency'    => 'USD',
-    'total_price' => 113.23,
-    'browser_ip'  => '124.185.86.55',
-));
-
-// ...attach line items, addresses, payment details, customer, etc.
-
-$transport = new Transport\CurlTransport(new Signature\HttpDataSignature());
-$transport->timeout = 10;
-
-try {
-    $response = $transport->submitOrder($order);
-    echo "Order submitted. Response: " . json_encode($response) . PHP_EOL;
-} catch (\Riskified\OrderWebhook\Exception\UnsuccessfulActionException $e) {
-    echo "Failed with status {$e->statusCode}: " . json_encode($e->jsonResponse) . PHP_EOL;
-} catch (\Exception $e) {
-    echo "Failed: " . $e->getMessage() . PHP_EOL;
-}
-```
+See [`sample/order_simple_submit.php`](sample/order_simple_submit.php) for a complete working example.
 
 ### Environments
 
@@ -149,7 +112,7 @@ for a specific purpose. These include:
 * `/api/refund` - served by `$transport->refundOrder()`
 * `/api/cancel` - served by `$transport->cancelOrder()`
 
-Refer to the online [documentation](https://apiref.riskified.com) for more details.
+Refer to the online [documentation](https://developers.riskified.com/) for more details.
 When migrating from version 1, you'll need to separate the different calls to Riskified's API to support this new process.
 
 ### Decision Notifications
