@@ -139,7 +139,6 @@ abstract class AbstractModel {
         $exceptions = array();
         foreach ($this->_fields as $propertyName => $constraints) {
             $types = explode(' ', $constraints);
-            // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- is_null() is intentional here
             if (is_null($this->$propertyName)) {
                 if ($this->_enforce_required_keys && end($types) != 'optional') {
                     $exceptions[] = new Exception\MissingPropertyException($this, $propertyName, $types);
@@ -269,7 +268,6 @@ abstract class AbstractModel {
     private function process_array($array) {
         unset($array['_fields']);
         foreach ($array as $key => $value) {
-            // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- is_null() is intentional here
             if (is_null($value)) {
                 unset($array[$key]);
             }

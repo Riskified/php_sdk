@@ -57,7 +57,6 @@ class CurlTransport extends AbstractTransport {
         }
 
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- kept for PHP < 8.0 where curl_close() is still required
         curl_close($ch);
 
         return $this->json_response($body, $status);
@@ -92,7 +91,6 @@ class CurlTransport extends AbstractTransport {
         }
 
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- kept for PHP < 8.0 where curl_close() is still required
         curl_close($ch);
 
         return $this->json_response($body, $status);

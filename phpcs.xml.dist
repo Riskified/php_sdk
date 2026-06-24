@@ -49,7 +49,9 @@
     <!-- Tier 2: discourage risky / legacy constructs -->
     <rule ref="Squiz.PHP.Eval"/>
     <rule ref="Generic.PHP.BacktickOperator"/>
-    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions">
+        <type>warning</type>
+    </rule>
     <rule ref="Generic.PHP.ForbiddenFunctions">
         <properties>
             <property name="forbiddenFunctions" type="array">

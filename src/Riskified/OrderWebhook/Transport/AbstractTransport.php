@@ -283,8 +283,6 @@ abstract class AbstractTransport {
     protected function send_settings($settings) {
         $json = $settings->toJson();
         return $this->send_json_request($json, 'settings');
-        // @phpstan-ignore deadCode.unreachable
-        return null;
     }
 
     protected function send_checkout($checkout, $endpoint) {
