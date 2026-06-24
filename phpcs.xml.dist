@@ -53,7 +53,6 @@
     <rule ref="Generic.PHP.ForbiddenFunctions">
         <properties>
             <property name="forbiddenFunctions" type="array">
-                <element key="is_null" value="null"/>
                 <element key="sizeof" value="count"/>
                 <element key="create_function" value="null"/>
             </property>
