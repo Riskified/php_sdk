@@ -28,5 +28,4 @@ function riskifiedAutoload($class) {
 }
 
 // Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders)
-// @phpstan-ignore argument.type
-spl_autoload_register('riskifiedAutoload', null, true);
+spl_autoload_register('riskifiedAutoload', false, true);
