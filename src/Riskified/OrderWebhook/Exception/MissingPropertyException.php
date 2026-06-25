@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Exception;
  * thrown when a non-optional property is missing
  * @package Riskified\OrderWebhook\Exception
  */
-class MissingPropertyException extends PropertyException {
-}
+class MissingPropertyException extends PropertyException {}

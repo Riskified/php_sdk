@@ -20,6 +20,8 @@
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
         <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+        <!-- Allow empty class/interface bodies on a single line: class Foo {} -->
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
     </rule>
 
     <!-- Enforce same-line (K&R) opening braces. -->

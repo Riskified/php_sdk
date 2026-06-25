@@ -17,5 +17,4 @@ namespace Riskified\Common\Exception;
  * permissions and limitations under the License.
  */
 
-class BaseException extends \Exception {
-}
+class BaseException extends \Exception {}

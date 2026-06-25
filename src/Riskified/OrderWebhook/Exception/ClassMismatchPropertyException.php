@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Exception;
  * thrown when wrong object assigned to field
  * @package Riskified\OrderWebhook\Exception
  */
-class ClassMismatchPropertyException extends PropertyException {
-}
+class ClassMismatchPropertyException extends PropertyException {}

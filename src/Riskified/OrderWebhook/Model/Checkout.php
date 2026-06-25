@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Model;
  * pre-order checkout data model, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class Checkout extends Order {
-}
+class Checkout extends Order {}

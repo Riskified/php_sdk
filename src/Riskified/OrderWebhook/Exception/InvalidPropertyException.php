@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Exception;
  * thrown when attempting to set a non-existing property
  * @package Riskified\OrderWebhook\Exception
  */
-class InvalidPropertyException extends PropertyException {
-}
+class InvalidPropertyException extends PropertyException {}

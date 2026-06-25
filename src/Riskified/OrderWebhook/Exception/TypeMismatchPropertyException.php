@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Exception;
  * thrown for a value of the wrong type
  * @package Riskified\OrderWebhook\Exception
  */
-class TypeMismatchPropertyException extends PropertyException {
-}
+class TypeMismatchPropertyException extends PropertyException {}

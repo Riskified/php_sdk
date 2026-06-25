@@ -24,5 +24,4 @@ use Riskified\Common\Exception\BaseException;
  * On all cURL errors, including HTTP 500 Bad Auth
  * @package Riskified\OrderWebhook\Exception
  */
-class CurlException extends BaseException {
-}
+class CurlException extends BaseException {}

@@ -22,5 +22,4 @@ namespace Riskified\OrderWebhook\Exception;
  * thrown when property value does not match the format regex
  * @package Riskified\OrderWebhook\Exception
  */
-class FormatMismatchPropertyException extends PropertyException {
-}
+class FormatMismatchPropertyException extends PropertyException {}
