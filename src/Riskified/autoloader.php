@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -18,12 +19,13 @@ function riskifiedAutoload($class) {
     $parts = explode('\\', $class);
     if (array_shift($parts) == 'Riskified') {
         array_unshift($parts, __DIR__);
-        $file = join('/',$parts).'.php';
-        if (is_file($file))
+        $file = join('/', $parts) . '.php';
+        if (is_file($file)) {
             require_once $file;
+        }
     }
     return true;
 }
 
 // Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders)
-spl_autoload_register('riskifiedAutoload',null,true);
+spl_autoload_register('riskifiedAutoload', false, true);

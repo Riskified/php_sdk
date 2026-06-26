@@ -1,4 +1,6 @@
-<?php namespace Riskified\Common;
+<?php
+
+namespace Riskified\Common;
 
     /**
      * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
@@ -54,8 +56,9 @@ class Riskified {
         self::$env = $env;
 
         // for backward compatibility (versions 1.0.*)
-        if (is_bool($validations))
+        if (is_bool($validations)) {
             $validations = ($validations) ? Validations::SKIP : Validations::ALL;
+        }
 
         self::$validations = $validations;
 
@@ -63,10 +66,10 @@ class Riskified {
         date_default_timezone_set(@date_default_timezone_get());
     }
 
-    public static function getHostByEnv(){
+    public static function getHostByEnv() {
         $env = (self::$env == null) ? Env::SANDBOX : self::$env;
 
-        switch ($env){
+        switch ($env) {
             case Env::SANDBOX:
                 return array(
                     'default' => 'sandbox.riskified.com',

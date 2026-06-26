@@ -1,4 +1,5 @@
-<?php namespace Riskified\OrderWebhook\Exception;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\OrderWebhook\Exception;
+
 use Riskified\Common\Exception\BaseException;
 
 /**
@@ -22,7 +25,6 @@ use Riskified\Common\Exception\BaseException;
  * @package Riskified\OrderWebhook\Exception
  */
 class PropertyException extends BaseException {
-
     protected $className;
     protected $propertyName;
     protected $value;
@@ -43,31 +45,30 @@ class PropertyException extends BaseException {
     }
 
     public function __toString() {
-        return get_class($this).': '.$this->customMessage();
+        return get_class($this) . ': ' . $this->customMessage();
     }
 
     protected function propertyName() {
-        return $this->className.'->'.$this->propertyName;
+        return $this->className . '->' . $this->propertyName;
     }
 
     protected function propertyValue() {
-        if($this->value) {
+        if ($this->value) {
             return $this->value;
         }
         return '';
     }
 
     protected function propertyTypes() {
-        if($this->types) {
-            return join(', ',$this->types);
+        if ($this->types) {
+            return join(', ', $this->types);
         }
         return '';
     }
 
     protected function customMessage() {
-        return 'Property Name:  '.$this->propertyName().
-             ', Property Value: '.print_r($this->propertyValue(), true).
-             ', Property Type:  '.$this->propertyTypes();
+        return 'Property Name:  ' . $this->propertyName() .
+             ', Property Value: ' . print_r($this->propertyValue(), true) .
+             ', Property Type:  ' . $this->propertyTypes();
     }
-
 }

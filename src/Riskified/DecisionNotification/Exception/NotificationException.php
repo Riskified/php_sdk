@@ -1,4 +1,5 @@
-<?php namespace Riskified\DecisionNotification\Exception;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\DecisionNotification\Exception;
+
 use Riskified\Common\Exception\BaseException;
 use Riskified\Common\Signature\HttpDataSignature;
 
@@ -23,7 +26,6 @@ use Riskified\Common\Signature\HttpDataSignature;
  * @package Riskified\DecisionNotification\Exception
  */
 class NotificationException extends BaseException {
-
     protected $headers;
     protected $body;
 
@@ -37,15 +39,13 @@ class NotificationException extends BaseException {
         $headers = $this->headers;
         $hmacKey = HttpDataSignature::HMAC_HEADER_NAME;
         if (isset($headers[$hmacKey])) {
-            $headers[$hmacKey] = '***'.substr($headers[$hmacKey], -3);
+            $headers[$hmacKey] = '***' . substr($headers[$hmacKey], -3);
         }
-        return '[ '.join(', ', $headers).' ]';
+        return '[ ' . join(', ', $headers) . ' ]';
     }
 
     protected function customMessage() {
-        return 'Headers: '.$this->headersString().
-        ', Body: '.$this->body;
+        return 'Headers: ' . $this->headersString() .
+        ', Body: ' . $this->body;
     }
-
-
 }

@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -21,7 +24,6 @@
  * @package Riskified\OrderWebhook\Model
  */
 class AccountIdentity extends AbstractModel {
-
     protected $_fields = array(
         'names' => 'array string optional',
         'addresses' => 'array object \Address optional',

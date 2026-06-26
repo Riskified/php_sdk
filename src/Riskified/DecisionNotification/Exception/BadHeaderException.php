@@ -1,4 +1,7 @@
-<?php namespace Riskified\DecisionNotification\Exception;
+<?php
+
+namespace Riskified\DecisionNotification\Exception;
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -20,7 +23,6 @@
  * @package Riskified\DecisionNotification\Exception
  */
 class BadHeaderException extends NotificationException {
-
     protected $header;
 
     public function __construct($headers, $body, $header) {
@@ -29,7 +31,7 @@ class BadHeaderException extends NotificationException {
     }
 
     protected function customMessage() {
-        return parent::customMessage().
-        ', Header: '.$this->header;
+        return parent::customMessage() .
+        ', Header: ' . $this->header;
     }
 }

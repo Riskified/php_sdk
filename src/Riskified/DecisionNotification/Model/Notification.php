@@ -1,4 +1,5 @@
-<?php namespace Riskified\DecisionNotification\Model;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -19,6 +20,8 @@
  * It is a NON-best-practice to use shop URL in the notifications programmatically as this field will not be supported long term in API notifications.
  */
 
+namespace Riskified\DecisionNotification\Model;
+
 use Riskified\DecisionNotification\Exception;
 
 /**
@@ -27,7 +30,6 @@ use Riskified\DecisionNotification\Exception;
  * @package Riskified\DecisionNotification\Model
  */
 class Notification {
-
     /**
      * @var string Order ID
      */
@@ -77,6 +79,7 @@ class Notification {
      * @param $body string The raw body of the Request
      * @throws NotificationException on issues with the request
      */
+    // @phpstan-ignore throws.notThrowable
     public function __construct($signature, $headers, $body) {
         $this->signature = $signature;
         $this->headers = $headers;
@@ -94,8 +97,9 @@ class Notification {
         $signature = $this->signature;
         $remote_hmac = $this->headers[$signature::HMAC_HEADER_NAME];
         $local_hmac = $signature->calc_hmac($this->body);
-        if (!hash_equals($remote_hmac, $local_hmac))
+        if (!hash_equals($remote_hmac, $local_hmac)) {
             throw new Exception\AuthorizationException($this->headers, $this->body);
+        }
     }
 
     /**
@@ -104,12 +108,14 @@ class Notification {
      */
     protected function parse_body() {
         $body = json_decode($this->body, true);
-        if (!isset($body["order"]))
+        if (!isset($body["order"])) {
             throw new Exception\BadPostJsonException($this->headers, $this->body);
+        }
 
         $order = $body["order"];
-        if (!isset($order["id"]) || !isset($order["status"]))
+        if (!isset($order["id"]) || !isset($order["status"])) {
             throw new Exception\BadPostJsonException($this->headers, $this->body);
+        }
 
         //foreach($order as $key => $value)
         //    $this->$key = $value;
@@ -120,7 +126,7 @@ class Notification {
         $this->riskIndicators = isset($order["risk_indicators"]) ? $order["risk_indicators"] : array();
         $this->description = $order["description"];
 
-        if (isset($order["category"])) { 
+        if (isset($order["category"])) {
             $this->category = $order["category"];
         }
 

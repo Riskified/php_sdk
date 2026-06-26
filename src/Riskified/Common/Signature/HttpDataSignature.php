@@ -1,4 +1,5 @@
-<?php namespace Riskified\Common\Signature;
+<?php
+
 /**
  * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +15,8 @@
  * permissions and limitations under the License.
  */
 
+namespace Riskified\Common\Signature;
+
 use Riskified\Common\Riskified;
 
 /**
@@ -23,7 +26,6 @@ use Riskified\Common\Riskified;
  * @package Riskified\Common\Signature
  */
 class HttpDataSignature {
-
     const SHOP_DOMAIN_HEADER_NAME = 'X-RISKIFIED-SHOP-DOMAIN';
     const SUBMIT_HEADER_NAME = 'X-RISKIFIED-SUBMIT-NOW';
     const HMAC_HEADER_NAME = 'X-RISKIFIED-HMAC-SHA256';
@@ -36,5 +38,4 @@ class HttpDataSignature {
     public function calc_hmac($body) {
         return hash_hmac('sha256', $body, Riskified::$auth_token);
     }
-
-} 
+}
