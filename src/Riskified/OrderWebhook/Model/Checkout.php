@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
     /**
      * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
      *
@@ -19,5 +22,4 @@
  * pre-order checkout data model, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class Checkout extends Order {
-}
+class Checkout extends Order {}

@@ -12,10 +12,8 @@ use Riskified\DecisionNotification\Model\Notification;
 /**
  * Regression tests for {@see Notification} parsing and HMAC validation.
  */
-final class NotificationTest extends TestCase
-{
-    private function signature(): NotificationTestSignature
-    {
+final class NotificationTest extends TestCase {
+    private function signature(): NotificationTestSignature {
         return new NotificationTestSignature();
     }
 
@@ -23,8 +21,7 @@ final class NotificationTest extends TestCase
      * @param array<string, string> $extraHeaders
      * @return array<string, string>
      */
-    private function authorizedHeadersForBody(string $body, array $extraHeaders = []): array
-    {
+    private function authorizedHeadersForBody(string $body, array $extraHeaders = []): array {
         $sig = $this->signature();
 
         return $extraHeaders + [
@@ -32,8 +29,7 @@ final class NotificationTest extends TestCase
         ];
     }
 
-    public function testParsesFullOrderPayloadAndMapsSnakeCaseFields(): void
-    {
+    public function testParsesFullOrderPayloadAndMapsSnakeCaseFields(): void {
         $body = <<<'JSON'
 {
   "order": {
@@ -65,8 +61,7 @@ JSON;
         $this->assertSame('DC-1', $notification->decisionCode);
     }
 
-    public function testParsesMinimalRequiredFields(): void
-    {
+    public function testParsesMinimalRequiredFields(): void {
         $body = '{"order":{"id":"x","status":"cancelled","old_status":"pending","description":null}}';
 
         $notification = new Notification(
@@ -81,8 +76,7 @@ JSON;
         $this->assertNull($notification->description);
     }
 
-    public function testMissingRiskScoreDefaultsToZero(): void
-    {
+    public function testMissingRiskScoreDefaultsToZero(): void {
         $body = '{"order":{"id":"182","status":"s","old_status":"o","description":null}}';
 
         $notification = new Notification(
@@ -94,8 +88,7 @@ JSON;
         $this->assertSame(0, $notification->riskScore);
     }
 
-    public function testNullRiskScoreCoalescesToZero(): void
-    {
+    public function testNullRiskScoreCoalescesToZero(): void {
         $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null,"risk_score":null}}';
 
         $notification = new Notification(
@@ -107,8 +100,7 @@ JSON;
         $this->assertSame(0, $notification->riskScore);
     }
 
-    public function testMissingRiskIndicatorsDefaultsToEmptyArray(): void
-    {
+    public function testMissingRiskIndicatorsDefaultsToEmptyArray(): void {
         $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
 
         $notification = new Notification(
@@ -120,8 +112,7 @@ JSON;
         $this->assertSame([], $notification->riskIndicators);
     }
 
-    public function testCategoryAndDecisionCodeUnsetWhenAbsentFromPayload(): void
-    {
+    public function testCategoryAndDecisionCodeUnsetWhenAbsentFromPayload(): void {
         $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
 
         $notification = new Notification(
@@ -134,8 +125,7 @@ JSON;
         $this->assertNull($notification->decisionCode);
     }
 
-    public function testThrowsBadPostJsonWhenOrderKeyMissing(): void
-    {
+    public function testThrowsBadPostJsonWhenOrderKeyMissing(): void {
         $this->expectException(BadPostJsonException::class);
 
         $body = '{"other":true}';
@@ -146,8 +136,7 @@ JSON;
         );
     }
 
-    public function testThrowsBadPostJsonWhenOrderIdMissing(): void
-    {
+    public function testThrowsBadPostJsonWhenOrderIdMissing(): void {
         $this->expectException(BadPostJsonException::class);
 
         $body = '{"order":{"status":"approved","old_status":"pending"}}';
@@ -158,8 +147,7 @@ JSON;
         );
     }
 
-    public function testThrowsBadPostJsonWhenOrderStatusMissing(): void
-    {
+    public function testThrowsBadPostJsonWhenOrderStatusMissing(): void {
         $this->expectException(BadPostJsonException::class);
 
         $body = '{"order":{"id":"1","old_status":"pending"}}';
@@ -170,8 +158,7 @@ JSON;
         );
     }
 
-    public function testThrowsBadPostJsonWhenBodyIsNotValidJsonObject(): void
-    {
+    public function testThrowsBadPostJsonWhenBodyIsNotValidJsonObject(): void {
         $this->expectException(BadPostJsonException::class);
 
         $body = 'not-json';
@@ -182,8 +169,7 @@ JSON;
         );
     }
 
-    public function testThrowsAuthorizationExceptionWhenHmacMismatch(): void
-    {
+    public function testThrowsAuthorizationExceptionWhenHmacMismatch(): void {
         $this->expectException(AuthorizationException::class);
 
         $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
@@ -198,8 +184,7 @@ JSON;
         );
     }
 
-    public function testAuthorizationExceptionMessageContainsMaskedHmacSuffix(): void
-    {
+    public function testAuthorizationExceptionMessageContainsMaskedHmacSuffix(): void {
         $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
         $sig = $this->signature();
         $wrongHmac = 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890';
@@ -209,15 +194,14 @@ JSON;
             $this->fail('Expected AuthorizationException was not thrown');
         } catch (AuthorizationException $e) {
             $this->assertStringContainsString(
-                '***'.substr($wrongHmac, -3),
+                '***' . substr($wrongHmac, -3),
                 $e->getMessage(),
                 'Masked HMAC (last 3 chars) must appear in exception message'
             );
         }
     }
 
-    public function testParsesUsingSdkHttpDataSignature(): void
-    {
+    public function testParsesUsingSdkHttpDataSignature(): void {
         $prevToken = Riskified::$auth_token;
         Riskified::$auth_token = 'live-callback-token-fixture';
 
@@ -238,16 +222,14 @@ JSON;
     }
 }
 
-final class NotificationTestSignature
-{
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses -- test-only signature stub kept alongside its test
+final class NotificationTestSignature {
     public const HMAC_HEADER_NAME = 'X-RISKIFIED-HMAC-SHA256';
 
-    public function __construct(private string $secret = 'notification-test-secret')
-    {
+    public function __construct(private string $secret = 'notification-test-secret') {
     }
 
-    public function calc_hmac(string $body): string
-    {
+    public function calc_hmac(string $body): string {
         return hash_hmac('sha256', $body, $this->secret);
     }
 }

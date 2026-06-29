@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    # NOTE: PHPStan cannot target PHP 7.0 (its analysis floor is higher), so it
+    # runs against the dev PHP version and is used purely for logic/type bug-finding.
+    # PHP 7.0 runtime compatibility is enforced separately by PHPCompatibility (phpcs).

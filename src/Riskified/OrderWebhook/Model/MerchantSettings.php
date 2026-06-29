@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
 /**
  * Created by PhpStorm.
  * User: droritbaron
@@ -6,7 +9,6 @@
  * Time: 5:29 PM
  */
 class MerchantSettings extends AbstractModel {
-
     protected $_fields = array(
         'settings' => 'array string'
     );

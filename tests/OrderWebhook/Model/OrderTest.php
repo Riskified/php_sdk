@@ -6,16 +6,13 @@ use PHPUnit\Framework\TestCase;
 use Riskified\OrderWebhook\Exception\MultiplePropertiesException;
 use Riskified\OrderWebhook\Model\Order;
 
-class OrderTest extends TestCase
-{
-    public function testPartnerSubMerchantIdIsNullByDefault(): void
-    {
+class OrderTest extends TestCase {
+    public function testPartnerSubMerchantIdIsNullByDefault(): void {
         $order = new Order();
         $this->assertNull($order->partner_sub_merchant_id);
     }
 
-    public function testPartnerSubMerchantIdSerializesWithUnderscores(): void
-    {
+    public function testPartnerSubMerchantIdSerializesWithUnderscores(): void {
         $order = new Order();
         $order->partner_sub_merchant_id = 'merchant-abc';
 
@@ -26,8 +23,7 @@ class OrderTest extends TestCase
     /**
      * @dataProvider acceptedAiAgentValues
      */
-    public function testAiAgentAcceptsKnownValues(string $value): void
-    {
+    public function testAiAgentAcceptsKnownValues(string $value): void {
         $order = new Order();
         $order->ai_agent = $value;
 
@@ -35,8 +31,7 @@ class OrderTest extends TestCase
         $this->assertTrue($order->validate(false));
     }
 
-    public static function acceptedAiAgentValues(): array
-    {
+    public static function acceptedAiAgentValues(): array {
         return [
             ['chatgpt'],
             ['gemini'],
@@ -45,13 +40,11 @@ class OrderTest extends TestCase
         ];
     }
 
-    public function testAiAgentRejectsUnknownValue(): void
-    {
+    public function testAiAgentRejectsUnknownValue(): void {
         $order = new Order();
         $order->ai_agent = 'unknown_bot';
 
         $this->expectException(MultiplePropertiesException::class);
         $order->validate(false);
     }
-
 }

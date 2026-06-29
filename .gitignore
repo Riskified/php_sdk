@@ -2,4 +2,6 @@ doc/*
 vendor/*
 .idea/*
 .phpunit.cache
-composer.lock                                                                                                                                                                
+.phpunit.result.cache
+.phpcs.cache
+composer.lock

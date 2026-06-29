@@ -1,4 +1,7 @@
-<?php namespace Riskified\OrderWebhook\Model;
+<?php
+
+namespace Riskified\OrderWebhook\Model;
+
     /**
      * Copyright 2013-2026 Riskified.com, Inc. or its affiliates. All Rights Reserved.
      *
@@ -20,7 +23,6 @@
  * @package Riskified\OrderWebhook\Model
  */
 class DecisionDetails extends AbstractModel {
-
     protected $_fields = array(
         'external_status' => 'string',
         'decided_at' => 'date optional',
@@ -29,5 +31,4 @@ class DecisionDetails extends AbstractModel {
         'currency' => 'string /^[A-Z]{3}$/i optional',
         'notes' => 'string optional'
     );
-
 }

@@ -5,13 +5,11 @@ namespace Riskified\Tests\OrderWebhook\Model;
 use Riskified\OrderWebhook\Model\Customer;
 use Riskified\OrderWebhook\Model\LineItem;
 
-final class OrderTestFixtures
-{
+final class OrderTestFixtures {
     /**
      * @return array<string, mixed>
      */
-    public static function minimalOrderProps(): array
-    {
+    public static function minimalOrderProps(): array {
         return [
             'id' => 'order-1',
             'email' => 'buyer@example.com',
