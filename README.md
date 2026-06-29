@@ -7,7 +7,7 @@ notifications Riskified sends back to your application.
 - **Current version:** v1.12.0
 - **API version:** 2
 
-For full API details, see the [Riskified API reference](https://developers.riskified.com/).
+For full API details, see the [Riskified API reference](https://developers.riskified.com/reference/api-overview).
 
 ## Requirements
 
@@ -112,7 +112,7 @@ for a specific purpose. These include:
 * `/api/refund` - served by `$transport->refundOrder()`
 * `/api/cancel` - served by `$transport->cancelOrder()`
 
-Refer to the online [documentation](https://developers.riskified.com/) for more details.
+Refer to the online [documentation](https://developers.riskified.com/reference/api-overview) for more details.
 When migrating from version 1, you'll need to separate the different calls to Riskified's API to support this new process.
 
 ### Decision Notifications
