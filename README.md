@@ -4,7 +4,7 @@ A PHP client for the [Riskified](https://www.riskified.com) API. It lets you sen
 account/lifecycle events to Riskified for fraud and chargeback protection, and verify the decision
 notifications Riskified sends back to your application.
 
-- **Current version:** v1.12.0
+- **Current version:** v1.13.0
 - **API version:** 2
 
 For full API details, see the [Riskified API reference](https://developers.riskified.com/reference/api-overview).
