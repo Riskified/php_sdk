@@ -180,8 +180,22 @@ abstract class AbstractTransport {
         return $this->send_checkout($checkout, 'advise');
     }
 
+    /**
+     * Send a checkout decision request to Riskified.
+     *
+     * Posts to /api/decide, which lives on the sync host family - the same as
+     * decideOrder(). The C# reference has exactly one /api/decide call site and it is
+     * unconditionally FlowStrategy.Sync (sdk_net @ 9165cf5,
+     * Orders/OrdersGateway.cs:142); Sandbox has no sync host and falls back to the
+     * default one, as documented in docs/flows/00-shared-contract.md section 3.
+     * @param $order object Order to send
+     * @return object Response object
+     * @throws \Riskified\Common\Exception\BaseException on any issue
+     */
     public function checkout_decide(Order $order) {
-        return $this->send_order($order, 'decide', false);
+        return $this->on_host('sync', function () use ($order) {
+            return $this->send_order($order, 'decide', false);
+        });
     }
 
     /**

@@ -83,6 +83,51 @@ class HostSelectionTest extends TestCase {
         );
     }
 
+    /**
+     * /api/decide is a sync-host path whichever entry point reaches it. The C# reference
+     * has exactly one /api/decide call site, unconditionally FlowStrategy.Sync
+     * (sdk_net @ 9165cf5, Orders/OrdersGateway.cs:142) - there is no checkout-specific
+     * decide that legitimately uses the default host.
+     */
+    public function testCheckoutDecideUsesTheSyncHost(): void {
+        $transport = $this->prodTransport();
+
+        $transport->checkout_decide(new Order());
+        $transport->submitOrder(new Order());
+
+        $this->assertSame(
+            [
+                'https://wh-sync.riskified.com/api/decide',
+                'https://wh.riskified.com/api/submit',
+            ],
+            $transport->requestedUrls
+        );
+    }
+
+    public function testCheckoutDecideAndDecideOrderAgreeOnTheHost(): void {
+        $transport = $this->prodTransport();
+
+        $transport->decideOrder(new Order());
+        $transport->checkout_decide(new Order());
+
+        $this->assertSame(
+            [
+                'https://wh-sync.riskified.com/api/decide',
+                'https://wh-sync.riskified.com/api/decide',
+            ],
+            $transport->requestedUrls
+        );
+    }
+
+    public function testCheckoutDecideFallsBackToTheDefaultHostInSandbox(): void {
+        Riskified::init('shop.example.com', 'token', Env::SANDBOX, Validations::SKIP);
+        $transport = new RecordingTransport(new HttpDataSignature());
+
+        $transport->checkout_decide(new Order());
+
+        $this->assertSame(['https://sandbox.riskified.com/api/decide'], $transport->requestedUrls);
+    }
+
     public function testDecoCallThenOrderCallOnSameInstanceUsesOrdersHost(): void {
         $transport = $this->prodTransport();
 
@@ -105,6 +150,7 @@ class HostSelectionTest extends TestCase {
 
         $transport->submitOrder(new Order());
         $transport->decideOrder(new Order());
+        $transport->checkout_decide(new Order());
         $transport->login(new Login());
         $transport->eligible(new Order());
         $transport->updateOrder(new Order());
@@ -112,6 +158,7 @@ class HostSelectionTest extends TestCase {
         $this->assertSame(
             [
                 'https://wh.riskified.com/api/submit',
+                'https://wh-sync.riskified.com/api/decide',
                 'https://wh-sync.riskified.com/api/decide',
                 'https://api.riskified.com/customers/login',
                 'https://w.decopayments.com/api/eligible',

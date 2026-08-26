@@ -23,6 +23,17 @@ namespace Riskified\OrderWebhook\Model;
  * @package Riskified\OrderWebhook\Model
  */
 class LineItem extends AbstractModel {
+    /**
+     * `dropoff_latitude` is the spelling merchants reasonably expect and the one this
+     * SDK accepted before the wire name was corrected to the live transposed form.
+     * It keeps working as a deprecated input name and still serializes to
+     * `dropoff_latitiude`, the only key that reaches the wire.
+     * @var array<string, string>
+     */
+    protected $_field_aliases = array(
+        'dropoff_latitude' => 'dropoff_latitiude'
+    );
+
     protected $_fields = array(
         'price' => 'float',
         'quantity' => 'number',
