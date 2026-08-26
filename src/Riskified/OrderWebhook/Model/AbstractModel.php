@@ -31,17 +31,6 @@ abstract class AbstractModel {
     protected $_fields = array();
 
     /**
-     * @internal maps a deprecated input name to the field of $_fields it addresses.
-     *      Its purpose is a wire name that cannot be changed - an upstream typo the API
-     *      expects, for instance - which would otherwise force merchants to rename a
-     *      property they already use. The alias is accepted on read and write; the value
-     *      is always stored, validated and serialized under the canonical field name, so
-     *      an alias never adds, removes or renames a key on the wire.
-     * @var array<string, string> alias => canonical field name
-     */
-    protected $_field_aliases = array();
-
-    /**
      * Contains all the model properties and their associated values (used by __set and __get)
      * @var array
      */
@@ -60,7 +49,7 @@ abstract class AbstractModel {
      */
     public function __construct($props = array()) {
         foreach ($props as $key => $value) {
-            if ($this->resolve_field($key) === null) {
+            if (!array_key_exists($key, $this->_fields)) {
                 throw new Exception\InvalidPropertyException($this, $key);
             }
 
@@ -78,14 +67,11 @@ abstract class AbstractModel {
      * @throws \Exception If $key is invalid
      */
     public function __set($key, $value) {
-        $field = $this->resolve_field($key);
-        if ($field === null) {
+        if (array_key_exists($key, $this->_fields)) {
+            $this->_propertyBag[$key] = $value;
+        } else {
             throw new Exception\InvalidPropertyException($this, $key);
         }
-        if ($field !== $key) {
-            $this->warn_deprecated_alias($key, $field);
-        }
-        $this->_propertyBag[$field] = $value;
     }
 
     /**
@@ -95,51 +81,11 @@ abstract class AbstractModel {
      * @throws Exception\InvalidPropertyException If $key is invalid
      */
     public function __get($key) {
-        $field = $this->resolve_field($key);
-        if ($field === null) {
+        if (array_key_exists($key, $this->_fields)) {
+            return isset($this->_propertyBag[$key]) ? $this->_propertyBag[$key] : null;
+        } else {
             throw new Exception\InvalidPropertyException($this, $key);
         }
-        return isset($this->_propertyBag[$field]) ? $this->_propertyBag[$field] : null;
-    }
-
-    /**
-     * Resolve a caller-supplied property name to the field it addresses, following
-     * deprecated aliases declared in $_field_aliases.
-     * @param string $key name used by the caller
-     * @return string|null canonical field name, or null when $key is not a field
-     */
-    private function resolve_field($key) {
-        if (array_key_exists($key, $this->_fields)) {
-            return $key;
-        }
-        if (array_key_exists($key, $this->_field_aliases)) {
-            return $this->_field_aliases[$key];
-        }
-        return null;
-    }
-
-    /**
-     * Signal that a caller wrote through a deprecated alias. Only writes warn: the
-     * caller chooses the name at the write, and warning again on every read would
-     * duplicate the same signal.
-     * @param string $alias name the caller used
-     * @param string $field canonical field the value was stored under
-     * @return void
-     */
-    private function warn_deprecated_alias($alias, $field) {
-        trigger_error(
-            sprintf(
-                '%s->%s is deprecated, use %s->%s instead: %s is the name the Riskified '
-                . 'API expects on the wire. The value was stored as %s.',
-                (string) $this,
-                $alias,
-                (string) $this,
-                $field,
-                $field,
-                $field
-            ),
-            E_USER_DEPRECATED
-        );
     }
 
     /**

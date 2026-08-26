@@ -23,17 +23,6 @@ namespace Riskified\OrderWebhook\Model;
  * @package Riskified\OrderWebhook\Model
  */
 class LineItem extends AbstractModel {
-    /**
-     * `dropoff_latitude` is the spelling merchants reasonably expect and the one this
-     * SDK accepted before the wire name was corrected to the live transposed form.
-     * It keeps working as a deprecated input name and still serializes to
-     * `dropoff_latitiude`, the only key that reaches the wire.
-     * @var array<string, string>
-     */
-    protected $_field_aliases = array(
-        'dropoff_latitude' => 'dropoff_latitiude'
-    );
-
     protected $_fields = array(
         'price' => 'float',
         'quantity' => 'number',
@@ -117,13 +106,7 @@ class LineItem extends AbstractModel {
         'pickup_longitude' => 'float optional',
         'pickup_address' => 'object \Address optional',
         'dropoff_date' => 'date optional',
-        /*
-         * The transposed spelling is the live wire name - an upstream typo the API
-         * expects. The C# reference sends it too (RideTicketLineItem.cs:101) and
-         * docs/flows/01-model-catalog.md section 5 registers it. Sending the correctly
-         * spelled `dropoff_latitude` drops the value silently. Do not "fix" it.
-         */
-        'dropoff_latitiude' => 'float optional',
+        'dropoff_latitude' => 'float optional',
         'dropoff_longitude' => 'float optional',
         'dropoff_address' => 'object \Address optional',
         'price_by' => 'string optional',
