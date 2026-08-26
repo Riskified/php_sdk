@@ -106,7 +106,13 @@ class LineItem extends AbstractModel {
         'pickup_longitude' => 'float optional',
         'pickup_address' => 'object \Address optional',
         'dropoff_date' => 'date optional',
-        'dropoff_latitude' => 'float optional',
+        /*
+         * The transposed spelling is the live wire name - an upstream typo the API
+         * expects. The C# reference sends it too (RideTicketLineItem.cs:101) and
+         * docs/flows/01-model-catalog.md section 5 registers it. Sending the correctly
+         * spelled `dropoff_latitude` drops the value silently. Do not "fix" it.
+         */
+        'dropoff_latitiude' => 'float optional',
         'dropoff_longitude' => 'float optional',
         'dropoff_address' => 'object \Address optional',
         'price_by' => 'string optional',

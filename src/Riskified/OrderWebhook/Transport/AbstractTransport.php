@@ -35,7 +35,16 @@ abstract class AbstractTransport {
      * @var boolean set false to use HTTP instead
      */
     public $use_https = true;
+    /**
+     * @var string host used by every request that does not name a host family.
+     *      Set once, at construction. Never reassigned - see $flow_strategy.
+     */
     protected $url;
+    /**
+     * @var string|null host family of the request currently being dispatched, or null
+     *      when the request uses $url. Scoped to a single call by on_host().
+     */
+    private $flow_strategy = null;
     protected $signature;
     protected $user_agent;
 
@@ -102,8 +111,9 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
     */
     public function decideOrder($order) {
-        $this->url = Riskified::getHost('sync');
-        return $this->send_order($order, 'decide', true);
+        return $this->on_host('sync', function () use ($order) {
+            return $this->send_order($order, 'decide', true);
+        });
     }
 
     /**
@@ -201,8 +211,9 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function eligible($order) {
-        $this->url = Riskified::getHost('deco');
-        return $this->send_order($order, 'eligible', false);
+        return $this->on_host('deco', function () use ($order) {
+            return $this->send_order($order, 'eligible', false);
+        });
     }
 
     /**
@@ -212,48 +223,57 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function opt_in($order) {
-        $this->url = Riskified::getHost('deco');
-        return $this->send_order($order, 'opt_in', false);
+        return $this->on_host('deco', function () use ($order) {
+            return $this->send_order($order, 'opt_in', false);
+        });
     }
 
     public function login($login) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($login, 'login');
+        return $this->on_host('account', function () use ($login) {
+            return $this->send_account_event($login, 'login');
+        });
     }
 
     public function customerCreate($customer_create) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($customer_create, 'customer_create');
+        return $this->on_host('account', function () use ($customer_create) {
+            return $this->send_account_event($customer_create, 'customer_create');
+        });
     }
 
     public function verification($event) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($event, 'verification');
+        return $this->on_host('account', function () use ($event) {
+            return $this->send_account_event($event, 'verification');
+        });
     }
 
     public function customerUpdate($customer_update) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($customer_update, 'customer_update');
+        return $this->on_host('account', function () use ($customer_update) {
+            return $this->send_account_event($customer_update, 'customer_update');
+        });
     }
 
     public function logout($logout) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($logout, 'logout');
+        return $this->on_host('account', function () use ($logout) {
+            return $this->send_account_event($logout, 'logout');
+        });
     }
 
     public function resetPasswordRequest($reset_password_request) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($reset_password_request, 'reset_password');
+        return $this->on_host('account', function () use ($reset_password_request) {
+            return $this->send_account_event($reset_password_request, 'reset_password');
+        });
     }
 
     public function wishlistChanges($wishlist_changes) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($wishlist_changes, 'wishlist');
+        return $this->on_host('account', function () use ($wishlist_changes) {
+            return $this->send_account_event($wishlist_changes, 'wishlist');
+        });
     }
 
     public function redeem($redeem) {
-        $this->url = riskified::gethost('account');
-        return $this->send_account_event($redeem, 'redeem');
+        return $this->on_host('account', function () use ($redeem) {
+            return $this->send_account_event($redeem, 'redeem');
+        });
     }
 
     public function sendHistoricalOrders($orders) {
@@ -301,13 +321,48 @@ abstract class AbstractTransport {
     }
 
     /**
+     * Dispatch one request against a named host family without mutating the transport.
+     *
+     * The strategy lives for the duration of $send and no longer: a transport instance
+     * that has just sent an Account Secure request must still send the next order to
+     * the orders host. Mutating $this->url here - as this class used to - made host
+     * selection sticky, so any later call on the same instance silently cross-posted to
+     * whichever host was chosen last.
+     *
+     * @param string $flow_strategy host family, e.g. 'sync', 'deco', 'account'
+     * @param callable $send performs the request
+     * @return mixed whatever $send returns
+     */
+    private function on_host($flow_strategy, $send) {
+        $previous_flow_strategy = $this->flow_strategy;
+        $this->flow_strategy = $flow_strategy;
+        try {
+            return call_user_func($send);
+        } finally {
+            $this->flow_strategy = $previous_flow_strategy;
+        }
+    }
+
+    /**
+     * Host for the request currently being dispatched, resolved per call.
+     * @return string
+     */
+    protected function host() {
+        if ($this->flow_strategy === null) {
+            return $this->url;
+        }
+        return Riskified::getHost($this->flow_strategy);
+    }
+
+    /**
      * path prefix to the Riskified endpoint
      * @param $routing
      * @return string
      */
     protected function endpoint_prefix($routing = 'api') {
         $protocol = ($this->use_https) ? 'https' : 'http';
-        return "$protocol://$this->url/$routing/";
+        $host = $this->host();
+        return "$protocol://$host/$routing/";
     }
 
     /**
