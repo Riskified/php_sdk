@@ -95,7 +95,15 @@ class Notification {
      */
     protected function test_authorization() {
         $signature = $this->signature;
-        $remote_hmac = $this->headers[$signature::HMAC_HEADER_NAME];
+        $hmac_header = $signature::HMAC_HEADER_NAME;
+        if (!isset($this->headers[$hmac_header]) || !is_string($this->headers[$hmac_header])) {
+            // An unsigned request is unauthorized, not a programming error. Without this guard
+            // the array access raises an undefined-key warning - which leaks a filesystem path
+            // when display_errors is on - before hash_equals() coerces null to '' and fails
+            // closed anyway. Same guard as the .NET reference (Utils/HttpUtils.cs).
+            throw new Exception\AuthorizationException($this->headers, $this->body);
+        }
+        $remote_hmac = $this->headers[$hmac_header];
         $local_hmac = $signature->calc_hmac($this->body);
         if (!hash_equals($remote_hmac, $local_hmac)) {
             throw new Exception\AuthorizationException($this->headers, $this->body);

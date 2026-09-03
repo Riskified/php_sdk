@@ -220,6 +220,100 @@ JSON;
             Riskified::$auth_token = $prevToken;
         }
     }
+
+    /**
+     * SECURITY-10974. The exception message reaches HTTP responses and logs, so the
+     * attacker-controlled request body must not be in it.
+     */
+    public function testAuthorizationExceptionMessageOmitsRequestBody(): void {
+        $marker = 'forged-by-attacker-marker';
+        $body = '{"order":{"id":"31337","status":"approved","description":"' . $marker . '"}}';
+        $sig = $this->signature();
+
+        try {
+            new Notification($sig, [$sig::HMAC_HEADER_NAME => 'wrong-hmac'], $body);
+            $this->fail('Expected AuthorizationException was not thrown');
+        } catch (AuthorizationException $e) {
+            $this->assertStringNotContainsString(
+                $marker,
+                $e->getMessage(),
+                'Request body must not be reflected in the exception message'
+            );
+            $this->assertStringNotContainsString(
+                $body,
+                $e->getMessage(),
+                'Request body must not be reflected in the exception message'
+            );
+        }
+    }
+
+    /**
+     * SECURITY-10974. The computed HMAC is the value the original report exfiltrated; it must
+     * never appear in the message, masked or otherwise.
+     */
+    public function testAuthorizationExceptionMessageOmitsComputedHmac(): void {
+        $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
+        $sig = $this->signature();
+        $computed = $sig->calc_hmac($body);
+
+        try {
+            new Notification($sig, [$sig::HMAC_HEADER_NAME => 'wrong-hmac'], $body);
+            $this->fail('Expected AuthorizationException was not thrown');
+        } catch (AuthorizationException $e) {
+            $this->assertStringNotContainsString(
+                $computed,
+                $e->getMessage(),
+                'Server-computed HMAC must never appear in the exception message'
+            );
+        }
+    }
+
+    /**
+     * The body stays reachable for deliberate server-side logging - it is only the message
+     * that must stay clean.
+     */
+    public function testAuthorizationExceptionStillExposesBodyViaAccessor(): void {
+        $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
+        $sig = $this->signature();
+        $headers = [$sig::HMAC_HEADER_NAME => 'wrong-hmac'];
+
+        try {
+            new Notification($sig, $headers, $body);
+            $this->fail('Expected AuthorizationException was not thrown');
+        } catch (AuthorizationException $e) {
+            $this->assertSame($body, $e->getBody());
+            $this->assertSame($headers, $e->getHeaders());
+        }
+    }
+
+    public function testMissingHmacHeaderThrowsAuthorizationException(): void {
+        $this->expectException(AuthorizationException::class);
+
+        $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
+
+        new Notification($this->signature(), [], $body);
+    }
+
+    /**
+     * A request with no signature must fail closed without tripping an undefined-key warning -
+     * that warning discloses a filesystem path when display_errors is on.
+     */
+    public function testMissingHmacHeaderRaisesNoPhpWarning(): void {
+        $body = '{"order":{"id":"1","status":"s","old_status":"o","description":null}}';
+
+        set_error_handler(static function (int $severity, string $message): bool {
+            throw new \RuntimeException('Unexpected PHP diagnostic: ' . $message);
+        });
+
+        try {
+            new Notification($this->signature(), [], $body);
+            $this->fail('Expected AuthorizationException was not thrown');
+        } catch (AuthorizationException $e) {
+            $this->addToAssertionCount(1);
+        } finally {
+            restore_error_handler();
+        }
+    }
 }
 
 // phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses -- test-only signature stub kept alongside its test
