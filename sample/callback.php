@@ -20,6 +20,8 @@
 include __DIR__.'/../src/Riskified/autoloader.php';
 use Riskified\Common\Riskified;
 use Riskified\Common\Signature;
+use Riskified\DecisionNotification\Exception\AuthorizationException;
+use Riskified\DecisionNotification\Exception\NotificationException;
 use Riskified\DecisionNotification\Model;
 
 # Replace with the 'shop domain' of your account in Riskified
@@ -53,10 +55,32 @@ $canonical_headers = array_reduce(array_map('map_keys', array_keys($_SERVER), $_
 $body = @file_get_contents('php://input');
 $headers = array_intersect_key($canonical_headers, array_flip($valid_headers));
 
-$notification = new Model\Notification($signature, $headers, $body);
+// Never let a notification exception escape to the response.
+//
+// The exception message describes why authorization failed, and PHP will print an uncaught
+// exception - message, stack trace and file paths - straight into the response body when
+// display_errors is on. That turns your webhook endpoint into an oracle an unauthenticated
+// caller can query. Catch it here, answer with a bare status code, and keep the detail on the
+// server side where it belongs.
+$output = fopen('php://stdout', 'w');
+
+try {
+    $notification = new Model\Notification($signature, $headers, $body);
+} catch (AuthorizationException $e) {
+    http_response_code(401);
+    fputs($output, 'Rejected unauthorized notification: ' . $e->getMessage() . "\n");
+    fclose($output);
+    return true;
+} catch (NotificationException $e) {
+    // Covers BadPostJsonException and BadHeaderException - a signed but unusable payload.
+    http_response_code(400);
+    fputs($output, 'Rejected malformed notification: ' . $e->getMessage() . "\n");
+    fclose($output);
+    return true;
+}
+
 $msg = "Order #$notification->id changed to status '$notification->status' with message '$notification->description'\n";
 
-$output = fopen('php://stdout', 'w');
 fputs($output, $msg);
 fclose($output);
 
