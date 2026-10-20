@@ -27,5 +27,10 @@ function riskifiedAutoload($class) {
     return true;
 }
 
-// Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders)
-spl_autoload_register('riskifiedAutoload', false, true);
+// Register Riskified autoloader into the SPL autoloading stack (in order to support multiple autoloaders).
+//
+// $do_throw must be true: PHP 8 ignores the argument and always throws, and passing false there
+// emits a notice on every request. Under display_errors that notice prints the SDK's absolute
+// install path into the response body. true is also the PHP 7 behaviour you want - a failed
+// registration should be loud - so this stays valid on the 7.0 floor phpcs enforces.
+spl_autoload_register('riskifiedAutoload', true, true);
