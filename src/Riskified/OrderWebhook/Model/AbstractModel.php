@@ -293,11 +293,13 @@ abstract class AbstractModel {
                     $subnode = $xml_order_info->addChild($key);
                     $this->array_to_xml($value, $subnode);
                 } else {
-                    $subnode = $xml_order_info->addChild('item$key');
+                    $subnode = $xml_order_info->addChild("item$key");
                     $this->array_to_xml($value, $subnode);
                 }
             } else {
-                $xml_order_info->addChild($key, htmlspecialchars($value));
+                // Explicit flags: PHP 8.1 changed the default, which dropped invalid UTF-8 values on older versions
+                $escaped = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
+                $xml_order_info->addChild($key, $escaped);
             }
         }
     }
