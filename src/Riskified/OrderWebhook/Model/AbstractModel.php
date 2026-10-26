@@ -53,9 +53,6 @@ abstract class AbstractModel {
                 throw new Exception\InvalidPropertyException($this, $key);
             }
 
-            if ($value instanceof \DateTime) {
-                $value = $value->format('c');
-            }
             $this->{$key} = $value;
         }
     }
@@ -63,11 +60,14 @@ abstract class AbstractModel {
     /**
      * Magic method to enforce defined fields
      * @param string $key Property to set
-     * @param string $value New value of property to set
+     * @param mixed $value New value of property to set; a DateTime is stored as an ISO-8601 string
      * @throws \Exception If $key is invalid
      */
     public function __set($key, $value) {
         if (array_key_exists($key, $this->_fields)) {
+            if ($value instanceof \DateTimeInterface) {
+                $value = $value->format('c');
+            }
             $this->_propertyBag[$key] = $value;
         } else {
             throw new Exception\InvalidPropertyException($this, $key);
