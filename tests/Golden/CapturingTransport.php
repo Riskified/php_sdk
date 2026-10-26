@@ -12,6 +12,7 @@ use Riskified\OrderWebhook\Transport\AbstractTransport;
 final class CapturingTransport extends AbstractTransport {
     public ?string $lastJson = null;
     public ?string $lastEndpoint = null;
+    public ?string $lastUrl = null;
 
     /**
      * Sends $model through the transport method a merchant would call and returns the recorded request.
@@ -23,12 +24,17 @@ final class CapturingTransport extends AbstractTransport {
     }
 
     protected function send_json_request($json, $endpoint) {
-        $this->lastJson = $json;
-        $this->lastEndpoint = $endpoint;
-        return null;
+        return $this->record($json, $endpoint, $this->endpoint_prefix() . $endpoint);
     }
 
     protected function send_account_json_request($json, $endpoint) {
-        return $this->send_json_request($json, $endpoint);
+        return $this->record($json, $endpoint, $this->endpoint_prefix('customers') . $endpoint);
+    }
+
+    public function record(string $json, string $endpoint, string $url) {
+        $this->lastJson = $json;
+        $this->lastEndpoint = $endpoint;
+        $this->lastUrl = $url;
+        return null;
     }
 }
