@@ -1,0 +1,40 @@
+{
+    "endpoint": "decision",
+    "body": {
+        "order": {
+            "id": "order-1",
+            "decision": {
+                "external_status": "approved",
+                "decided_at": "2024-01-01T10:05:00+00:00",
+                "reason": "trusted customer",
+                "amount": 120.5,
+                "currency": "USD",
+                "notes": "Approved manually"
+            },
+            "payment_details": {
+                "credit_card_bin": "458011",
+                "avs_result_code": "Y",
+                "cvv_result_code": "M",
+                "credit_card_number": "XXXX-XXXX-XXXX-1234",
+                "credit_card_company": "visa",
+                "credit_card_token": "cc-token-1",
+                "installments": 1,
+                "stored_payment_created_at": "2023-06-01T00:00:00+00:00",
+                "stored_payment_updated_at": "2023-06-01T00:00:00+00:00",
+                "authorization_id": "auth-1",
+                "cardholder_name": "Test User",
+                "payment_type": "card",
+                "authentication_result": {
+                    "created_at": "2024-01-01T10:00:00+00:00",
+                    "eci": "05",
+                    "liability_shift": true,
+                    "cavv": "cavv-1",
+                    "trans_status": "Y",
+                    "three_d_challenge": true,
+                    "TRA_exemption": false,
+                    "trans_status_reason": "01"
+                }
+            }
+        }
+    }
+}

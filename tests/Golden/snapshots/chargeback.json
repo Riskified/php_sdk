@@ -1,0 +1,186 @@
+{
+    "endpoint": "chargeback",
+    "body": {
+        "order": {
+            "id": "order-1",
+            "chargeback_details": {
+                "id": "cb-1",
+                "chargeback_at": "2024-02-01T09:00:00+00:00",
+                "chargeback_currency": "USD",
+                "chargeback_amount": 120.5,
+                "reason_code": "4837",
+                "reason_description": "No cardholder authorization",
+                "type": "cb",
+                "mid": "mid-123",
+                "arn": "arn-456",
+                "credit_card_company": "visa",
+                "respond_by": "2024-02-15T00:00:00+00:00",
+                "fee_amount": 15,
+                "fee_currency": "USD",
+                "card_issuer": "Example Bank",
+                "gateway": "stripe",
+                "cardholder": "Test User",
+                "message": "Cardholder disputes the charge"
+            },
+            "fulfillment": {
+                "created_at": "2024-01-01T10:00:00+00:00",
+                "fulfillment_id": "ful-1",
+                "status": "success",
+                "tracking_company": "UPS",
+                "tracking_numbers": "1Z999",
+                "tracking_urls": "https://track.example.com/1Z999",
+                "message": "Delivered",
+                "receipt": "receipt-1",
+                "line_items": [
+                    {
+                        "price": 100,
+                        "quantity": 1,
+                        "title": "Sneakers",
+                        "sku": "SKU-1",
+                        "product_id": "prod-1",
+                        "fulfillment_service": "manual",
+                        "fulfillment_status": "fulfilled",
+                        "grams": 500,
+                        "id": "li-1",
+                        "variant_id": "var-1",
+                        "variant_title": "Size 42",
+                        "variant_inventory_management": "shopify",
+                        "vendor": "Example Brand",
+                        "name": "Sneakers - Size 42",
+                        "requires_shipping": true,
+                        "taxable": true,
+                        "product_exists": true,
+                        "condition": "new",
+                        "product_type": "physical",
+                        "category": "shoes",
+                        "brand": "Example Brand",
+                        "policy": {
+                            "evaluate": true
+                        },
+                        "delivered_at": "2024-01-05T00:00:00+00:00",
+                        "release_date": "2023-12-01",
+                        "size": "42",
+                        "registry_type": "other",
+                        "shipping_address_id": "addr-1",
+                        "delivered_to": "shipping_address",
+                        "properties": [
+                            {
+                                "name": "color",
+                                "value": "red"
+                            }
+                        ],
+                        "tax_lines": [
+                            {
+                                "price": 10.5,
+                                "rate": 0.1,
+                                "title": "VAT"
+                            }
+                        ],
+                        "seller": {
+                            "customer": {
+                                "email": "buyer@example.com",
+                                "first_name": "Test",
+                                "last_name": "User",
+                                "created_at": "2023-06-01T00:00:00+00:00",
+                                "updated_at": "2024-01-01T10:00:00+00:00",
+                                "id": "cust-1",
+                                "group_id": "group-1",
+                                "group_name": "Retail",
+                                "note": "Returning customer",
+                                "orders_count": 3,
+                                "verified_email": true,
+                                "verified_email_at": "2023-06-01T00:00:00+00:00",
+                                "phone": "+15551234567",
+                                "verified_phone": true,
+                                "verified_phone_at": "2023-06-01T00:00:00+00:00",
+                                "date_of_birth": "1990-05-01",
+                                "gender": "female",
+                                "user_name": "testuser",
+                                "accepts_marketing": true,
+                                "last_order_id": "order-0",
+                                "last_order_name": "#1000",
+                                "state": "enabled",
+                                "total_spent": 300,
+                                "tags": "loyal",
+                                "account_type": "registered",
+                                "first_purchase_at": "2023-06-02T00:00:00+00:00",
+                                "linked_accounts": 1,
+                                "default_address": {
+                                    "id": "addr-1",
+                                    "first_name": "Test",
+                                    "last_name": "User",
+                                    "city": "New York",
+                                    "phone": "+15551234567",
+                                    "additional_phone": "+15557654321",
+                                    "country": "United States",
+                                    "country_code": "US",
+                                    "name": "Test User",
+                                    "company": "Example Inc",
+                                    "address1": "1 Main St",
+                                    "address2": "Apt 2",
+                                    "province": "New York",
+                                    "province_code": "NY",
+                                    "zip": "10001",
+                                    "latitude": 40.7128,
+                                    "longitude": -74.006,
+                                    "verified_phone": true
+                                },
+                                "social": [
+                                    {
+                                        "network": "facebook",
+                                        "public_username": "testuser",
+                                        "id": "social-1",
+                                        "community_score": 10,
+                                        "profile_picture": "https://img.example.com/p.png",
+                                        "email": "buyer@example.com",
+                                        "bio": "Hello",
+                                        "account_url": "https://facebook.com/testuser",
+                                        "following": 100,
+                                        "followed": 200,
+                                        "posts": 50,
+                                        "auth_token": "social-token"
+                                    }
+                                ],
+                                "buy_attempts": 4,
+                                "sell_attempts": 0,
+                                "document_id": "doc-1",
+                                "document_type": "passport",
+                                "address": {
+                                    "id": "addr-1",
+                                    "first_name": "Test",
+                                    "last_name": "User",
+                                    "city": "New York",
+                                    "phone": "+15551234567",
+                                    "additional_phone": "+15557654321",
+                                    "country": "United States",
+                                    "country_code": "US",
+                                    "name": "Test User",
+                                    "company": "Example Inc",
+                                    "address1": "1 Main St",
+                                    "address2": "Apt 2",
+                                    "province": "New York",
+                                    "province_code": "NY",
+                                    "zip": "10001",
+                                    "latitude": 40.7128,
+                                    "longitude": -74.006,
+                                    "verified_phone": true
+                                }
+                            },
+                            "correspondence": 2,
+                            "price_negotiated": true,
+                            "starting_price": 120
+                        }
+                    }
+                ]
+            },
+            "dispute_details": {
+                "case_id": "case-1",
+                "status": "open",
+                "disputed_at": "2024-02-01T09:00:00+00:00",
+                "expected_resolution_date": "2024-03-01T00:00:00+00:00",
+                "dispute_type": "first_chargeback",
+                "issuer_poc_phone_number": "+15550000000"
+            }
+        }
+    }
+}
