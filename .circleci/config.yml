@@ -1,0 +1,44 @@
+version: 2.1
+
+orbs:
+  git-shallow-clone: riskified/git-shallow-clone@2.8.0
+
+executors:
+  php-executor:
+    resource_class: riskified/container-agent
+    docker:
+      - image: 284309667046.dkr.ecr.us-east-1.amazonaws.com/riskified/images-library/php:master-8.5.12-alpine3.24
+
+jobs:
+  test:
+    executor: php-executor
+    working_directory: ~/RiskifiedPhpSDK
+    steps:
+      - git-shallow-clone/checkout:
+          depth: 1
+      - run:
+          name: "PHP version"
+          command: php -v
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.json" }}
+            - composer-v1-
+      - run:
+          name: "Install dependencies"
+          command: composer install --no-progress --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.json" }}
+          paths:
+            - ~/.composer/cache
+            - ~/.cache/composer
+      - run:
+          name: "Lint and static analysis (phpcs + phpstan)"
+          command: composer check
+      - run:
+          name: "Run tests"
+          command: vendor/bin/phpunit
+
+workflows:
+  build:
+    jobs:
+      - test
