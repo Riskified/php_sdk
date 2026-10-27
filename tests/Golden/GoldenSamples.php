@@ -29,6 +29,7 @@ final class GoldenSamples {
             'decision' => ['decisionOrder', self::decision()],
             'chargeback' => ['chargebackOrder', self::chargeback()],
             'order_1_14' => ['submitOrder', self::order114()],
+            'decision_1_14' => ['decisionOrder', self::decision114()],
         ];
     }
 
@@ -53,7 +54,24 @@ final class GoldenSamples {
             self::bankTransferPayment114(),
         ]);
         $props['customer'] = self::customer114();
+        $props['invoice_id'] = 'north-america';
+        $props['shipping_address'] = self::address114();
         return new Model\Order($props);
+    }
+
+    public static function decision114(): Model\Decision {
+        return new Model\Decision([
+            'id' => 'order-1',
+            'decision' => self::decisionDetails(),
+            'payment_details' => self::cardPayment(),
+            'gateway' => 'adyen_3ds',
+        ]);
+    }
+
+    public static function address114(): Model\Address {
+        $address = self::address();
+        $address->neighborhood = 'Chelsea';
+        return $address;
     }
 
     public static function customer114(): Model\Customer {

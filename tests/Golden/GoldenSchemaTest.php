@@ -35,6 +35,7 @@ class GoldenSchemaTest extends TestCase {
         'checkout_denied' => self::CHECKOUT_DENIED_SCHEMAS,
         'decision' => ['pre-auth-decision'],
         'order_1_14' => self::ORDER_SCHEMAS,
+        'decision_1_14' => ['pre-auth-decision'],
     ];
 
     const ORDERS = [
@@ -57,7 +58,12 @@ class GoldenSchemaTest extends TestCase {
             self::gap(self::ORDERS, self::ORDER_SCHEMAS, 'order.shipping_address type array', 'step 3.1'),
             self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.pickup_address type array', 'step 3.2'),
             self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.dropoff_address type array', 'step 3.2'),
-            self::gap(['decision'], ['pre-auth-decision'], 'order.payment_details type array', 'step 3.3'),
+            self::gap(
+                ['decision', 'decision_1_14'],
+                ['pre-auth-decision'],
+                'order.payment_details type array',
+                'step 3.3'
+            ),
             self::gap(
                 self::ORDERS,
                 self::ORDER_SCHEMAS,
