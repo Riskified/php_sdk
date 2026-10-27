@@ -54,8 +54,6 @@ class GoldenSchemaTest extends TestCase {
      */
     public static function knownGaps(): array {
         return array_merge(
-            self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.pickup_address type array', 'step 3.2'),
-            self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.dropoff_address type array', 'step 3.2'),
             self::gap(
                 ['decision', 'decision_1_14'],
                 ['pre-auth-decision'],

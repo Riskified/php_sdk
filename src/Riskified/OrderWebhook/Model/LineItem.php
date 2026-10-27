@@ -104,11 +104,11 @@ class LineItem extends AbstractModel {
         'pickup_date' => 'date optional',
         'pickup_latitude' => 'float optional',
         'pickup_longitude' => 'float optional',
-        'pickup_address' => 'object \Address optional',
+        'pickup_address' => 'array object \Address optional',
         'dropoff_date' => 'date optional',
         'dropoff_latitude' => 'float optional',
         'dropoff_longitude' => 'float optional',
-        'dropoff_address' => 'object \Address optional',
+        'dropoff_address' => 'array object \Address optional',
         'price_by' => 'string optional',
         'vehicle_class' => 'string optional',
         'driver_id' => 'string optional',
@@ -135,4 +135,13 @@ class LineItem extends AbstractModel {
         'authorized_payment' => 'float optional',
         'damage_excess' => 'float optional'
     );
+
+    /**
+     * Sends a single ride pickup or dropoff address as a one-element list, as the API documents
+     * @param array $data Serialized fields of this line item
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $this->as_lists($data, array('pickup_address', 'dropoff_address'));
+    }
 }
