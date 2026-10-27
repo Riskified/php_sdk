@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception\MultiplePropertiesException;
 use Riskified\OrderWebhook\Model\Address;
+use Riskified\OrderWebhook\Model\ChargeFreePaymentDetails;
 use Riskified\OrderWebhook\Model\Checkout;
 use Riskified\OrderWebhook\Model\Order;
 
@@ -120,6 +121,39 @@ class OrderTest extends TestCase {
 
         $json = json_decode($order->toJson(), true);
         $this->assertSame('NYC', $json['billing_address']['city']);
+    }
+
+    public function testASingleChargeFreePaymentDetailsIsSentAsAList(): void {
+        $order = new Order([
+            'charge_free_payment_details' => new ChargeFreePaymentDetails(['gateway' => 'gift_card', 'amount' => '5.00']),
+        ]);
+
+        $order->validate(false);
+        $json = json_decode($order->toJson(), true);
+        $this->assertSame([['gateway' => 'gift_card', 'amount' => '5.00']], $json['charge_free_payment_details']);
+    }
+
+    public function testAListOfChargeFreePaymentDetailsIsSentAsIs(): void {
+        $checkout = new Checkout([
+            'charge_free_payment_details' => [
+                new ChargeFreePaymentDetails(['gateway' => 'gift_card', 'amount' => '5.00']),
+                new ChargeFreePaymentDetails(['gateway' => 'store_credit', 'amount' => '2.00']),
+            ],
+        ]);
+
+        $checkout->validate(false);
+        $json = json_decode($checkout->toJson(), true);
+        $this->assertSame(['gift_card', 'store_credit'], array_column($json['charge_free_payment_details'], 'gateway'));
+    }
+
+    public function testLegacyWireFormatKeepsASingleChargeFreePaymentDetails(): void {
+        Riskified::$legacy_wire_format = true;
+        $order = new Order([
+            'charge_free_payment_details' => new ChargeFreePaymentDetails(['gateway' => 'gift_card', 'amount' => '5.00']),
+        ]);
+
+        $json = json_decode($order->toJson(), true);
+        $this->assertSame('gift_card', $json['charge_free_payment_details']['gateway']);
     }
 
     /**

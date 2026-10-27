@@ -24,11 +24,11 @@ namespace Riskified\OrderWebhook\Model;
  */
 class Checkout extends Order {
     /**
-     * Keeps single addresses: post-auth /checkout_denied documents them as objects, not lists
+     * Like Order, but keeps single addresses: post-auth /checkout_denied documents them as objects, not lists
      * @param array $data Serialized fields of this checkout
-     * @return array Fields unchanged
+     * @return array Fields to send
      */
-    protected function addresses_as_lists($data) {
-        return $data;
+    protected function wire_transform($data) {
+        return $this->as_lists($data, array('charge_free_payment_details'));
     }
 }

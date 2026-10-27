@@ -57,14 +57,14 @@ class GoldenSchemaTest extends TestCase {
             self::gap(
                 self::ORDERS,
                 self::ORDER_SCHEMAS,
-                'order.charge_free_payment_details type array',
-                'step 3.4'
+                'order.charge_free_payment_details.0.amount type number',
+                'step 3.5'
             ),
             self::gap(
                 ['checkout_denied'],
                 ['post-auth-checkout_denied'],
-                'checkout.charge_free_payment_details type array',
-                'step 3.4'
+                'checkout.charge_free_payment_details.0.amount type number',
+                'step 3.5'
             ),
             self::gap(['event_order'], self::ORDER_SCHEMAS, 'order.line_items.0.latitude type number', 'step 3.5'),
             self::gap(['event_order'], self::ORDER_SCHEMAS, 'order.line_items.0.longitude type number', 'step 3.5'),
