@@ -108,7 +108,10 @@ class GoldenSchemaTest extends TestCase {
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.seller.starting_price type string',
                 'step 3.10 / question 7'
-            )
+            ),
+            // The docs give recipient_ACH dates as "type: number, format: date-time"; every other date is a string
+            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.created_at type number', 'question 9'),
+            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.updated_at type number', 'question 9')
         );
     }
 

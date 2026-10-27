@@ -56,6 +56,12 @@ final class GoldenSamples {
         $props['customer'] = self::customer114();
         $props['invoice_id'] = 'north-america';
         $props['shipping_address'] = self::address114();
+        $props['line_items'] = [
+            self::physicalLineItem114(),
+            self::rideLineItem114(),
+            self::remittanceLineItem(),
+            self::cryptoLineItem(),
+        ];
         return new Model\Order($props);
     }
 
@@ -65,6 +71,70 @@ final class GoldenSamples {
             'decision' => self::decisionDetails(),
             'payment_details' => self::cardPayment(),
             'gateway' => 'adyen_3ds',
+        ]);
+    }
+
+    public static function physicalLineItem114(): Model\LineItem {
+        $lineItem = self::physicalLineItem();
+        $lineItem->drop_point = 'locker-12';
+        return $lineItem;
+    }
+
+    public static function rideLineItem114(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 80.0,
+            'quantity' => 1,
+            'title' => 'Car rental',
+            'product_type' => 'ride',
+            'product_id' => 'prod-rental',
+            'category' => 'car_rental',
+            'requires_shipping' => false,
+            'pickup_date' => '2024-03-01T15:00:00+00:00',
+            'route_index' => 1,
+            'leg_index' => 1,
+            'authorized_payment' => 300.0,
+            'damage_excess' => 1000.0,
+        ]);
+    }
+
+    public static function remittanceLineItem(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 150.0,
+            'quantity' => 1,
+            'title' => 'ACH Transfer',
+            'product_type' => 'remittance',
+            'product_id' => 'prod-remittance',
+            'category' => 'ACH',
+            'requires_shipping' => true,
+            'recipient' => new Model\Recipient([
+                'email' => 'friend@example.com',
+                'account_number' => '113401075211',
+                'routing_number' => '345342175111',
+                'bank_code' => 'ABCD-UYTD-34567000',
+                'created_at' => self::CREATED_AT,
+                'updated_at' => self::UPDATED_AT,
+                'self_recipient' => false,
+            ]),
+        ]);
+    }
+
+    public static function cryptoLineItem(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 200.0,
+            'quantity' => 1,
+            'title' => 'Bitcoin',
+            'product_type' => 'crypto',
+            'product_id' => 'prod-crypto',
+            'category' => 'one_time_buy',
+            'requires_shipping' => false,
+            'recipient' => new Model\Recipient([
+                'email' => 'friend@example.com',
+                'crypto_wallet' => new Model\CryptoWallet([
+                    'address' => '0xc0ffee254729296a45a3885639AC7E10F9d54979',
+                    'network' => 'ethereum',
+                    'type' => 'exchange',
+                ]),
+            ]),
         ]);
     }
 
@@ -98,6 +168,9 @@ final class GoldenSamples {
                 'type' => 'primary',
             ]),
         ];
+        $social = self::socialDetails();
+        $social->social_data = ['followers' => 200, 'verified' => true];
+        $customer->social = [$social];
         return $customer;
     }
 

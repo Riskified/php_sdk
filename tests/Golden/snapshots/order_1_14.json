@@ -71,7 +71,11 @@
                         "following": 100,
                         "followed": 200,
                         "posts": 50,
-                        "auth_token": "social-token"
+                        "auth_token": "social-token",
+                        "social_data": {
+                            "followers": 200,
+                            "verified": true
+                        }
                     }
                 ],
                 "buy_attempts": 4,
@@ -259,6 +263,56 @@
                         "correspondence": 2,
                         "price_negotiated": true,
                         "starting_price": 120
+                    },
+                    "drop_point": "locker-12"
+                },
+                {
+                    "price": 80,
+                    "quantity": 1,
+                    "title": "Car rental",
+                    "product_type": "ride",
+                    "product_id": "prod-rental",
+                    "category": "car_rental",
+                    "requires_shipping": false,
+                    "pickup_date": "2024-03-01T15:00:00+00:00",
+                    "route_index": 1,
+                    "leg_index": 1,
+                    "authorized_payment": 300,
+                    "damage_excess": 1000
+                },
+                {
+                    "price": 150,
+                    "quantity": 1,
+                    "title": "ACH Transfer",
+                    "product_type": "remittance",
+                    "product_id": "prod-remittance",
+                    "category": "ACH",
+                    "requires_shipping": true,
+                    "recipient": {
+                        "email": "friend@example.com",
+                        "account_number": "113401075211",
+                        "routing_number": "345342175111",
+                        "bank_code": "ABCD-UYTD-34567000",
+                        "created_at": "2024-01-01T10:00:00+00:00",
+                        "updated_at": "2024-01-01T10:05:00+00:00",
+                        "self_recipient": false
+                    }
+                },
+                {
+                    "price": 200,
+                    "quantity": 1,
+                    "title": "Bitcoin",
+                    "product_type": "crypto",
+                    "product_id": "prod-crypto",
+                    "category": "one_time_buy",
+                    "requires_shipping": false,
+                    "recipient": {
+                        "email": "friend@example.com",
+                        "crypto_wallet": {
+                            "address": "0xc0ffee254729296a45a3885639AC7E10F9d54979",
+                            "network": "ethereum",
+                            "type": "exchange"
+                        }
                     }
                 }
             ],
