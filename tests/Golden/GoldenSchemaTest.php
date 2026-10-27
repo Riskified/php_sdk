@@ -49,7 +49,7 @@ class GoldenSchemaTest extends TestCase {
     public array $riskifiedSnapshot = [];
 
     /**
-     * Each entry names the plan step (API_ALIGNMENT_PLAN.md) or open question that resolves it, or why it's kept.
+     * Each entry names the plan step (PHP_API_ALIGNMENT_PLAN.md) or open question that resolves it, or why it's kept.
      * @return string[]
      */
     public static function knownGaps(): array {
