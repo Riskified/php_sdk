@@ -47,4 +47,11 @@ class AddressTest extends TestCase {
         $this->expectException(MultiplePropertiesException::class);
         $address->validate(false);
     }
+
+    public function testNeighborhoodSerializes(): void {
+        $address = new Address($this->minimalAddressProps() + ['neighborhood' => 'Chelsea']);
+
+        $this->assertTrue($address->validate(true));
+        $this->assertStringContainsString('"neighborhood":"Chelsea"', $address->toJson());
+    }
 }
