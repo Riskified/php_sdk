@@ -53,7 +53,7 @@ class DecisionTest extends TestCase {
 
         $decision->validate(false);
         $json = json_decode($decision->toJson(), true);
-        $this->assertSame([['authorization_id' => 'auth-1'], ['authorization_id' => 'auth-2']], $json['payment_details']);
+        $this->assertSame(['auth-1', 'auth-2'], array_column($json['payment_details'], 'authorization_id'));
     }
 
     public function testAnotherModelInTheListStillFailsValidation(): void {

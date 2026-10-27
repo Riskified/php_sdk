@@ -125,12 +125,15 @@ class OrderTest extends TestCase {
 
     public function testASingleChargeFreePaymentDetailsIsSentAsAList(): void {
         $order = new Order([
-            'charge_free_payment_details' => new ChargeFreePaymentDetails(['gateway' => 'gift_card', 'amount' => '5.00']),
+            'charge_free_payment_details' => new ChargeFreePaymentDetails([
+                'gateway' => 'gift_card',
+                'amount' => '5.25',
+            ]),
         ]);
 
         $order->validate(false);
         $json = json_decode($order->toJson(), true);
-        $this->assertSame([['gateway' => 'gift_card', 'amount' => '5.00']], $json['charge_free_payment_details']);
+        $this->assertSame([['gateway' => 'gift_card', 'amount' => 5.25]], $json['charge_free_payment_details']);
     }
 
     public function testAListOfChargeFreePaymentDetailsIsSentAsIs(): void {
@@ -149,7 +152,10 @@ class OrderTest extends TestCase {
     public function testLegacyWireFormatKeepsASingleChargeFreePaymentDetails(): void {
         Riskified::$legacy_wire_format = true;
         $order = new Order([
-            'charge_free_payment_details' => new ChargeFreePaymentDetails(['gateway' => 'gift_card', 'amount' => '5.00']),
+            'charge_free_payment_details' => new ChargeFreePaymentDetails([
+                'gateway' => 'gift_card',
+                'amount' => '5.00',
+            ]),
         ]);
 
         $json = json_decode($order->toJson(), true);

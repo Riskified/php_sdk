@@ -57,8 +57,8 @@ class LineItem extends AbstractModel {
         /* fields for ticket industry */
         'section' => 'string optional',
         'event_date' => 'date optional',
-        'latitude' => 'string optional',
-        'longitude' => 'string optional',
+        'latitude' => 'mixed optional',
+        'longitude' => 'mixed optional',
 
         /* fields for giftcard industry */
         'photo_url' => 'string optional',
@@ -95,7 +95,7 @@ class LineItem extends AbstractModel {
         'country_code' => 'string optional',
         'check_in_date' => 'date optional',
         'check_out_date' => 'date optional',
-        'rating' => 'float optional',
+        'rating' => 'mixed optional',
         'number_of_guests' => 'number optional',
         'cancellation_policy' => 'string optional',
         'accommodation_type' => 'string optional',
@@ -137,11 +137,13 @@ class LineItem extends AbstractModel {
     );
 
     /**
-     * Sends a single ride pickup or dropoff address as a one-element list, as the API documents
+     * Converts the serialized line item to the types the API documents
      * @param array $data Serialized fields of this line item
      * @return array Fields to send
      */
     protected function wire_transform($data) {
-        return $this->as_lists($data, array('pickup_address', 'dropoff_address'));
+        $data = $this->as_lists($data, array('pickup_address', 'dropoff_address'));
+        $data = $this->as_floats($data, array('latitude', 'longitude'));
+        return $this->as_strings($data, array('rating'));
     }
 }

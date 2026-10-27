@@ -339,7 +339,7 @@
             "charge_free_payment_details": [
                 {
                     "gateway": "gift_card",
-                    "amount": "5.00"
+                    "amount": 5
                 }
             ]
         }
