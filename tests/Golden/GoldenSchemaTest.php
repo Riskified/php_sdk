@@ -49,7 +49,7 @@ class GoldenSchemaTest extends TestCase {
     public array $riskifiedSnapshot = [];
 
     /**
-     * Each entry names the plan step (API_ALIGNMENT_PLAN.md) or open question that resolves it.
+     * Each entry names the plan step (API_ALIGNMENT_PLAN.md) or open question that resolves it, or why it's kept.
      * @return string[]
      */
     public static function knownGaps(): array {
@@ -71,13 +71,13 @@ class GoldenSchemaTest extends TestCase {
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
                 'order.line_items.0.seller.starting_price type string',
-                'step 3.10 / question 7'
+                'kept: the SDK sends a float (question 7)'
             ),
             self::gap(
                 ['checkout_denied'],
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.seller.starting_price type string',
-                'step 3.10 / question 7'
+                'kept: the SDK sends a float (question 7)'
             ),
             // The docs give recipient_ACH dates as "type: number, format: date-time"; every other date is a string
             self::gap(
