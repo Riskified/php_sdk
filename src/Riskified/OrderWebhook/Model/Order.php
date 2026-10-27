@@ -80,8 +80,8 @@ class Order extends AbstractModel {
         'submission_reason' => 'string optional',
         'ai_agent' => 'string /^(?:chatgpt|gemini|copilot|perplexity)$/ optional',
 
-        'shipping_address' => 'object \Address optional',
-        'billing_address' => 'object \Address optional',
+        'shipping_address' => 'array object \Address optional',
+        'billing_address' => 'array object \Address optional',
         'payment_details' => 'array object \PaymentDetails optional',
         'client_details' => 'object \ClientDetails optional',
         'discount_codes' => 'array object \DiscountCode optional',
@@ -98,4 +98,27 @@ class Order extends AbstractModel {
 
         'invoice_id' => 'string optional'
     );
+
+    /**
+     * Converts the serialized order to the form the API documents
+     * @param array $data Serialized fields of this order
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $this->addresses_as_lists($data);
+    }
+
+    /**
+     * Sends a single billing or shipping address as a one-element list
+     * @param array $data Serialized fields of this order
+     * @return array Fields with the addresses as lists
+     */
+    protected function addresses_as_lists($data) {
+        foreach (array('billing_address', 'shipping_address') as $key) {
+            if (!empty($data[$key]) && !isset($data[$key][0])) {
+                $data[$key] = array($data[$key]);
+            }
+        }
+        return $data;
+    }
 }
