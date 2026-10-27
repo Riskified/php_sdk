@@ -34,14 +34,15 @@ class GoldenSchemaTest extends TestCase {
         'accommodation_order' => self::ORDER_SCHEMAS,
         'checkout_denied' => self::CHECKOUT_DENIED_SCHEMAS,
         'decision' => ['pre-auth-decision'],
+        'order_1_14' => self::ORDER_SCHEMAS,
     ];
 
     const ORDERS = [
         'card_order', 'paypal_order', 'bank_transfer_order', 'digital_order',
-        'travel_order', 'ride_order', 'event_order', 'accommodation_order',
+        'travel_order', 'ride_order', 'event_order', 'accommodation_order', 'order_1_14',
     ];
     // Orders whose line item is the physical one, which carries vendor and seller.
-    const PHYSICAL_ORDERS = ['card_order', 'paypal_order', 'bank_transfer_order'];
+    const PHYSICAL_ORDERS = ['card_order', 'paypal_order', 'bank_transfer_order', 'order_1_14'];
 
     /** @var array<string, mixed> */
     public array $riskifiedSnapshot = [];

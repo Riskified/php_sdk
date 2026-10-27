@@ -28,6 +28,7 @@ final class GoldenSamples {
             'checkout_denied' => ['deniedCheckout', self::deniedCheckout()],
             'decision' => ['decisionOrder', self::decision()],
             'chargeback' => ['chargebackOrder', self::chargeback()],
+            'order_1_14' => ['submitOrder', self::order114()],
         ];
     }
 
@@ -37,6 +38,20 @@ final class GoldenSamples {
 
     public static function paypalOrder(): Model\Order {
         return new Model\Order(self::fullOrderProps([self::paypalPayment()]));
+    }
+
+    /**
+     * Fields added in 1.14.0, on top of the card order. Each Release 2 step extends this sample;
+     * the 1.13.x samples above stay unchanged.
+     */
+    public static function order114(): Model\Order {
+        return new Model\Order(self::fullOrderProps([
+            self::cardPayment114(),
+            self::digitalWalletPayment(),
+            self::bnplPayment(),
+            new Model\PaymentDetails(['payment_type' => 'gift_card']),
+            self::bankTransferPayment114(),
+        ]));
     }
 
     public static function bankTransferOrder(): Model\Order {
@@ -383,6 +398,47 @@ final class GoldenSamples {
                 'currency_code' => 'USD',
             ]),
         ]);
+    }
+
+    public static function cardPayment114(): Model\PaymentDetails {
+        $payment = self::cardPayment();
+        $payment->id = 'pay-1';
+        $payment->mid = 'mid-123';
+        $payment->acquirer_bin = '411111';
+        $payment->acquirer_region = 'EU';
+        $payment->authorization_type = 'authorization';
+        $payment->billing_address_id = 'addr-1';
+        $payment->credit_card_country = 'US';
+        $payment->expiry_month = 12;
+        $payment->expiry_year = 2030;
+        return $payment;
+    }
+
+    public static function digitalWalletPayment(): Model\PaymentDetails {
+        return new Model\PaymentDetails([
+            'payment_type' => 'apple_pay',
+            'authorization_id' => 'wallet-auth-1',
+            'avs_result_code' => 'Y',
+            'credit_card_company' => 'visa',
+            'credit_card_token' => 'wallet-token-1',
+            'authorization_type' => 'verification',
+            'acquirer_region' => 'NONEU',
+        ]);
+    }
+
+    public static function bnplPayment(): Model\PaymentDetails {
+        return new Model\PaymentDetails([
+            'payment_type' => 'bnpl',
+            'installments' => 4,
+            'payment_frequency' => 14,
+            'initial_payment_amount' => 30.125,
+        ]);
+    }
+
+    public static function bankTransferPayment114(): Model\PaymentDetails {
+        $payment = self::bankTransferPayment();
+        $payment->token = 'bank-token-1';
+        return $payment;
     }
 
     public static function physicalLineItem(): Model\LineItem {

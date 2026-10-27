@@ -43,4 +43,41 @@ class PaymentDetailsTest extends TestCase {
         $this->assertStringContainsString('"eci":"05"', $json);
         $this->assertStringContainsString('"trans_status":"A"', $json);
     }
+
+    public function testDocumentedPaymentFieldsAreAcceptedAndSerialized(): void {
+        $details = new PaymentDetails([
+            'id' => 'pay-1',
+            'mid' => 'mid-1',
+            'acquirer_bin' => '411111',
+            'billing_address_id' => 'addr-1',
+            'credit_card_country' => 'US',
+            'token' => 'tok-1',
+            'acquirer_region' => 'EU',
+            'authorization_type' => 'verification',
+            'expiry_month' => 12,
+            'expiry_year' => 2030,
+            'payment_frequency' => 4,
+            'initial_payment_amount' => 25.5,
+        ]);
+
+        $this->assertTrue($details->validate(false));
+        $this->assertSame([
+            'id' => 'pay-1',
+            'mid' => 'mid-1',
+            'acquirer_bin' => '411111',
+            'billing_address_id' => 'addr-1',
+            'credit_card_country' => 'US',
+            'token' => 'tok-1',
+            'acquirer_region' => 'EU',
+            'authorization_type' => 'verification',
+            'expiry_month' => 12,
+            'expiry_year' => 2030,
+            'payment_frequency' => 4,
+            'initial_payment_amount' => 25.5,
+        ], json_decode($details->toJson(), true));
+    }
+
+    public function testDocumentedPaymentFieldsAreOptional(): void {
+        $this->assertTrue((new PaymentDetails())->validate(true));
+    }
 }
