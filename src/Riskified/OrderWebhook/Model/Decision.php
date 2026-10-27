@@ -26,6 +26,7 @@ class Decision extends AbstractModel {
     protected $_fields = array(
         'id' => 'string',
         'decision' => 'object \DecisionDetails',
+        // @deprecated since 1.16.0: a single PaymentDetails; pass a list. 2.0.0 accepts only lists
         'payment_details' => 'array object \PaymentDetails optional',
         'gateway' => 'string optional'
     );
