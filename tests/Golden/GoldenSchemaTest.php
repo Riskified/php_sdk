@@ -68,12 +68,6 @@ class GoldenSchemaTest extends TestCase {
                 'question 6'
             ),
             self::gap(
-                ['checkout_denied'],
-                self::CHECKOUT_DENIED_SCHEMAS,
-                'checkout.payment_details.0.authorization_error required',
-                'step 3.8'
-            ),
-            self::gap(
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
                 'order.line_items.0.seller.starting_price type string',
