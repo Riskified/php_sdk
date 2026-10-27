@@ -54,12 +54,18 @@ class GoldenSchemaTest extends TestCase {
      */
     public static function knownGaps(): array {
         return array_merge(
-            self::gap(self::PHYSICAL_ORDERS, self::ORDER_SCHEMAS, 'order.line_items.0.vendor type object', 'step 3.6'),
+            // A string vendor is sent as is until question 6 is answered; order_1_14 sends a Vendor model
+            self::gap(
+                array_diff(self::PHYSICAL_ORDERS, ['order_1_14']),
+                self::ORDER_SCHEMAS,
+                'order.line_items.0.vendor type object',
+                'question 6'
+            ),
             self::gap(
                 ['checkout_denied'],
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.vendor type object',
-                'step 3.6'
+                'question 6'
             ),
             self::gap(
                 ['checkout_denied'],

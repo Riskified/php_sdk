@@ -139,7 +139,10 @@
                     "variant_id": "var-1",
                     "variant_title": "Size 42",
                     "variant_inventory_management": "shopify",
-                    "vendor": "Example Brand",
+                    "vendor": {
+                        "vendor_id": "VNDR7890",
+                        "vendor_name": "Example Brand"
+                    },
                     "name": "Sneakers - Size 42",
                     "requires_shipping": true,
                     "taxable": true,
