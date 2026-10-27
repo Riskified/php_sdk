@@ -37,7 +37,7 @@ class LineItem extends AbstractModel {
         'variant_id' => 'string optional',
         'variant_title' => 'string optional',
         'variant_inventory_management' => 'string optional',
-        'vendor' => 'string optional',
+        'vendor' => 'mixed optional',
         'name' => 'string optional',
         'requires_shipping' => 'boolean optional',
         'taxable' => 'boolean optional',

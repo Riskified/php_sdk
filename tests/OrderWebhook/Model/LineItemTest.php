@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Model\Address;
 use Riskified\OrderWebhook\Model\Checkout;
+use Riskified\OrderWebhook\Model\Vendor;
 use Riskified\OrderWebhook\Model\LineItem;
 
 class LineItemTest extends TestCase {
@@ -121,5 +122,20 @@ class LineItemTest extends TestCase {
         $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('40.7505', $json['latitude']);
         $this->assertSame(4.5, $json['rating']);
+    }
+
+    public function testAVendorModelIsSentAsAnObject(): void {
+        $lineItem = new LineItem(['vendor' => new Vendor(['vendor_id' => 'VNDR7890', 'vendor_name' => 'Acme'])]);
+
+        $lineItem->validate(false);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame(['vendor_id' => 'VNDR7890', 'vendor_name' => 'Acme'], $json['vendor']);
+    }
+
+    public function testAStringVendorIsStillAcceptedAndSentAsIs(): void {
+        $lineItem = new LineItem(['vendor' => 'Acme']);
+
+        $lineItem->validate(false);
+        $this->assertSame('Acme', json_decode($lineItem->toJson(), true)['vendor']);
     }
 }
