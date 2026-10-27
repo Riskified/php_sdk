@@ -22,6 +22,7 @@ use Riskified\Common\Riskified;
 use Riskified\Common\Env;
 use Riskified\Common\Validations;
 use Riskified\Common\Signature;
+use Riskified\OrderWebhook\Constants;
 use Riskified\OrderWebhook\Model;
 use Riskified\OrderWebhook\Transport;
 
@@ -48,7 +49,8 @@ $order = new Model\Order(array(
     'device_id' => '01234567-89ABCDEF-01234567-89ABCDEF',
     'note' => 'Shipped to my hotel.',
     'referring_site' => 'google.com',
-    'source' => 'desktop_web'
+    'source' => Constants\OrderSource::DESKTOP_WEB,
+    'invoice_id' => 'north-america'
 ));
 
 # LineItems
@@ -78,7 +80,7 @@ $lineItem3 = new Model\LineItem(array(
     'country_code' => 'US',
     'latitude' => '40.8296 N',
     'longitude' => '73.9262 W',
-    'product_type' => 'event'
+    'product_type' => Constants\ProductType::EVENT
 ));
 $order->line_items = array($lineItem1, $lineItem2, $lineItem3);
 
@@ -102,7 +104,12 @@ $paymentDetails = new Model\PaymentDetails(array(
     'avs_result_code' => 'Y',
     'cvv_result_code' => 'N',
     'credit_card_number' => 'xxxx-xxxx-xxxx-1234',
-    'credit_card_company' => 'VISA'
+    'credit_card_company' => 'VISA',
+    'payment_type' => Constants\PaymentType::CARD,
+    'credit_card_country' => 'US',
+    'expiry_month' => 12,
+    'expiry_year' => 2030,
+    'authorization_type' => Constants\AuthorizationType::AUTHORIZATION
 ));
 $order->payment_details = array($paymentDetails);
 
@@ -115,7 +122,14 @@ $customer = new Model\Customer(array(
     'created_at' => '2008-01-10T11:00:00-05:00',
     'orders_count' => 6,
     'verified_email' => true,
-    'account_type' => 'free'
+    'account_type' => 'free',
+    'social_signup_type' => Constants\SocialSignupType::GOOGLE,
+    'kyc_verified' => true,
+    'kyc_details' => array(new Model\KycDetails(array(
+        'vendor_name' => 'socure',
+        'kyc_verified' => true,
+        'kyc_type' => Constants\KycType::SOFT
+    )))
 ));
 $order->customer = $customer;
 

@@ -27,5 +27,13 @@ class Recipient extends AbstractModel {
         'email' => 'string optional',
         'phone' => 'string optional',
         'social' => 'object \SocialDetails optional',
+
+        'account_number' => 'string optional',
+        'routing_number' => 'string optional',
+        'bank_code' => 'string optional',
+        'crypto_wallet' => 'object \CryptoWallet optional',
+        'created_at' => 'date optional',
+        'updated_at' => 'date optional',
+        'self_recipient' => 'boolean optional',
     );
 }
