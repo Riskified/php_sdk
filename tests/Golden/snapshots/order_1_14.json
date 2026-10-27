@@ -281,7 +281,8 @@
                     "route_index": 1,
                     "leg_index": 1,
                     "authorized_payment": 300,
-                    "damage_excess": 1000
+                    "damage_excess": 1000,
+                    "authorized_payments": 300
                 },
                 {
                     "price": 150,

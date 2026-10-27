@@ -47,6 +47,35 @@ class LineItemTest extends TestCase {
 
         $this->assertSame(1.5, $lineItem->authorized_payment);
         $this->assertSame(2.5, $lineItem->authorized_payments);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame(1.5, $json['authorized_payment'], 'both set: each is sent as set');
+        $this->assertSame(2.5, $json['authorized_payments']);
+    }
+
+    /**
+     * @dataProvider authorizedPaymentKeys
+     */
+    public function testEitherAuthorizedPaymentKeyIsSentUnderBoth(string $key): void {
+        $lineItem = new LineItem([$key => 300.5]);
+
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame(300.5, $json['authorized_payment']);
+        $this->assertSame(300.5, $json['authorized_payments']);
+        $this->assertNull($lineItem->{$key === 'authorized_payment' ? 'authorized_payments' : 'authorized_payment'});
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function authorizedPaymentKeys(): array {
+        return ['documented key' => ['authorized_payment'], 'legacy key' => ['authorized_payments']];
+    }
+
+    public function testLegacyWireFormatSendsOnlyTheKeySet(): void {
+        Riskified::$legacy_wire_format = true;
+        $json = json_decode((new LineItem(['authorized_payments' => 300.5]))->toJson(), true);
+
+        $this->assertArrayNotHasKey('authorized_payment', $json);
     }
 
     public function testSingleRideAddressesAreSentAsLists(): void {

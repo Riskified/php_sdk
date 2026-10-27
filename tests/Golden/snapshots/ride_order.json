@@ -166,7 +166,8 @@
                     "meet_n_greet": "yes",
                     "authorized_payments": 40,
                     "route_index": 1,
-                    "leg_index": 1
+                    "leg_index": 1,
+                    "authorized_payment": 40
                 }
             ],
             "name": "#1001",
