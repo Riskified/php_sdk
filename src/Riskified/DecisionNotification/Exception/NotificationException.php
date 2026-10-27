@@ -46,6 +46,32 @@ class NotificationException extends BaseException {
 
     protected function customMessage() {
         return 'Headers: ' . $this->headersString() .
-        ', Body: ' . $this->body;
+        ', Body length: ' . strlen((string) $this->body);
+    }
+
+    /**
+     * The raw request body that triggered this exception.
+     *
+     * Deliberately absent from getMessage(). The body is attacker-controlled, and exception
+     * messages routinely reach HTTP responses and log aggregators; echoing it back is an
+     * information-disclosure and log-injection channel. Read it here once you have decided
+     * where the body is safe to send.
+     *
+     * @return string The unmodified request body
+     */
+    public function getBody() {
+        return $this->body;
+    }
+
+    /**
+     * The request headers that triggered this exception, exactly as passed in.
+     *
+     * Unmasked, unlike headersString(), which is what getMessage() uses. Treat the result as
+     * sensitive and do not return it to the caller of your webhook endpoint.
+     *
+     * @return array The unmodified request headers
+     */
+    public function getHeaders() {
+        return $this->headers;
     }
 }
