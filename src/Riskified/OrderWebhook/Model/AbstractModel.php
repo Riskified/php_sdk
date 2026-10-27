@@ -17,6 +17,7 @@
 
 namespace Riskified\OrderWebhook\Model;
 
+use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -257,7 +258,18 @@ abstract class AbstractModel {
      * @return array List of all fields
      */
     private function to_array() {
-        return $this->process_array($this->_propertyBag);
+        $data = $this->process_array($this->_propertyBag);
+        return Riskified::$legacy_wire_format ? $data : $this->wire_transform($data);
+    }
+
+    /**
+     * Hook to convert this model's serialized fields to the form the API documents.
+     * Nested models are already converted. Skipped when Riskified::$legacy_wire_format is true.
+     * @param array $data Serialized fields of this model
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $data;
     }
 
     /**
