@@ -94,26 +94,17 @@ class Order extends AbstractModel {
 
         'decision' => 'object \DecisionDetails optional',
 
-        'charge_free_payment_details' => 'object\ChargeFreePaymentDetails optional',
+        'charge_free_payment_details' => 'mixed optional',
 
         'invoice_id' => 'string optional'
     );
 
     /**
-     * Converts the serialized order to the form the API documents
+     * Sends the fields the API documents as lists as one-element lists when a single value is set
      * @param array $data Serialized fields of this order
      * @return array Fields to send
      */
     protected function wire_transform($data) {
-        return $this->addresses_as_lists($data);
-    }
-
-    /**
-     * Sends a single billing or shipping address as a one-element list
-     * @param array $data Serialized fields of this order
-     * @return array Fields with the addresses as lists
-     */
-    protected function addresses_as_lists($data) {
-        return $this->as_lists($data, array('billing_address', 'shipping_address'));
+        return $this->as_lists($data, array('billing_address', 'shipping_address', 'charge_free_payment_details'));
     }
 }
