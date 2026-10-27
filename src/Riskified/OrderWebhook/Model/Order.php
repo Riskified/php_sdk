@@ -80,6 +80,7 @@ class Order extends AbstractModel {
         'submission_reason' => 'string optional',
         'ai_agent' => 'string /^(?:chatgpt|gemini|copilot|perplexity)$/ optional',
 
+        // @deprecated since 1.16.0: a single Address on an order; pass a list. 2.0.0 accepts only lists
         'shipping_address' => 'array object \Address optional',
         'billing_address' => 'array object \Address optional',
         'payment_details' => 'array object \PaymentDetails optional',
@@ -89,11 +90,13 @@ class Order extends AbstractModel {
         'note_attributes' => 'array object \Attribute optional',
         'tax_lines' => 'array object \TaxLine optional',
 
+        // @deprecated since 1.16.0, removed in 2.0.0: set authorization_error on each PaymentDetails instead
         'authorization_error' => 'object \AuthorizationError optional',
         'nocharge_amount' => 'object \RefundDetails optional',
 
         'decision' => 'object \DecisionDetails optional',
 
+        // @deprecated since 1.16.0: a single ChargeFreePaymentDetails; pass a list. 2.0.0 accepts only lists
         'charge_free_payment_details' => 'mixed optional',
 
         'invoice_id' => 'string optional'
