@@ -22,4 +22,13 @@ namespace Riskified\OrderWebhook\Model;
  * pre-order checkout data model, includes nested models
  * @package Riskified\OrderWebhook\Model
  */
-class Checkout extends Order {}
+class Checkout extends Order {
+    /**
+     * Keeps single addresses: post-auth /checkout_denied documents them as objects, not lists
+     * @param array $data Serialized fields of this checkout
+     * @return array Fields unchanged
+     */
+    protected function addresses_as_lists($data) {
+        return $data;
+    }
+}
