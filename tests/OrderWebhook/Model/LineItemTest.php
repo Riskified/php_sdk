@@ -80,4 +80,46 @@ class LineItemTest extends TestCase {
         $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('NYC', $json['pickup_address']['city']);
     }
+
+    public function testNumericCoordinatesAreSentAsFloats(): void {
+        $lineItem = new LineItem(['latitude' => '40.7505', 'longitude' => -73.9934]);
+
+        $lineItem->validate(false);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame(40.7505, $json['latitude']);
+        $this->assertSame(-73.9934, $json['longitude']);
+    }
+
+    public function testNonNumericCoordinatesPassThrough(): void {
+        $lineItem = new LineItem(['latitude' => '40.8296 N', 'longitude' => '73.9262 W']);
+
+        $lineItem->validate(false);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame('40.8296 N', $json['latitude']);
+        $this->assertSame('73.9262 W', $json['longitude']);
+    }
+
+    public function testANumericRatingIsSentAsAString(): void {
+        $lineItem = new LineItem(['rating' => 4.5]);
+
+        $lineItem->validate(false);
+        $this->assertSame('4.5', json_decode($lineItem->toJson(), true)['rating']);
+        $this->assertSame('4', json_decode((new LineItem(['rating' => 4]))->toJson(), true)['rating']);
+    }
+
+    public function testAStringRatingIsAcceptedAndSentAsIs(): void {
+        $lineItem = new LineItem(['rating' => '4 stars']);
+
+        $lineItem->validate(false);
+        $this->assertSame('4 stars', json_decode($lineItem->toJson(), true)['rating']);
+    }
+
+    public function testLegacyWireFormatKeepsCoordinatesAndRatingAsSet(): void {
+        Riskified::$legacy_wire_format = true;
+        $lineItem = new LineItem(['latitude' => '40.7505', 'rating' => 4.5]);
+
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame('40.7505', $json['latitude']);
+        $this->assertSame(4.5, $json['rating']);
+    }
 }

@@ -113,7 +113,7 @@
                     "country_code": "GB",
                     "check_in_date": "2024-03-02T15:00:00+00:00",
                     "check_out_date": "2024-03-05T11:00:00+00:00",
-                    "rating": 4.5,
+                    "rating": "4.5",
                     "number_of_guests": 2,
                     "cancellation_policy": "free_cancellation",
                     "accommodation_type": "hotel"
@@ -289,7 +289,7 @@
             "charge_free_payment_details": [
                 {
                     "gateway": "gift_card",
-                    "amount": "5.00"
+                    "amount": 5
                 }
             ]
         }

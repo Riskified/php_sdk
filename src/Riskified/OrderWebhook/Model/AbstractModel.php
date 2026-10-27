@@ -288,6 +288,36 @@ abstract class AbstractModel {
     }
 
     /**
+     * Sends each listed field that holds a numeric value (e.g. "40.75") as a float; other values pass through
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as numbers
+     * @return array Fields with those numeric values as floats
+     */
+    protected function as_floats($data, $keys) {
+        foreach ($keys as $key) {
+            if (isset($data[$key]) && is_numeric($data[$key])) {
+                $data[$key] = (float) $data[$key];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Sends each listed field that holds a number as a string; other values pass through
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as strings
+     * @return array Fields with those numbers as strings
+     */
+    protected function as_strings($data, $keys) {
+        foreach ($keys as $key) {
+            if (isset($data[$key]) && (is_int($data[$key]) || is_float($data[$key]))) {
+                $data[$key] = (string) $data[$key];
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Recursively convert models to arrays
      * @param array $array List of fields to convert from models to arrays
      * @return array Nested array
