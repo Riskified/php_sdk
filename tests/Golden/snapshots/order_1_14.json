@@ -139,7 +139,10 @@
                     "variant_id": "var-1",
                     "variant_title": "Size 42",
                     "variant_inventory_management": "shopify",
-                    "vendor": "Example Brand",
+                    "vendor": {
+                        "vendor_id": "VNDR7890",
+                        "vendor_name": "Example Brand"
+                    },
                     "name": "Sneakers - Size 42",
                     "requires_shipping": true,
                     "taxable": true,
@@ -278,7 +281,8 @@
                     "route_index": 1,
                     "leg_index": 1,
                     "authorized_payment": 300,
-                    "damage_excess": 1000
+                    "damage_excess": 1000,
+                    "authorized_payments": 300
                 },
                 {
                     "price": 150,
@@ -360,47 +364,51 @@
             "partner_sub_merchant_id": "sub-merchant-1",
             "submission_reason": "manual_decision",
             "ai_agent": "chatgpt",
-            "shipping_address": {
-                "id": "addr-1",
-                "first_name": "Test",
-                "last_name": "User",
-                "city": "New York",
-                "phone": "+15551234567",
-                "additional_phone": "+15557654321",
-                "country": "United States",
-                "country_code": "US",
-                "name": "Test User",
-                "company": "Example Inc",
-                "address1": "1 Main St",
-                "address2": "Apt 2",
-                "province": "New York",
-                "province_code": "NY",
-                "zip": "10001",
-                "latitude": 40.7128,
-                "longitude": -74.006,
-                "verified_phone": true,
-                "neighborhood": "Chelsea"
-            },
-            "billing_address": {
-                "id": "addr-1",
-                "first_name": "Test",
-                "last_name": "User",
-                "city": "New York",
-                "phone": "+15551234567",
-                "additional_phone": "+15557654321",
-                "country": "United States",
-                "country_code": "US",
-                "name": "Test User",
-                "company": "Example Inc",
-                "address1": "1 Main St",
-                "address2": "Apt 2",
-                "province": "New York",
-                "province_code": "NY",
-                "zip": "10001",
-                "latitude": 40.7128,
-                "longitude": -74.006,
-                "verified_phone": true
-            },
+            "shipping_address": [
+                {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true,
+                    "neighborhood": "Chelsea"
+                }
+            ],
+            "billing_address": [
+                {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true
+                }
+            ],
             "payment_details": [
                 {
                     "credit_card_bin": "458011",
@@ -552,10 +560,12 @@
                 "currency": "USD",
                 "notes": "Approved manually"
             },
-            "charge_free_payment_details": {
-                "gateway": "gift_card",
-                "amount": "5.00"
-            },
+            "charge_free_payment_details": [
+                {
+                    "gateway": "gift_card",
+                    "amount": 5
+                }
+            ],
             "invoice_id": "north-america"
         }
     }

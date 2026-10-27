@@ -49,69 +49,49 @@ class GoldenSchemaTest extends TestCase {
     public array $riskifiedSnapshot = [];
 
     /**
-     * Each entry names the plan step (API_ALIGNMENT_PLAN.md) or open question that resolves it.
+     * Each entry names the plan step (API_ALIGNMENT_PLAN.md) or open question that resolves it, or why it's kept.
      * @return string[]
      */
     public static function knownGaps(): array {
         return array_merge(
-            self::gap(self::ORDERS, self::ORDER_SCHEMAS, 'order.billing_address type array', 'step 3.1'),
-            self::gap(self::ORDERS, self::ORDER_SCHEMAS, 'order.shipping_address type array', 'step 3.1'),
-            self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.pickup_address type array', 'step 3.2'),
-            self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.dropoff_address type array', 'step 3.2'),
+            // A string vendor is sent as is until question 6 is answered; order_1_14 sends a Vendor model
             self::gap(
-                ['decision', 'decision_1_14'],
-                ['pre-auth-decision'],
-                'order.payment_details type array',
-                'step 3.3'
-            ),
-            self::gap(
-                self::ORDERS,
+                array_diff(self::PHYSICAL_ORDERS, ['order_1_14']),
                 self::ORDER_SCHEMAS,
-                'order.charge_free_payment_details type array',
-                'step 3.4'
+                'order.line_items.0.vendor type object',
+                'question 6'
             ),
-            self::gap(
-                ['checkout_denied'],
-                ['post-auth-checkout_denied'],
-                'checkout.charge_free_payment_details type array',
-                'step 3.4'
-            ),
-            self::gap(['event_order'], self::ORDER_SCHEMAS, 'order.line_items.0.latitude type number', 'step 3.5'),
-            self::gap(['event_order'], self::ORDER_SCHEMAS, 'order.line_items.0.longitude type number', 'step 3.5'),
-            self::gap(
-                ['accommodation_order'],
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.rating type string',
-                'step 3.5'
-            ),
-            self::gap(self::PHYSICAL_ORDERS, self::ORDER_SCHEMAS, 'order.line_items.0.vendor type object', 'step 3.6'),
             self::gap(
                 ['checkout_denied'],
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.vendor type object',
-                'step 3.6'
-            ),
-            self::gap(
-                ['checkout_denied'],
-                self::CHECKOUT_DENIED_SCHEMAS,
-                'checkout.payment_details.0.authorization_error required',
-                'step 3.8'
+                'question 6'
             ),
             self::gap(
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
                 'order.line_items.0.seller.starting_price type string',
-                'step 3.10 / question 7'
+                'kept: the SDK sends a float (question 7)'
             ),
             self::gap(
                 ['checkout_denied'],
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.seller.starting_price type string',
-                'step 3.10 / question 7'
+                'kept: the SDK sends a float (question 7)'
             ),
             // The docs give recipient_ACH dates as "type: number, format: date-time"; every other date is a string
-            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.created_at type number', 'question 9'),
-            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.updated_at type number', 'question 9')
+            self::gap(
+                ['order_1_14'],
+                self::ORDER_SCHEMAS,
+                'order.line_items.2.recipient.created_at type number',
+                'question 9'
+            ),
+            self::gap(
+                ['order_1_14'],
+                self::ORDER_SCHEMAS,
+                'order.line_items.2.recipient.updated_at type number',
+                'question 9'
+            )
         );
     }
 

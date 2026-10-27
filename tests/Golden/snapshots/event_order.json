@@ -113,8 +113,8 @@
                     "event_date": "2024-04-01T20:00:00+00:00",
                     "city": "New York",
                     "country_code": "US",
-                    "latitude": "40.7505",
-                    "longitude": "-73.9934"
+                    "latitude": 40.7505,
+                    "longitude": -73.9934
                 }
             ],
             "name": "#1001",
@@ -161,46 +161,50 @@
             "partner_sub_merchant_id": "sub-merchant-1",
             "submission_reason": "manual_decision",
             "ai_agent": "chatgpt",
-            "shipping_address": {
-                "id": "addr-1",
-                "first_name": "Test",
-                "last_name": "User",
-                "city": "New York",
-                "phone": "+15551234567",
-                "additional_phone": "+15557654321",
-                "country": "United States",
-                "country_code": "US",
-                "name": "Test User",
-                "company": "Example Inc",
-                "address1": "1 Main St",
-                "address2": "Apt 2",
-                "province": "New York",
-                "province_code": "NY",
-                "zip": "10001",
-                "latitude": 40.7128,
-                "longitude": -74.006,
-                "verified_phone": true
-            },
-            "billing_address": {
-                "id": "addr-1",
-                "first_name": "Test",
-                "last_name": "User",
-                "city": "New York",
-                "phone": "+15551234567",
-                "additional_phone": "+15557654321",
-                "country": "United States",
-                "country_code": "US",
-                "name": "Test User",
-                "company": "Example Inc",
-                "address1": "1 Main St",
-                "address2": "Apt 2",
-                "province": "New York",
-                "province_code": "NY",
-                "zip": "10001",
-                "latitude": 40.7128,
-                "longitude": -74.006,
-                "verified_phone": true
-            },
+            "shipping_address": [
+                {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true
+                }
+            ],
+            "billing_address": [
+                {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true
+                }
+            ],
             "payment_details": [
                 {
                     "credit_card_bin": "458011",
@@ -280,10 +284,12 @@
                 "currency": "USD",
                 "notes": "Approved manually"
             },
-            "charge_free_payment_details": {
-                "gateway": "gift_card",
-                "amount": "5.00"
-            }
+            "charge_free_payment_details": [
+                {
+                    "gateway": "gift_card",
+                    "amount": 5
+                }
+            ]
         }
     }
 }
