@@ -144,6 +144,14 @@ class LineItem extends AbstractModel {
     protected function wire_transform($data) {
         $data = $this->as_lists($data, array('pickup_address', 'dropoff_address'));
         $data = $this->as_floats($data, array('latitude', 'longitude'));
-        return $this->as_strings($data, array('rating'));
+        $data = $this->as_strings($data, array('rating'));
+
+        // The docs name authorized_payment, the SDKs have always sent authorized_payments: send both
+        if (isset($data['authorized_payment']) && !isset($data['authorized_payments'])) {
+            $data['authorized_payments'] = $data['authorized_payment'];
+        } elseif (isset($data['authorized_payments']) && !isset($data['authorized_payment'])) {
+            $data['authorized_payment'] = $data['authorized_payments'];
+        }
+        return $data;
     }
 }
