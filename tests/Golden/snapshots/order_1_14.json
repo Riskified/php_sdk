@@ -97,7 +97,29 @@
                     "latitude": 40.7128,
                     "longitude": -74.006,
                     "verified_phone": true
-                }
+                },
+                "buyer_anonymous_id": "anon-1",
+                "referrer_customer_id": "cust-0",
+                "social_signup_type": "google",
+                "has_defaulted": false,
+                "kyc_verified": true,
+                "phone_mandatory": true,
+                "spending_limit": 1500.5,
+                "kyc_details": [
+                    {
+                        "vendor_name": "socure",
+                        "update_at": "2025-03-11T09:42:11+00:00",
+                        "kyc_verified": true,
+                        "kyc_type": "soft"
+                    }
+                ],
+                "crypto_wallets": [
+                    {
+                        "address": "0xc0ffee254729296a45a3885639AC7E10F9d54979",
+                        "network": "ethereum",
+                        "type": "primary"
+                    }
+                ]
             },
             "line_items": [
                 {

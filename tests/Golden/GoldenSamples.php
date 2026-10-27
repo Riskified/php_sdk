@@ -45,13 +45,42 @@ final class GoldenSamples {
      * the 1.13.x samples above stay unchanged.
      */
     public static function order114(): Model\Order {
-        return new Model\Order(self::fullOrderProps([
+        $props = self::fullOrderProps([
             self::cardPayment114(),
             self::digitalWalletPayment(),
             self::bnplPayment(),
             new Model\PaymentDetails(['payment_type' => 'gift_card']),
             self::bankTransferPayment114(),
-        ]));
+        ]);
+        $props['customer'] = self::customer114();
+        return new Model\Order($props);
+    }
+
+    public static function customer114(): Model\Customer {
+        $customer = self::customer();
+        $customer->buyer_anonymous_id = 'anon-1';
+        $customer->referrer_customer_id = 'cust-0';
+        $customer->social_signup_type = 'google';
+        $customer->has_defaulted = false;
+        $customer->kyc_verified = true;
+        $customer->phone_mandatory = true;
+        $customer->spending_limit = 1500.5;
+        $customer->kyc_details = [
+            new Model\KycDetails([
+                'vendor_name' => 'socure',
+                'update_at' => '2025-03-11T09:42:11+00:00',
+                'kyc_verified' => true,
+                'kyc_type' => 'soft',
+            ]),
+        ];
+        $customer->crypto_wallets = [
+            new Model\CryptoWallet([
+                'address' => '0xc0ffee254729296a45a3885639AC7E10F9d54979',
+                'network' => 'ethereum',
+                'type' => 'primary',
+            ]),
+        ];
+        return $customer;
     }
 
     public static function bankTransferOrder(): Model\Order {
