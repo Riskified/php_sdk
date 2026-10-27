@@ -114,11 +114,6 @@ class Order extends AbstractModel {
      * @return array Fields with the addresses as lists
      */
     protected function addresses_as_lists($data) {
-        foreach (array('billing_address', 'shipping_address') as $key) {
-            if (!empty($data[$key]) && !isset($data[$key][0])) {
-                $data[$key] = array($data[$key]);
-            }
-        }
-        return $data;
+        return $this->as_lists($data, array('billing_address', 'shipping_address'));
     }
 }

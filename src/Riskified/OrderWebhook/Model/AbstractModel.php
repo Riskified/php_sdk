@@ -273,6 +273,21 @@ abstract class AbstractModel {
     }
 
     /**
+     * Wraps each listed field that holds a single serialized model into a one-element list
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as lists
+     * @return array Fields with those values as lists
+     */
+    protected function as_lists($data, $keys) {
+        foreach ($keys as $key) {
+            if (!empty($data[$key]) && !isset($data[$key][0])) {
+                $data[$key] = array($data[$key]);
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Recursively convert models to arrays
      * @param array $array List of fields to convert from models to arrays
      * @return array Nested array
