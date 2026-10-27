@@ -114,6 +114,11 @@ composer check          # lint + analyse
 vendor/bin/phpunit      # run the test suite
 ```
 
+## Upgrading to SDK 2.0.0
+
+SDK 2.0.0 will remove what 1.15.0 and 1.16.0 keep only for backward compatibility, and those items are marked
+`@deprecated`. See [`PHP_MIGRATION-2.0.md`](PHP_MIGRATION-2.0.md) for each one and what to use instead.
+
 ## Migrating to API Version 2
 
 API Version 2 introduces new features (and breaks some old ones).
