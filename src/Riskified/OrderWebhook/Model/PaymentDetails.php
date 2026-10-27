@@ -55,6 +55,20 @@ class PaymentDetails extends AbstractModel {
         'payment_type' => 'string optional',
 
         'account_identity' => 'object \AccountIdentity optional',
-        'account_balance' => 'object \AccountBalance optional'
+        'account_balance' => 'object \AccountBalance optional',
+
+        'id' => 'string optional',
+        'mid' => 'string optional',
+        'acquirer_bin' => 'string optional',
+        'acquirer_region' => 'string optional',
+        'authorization_type' => 'string optional',
+        'billing_address_id' => 'string optional',
+        'credit_card_country' => 'string optional',
+        'token' => 'string optional',
+        'expiry_month' => 'number optional',
+        'expiry_year' => 'number optional',
+
+        'payment_frequency' => 'number optional',
+        'initial_payment_amount' => 'float optional'
     );
 }
