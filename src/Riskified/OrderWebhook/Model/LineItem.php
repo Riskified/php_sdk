@@ -148,6 +148,9 @@ class LineItem extends AbstractModel {
         $data = $this->as_lists($data, array('pickup_address', 'dropoff_address'));
         $data = $this->as_floats($data, array('latitude', 'longitude'));
         $data = $this->as_strings($data, array('rating'));
+        if (isset($data['vendor']) && is_string($data['vendor'])) {
+            $data['vendor'] = array('vendor_name' => $data['vendor']);
+        }
 
         // The docs name authorized_payment, the SDKs have always sent authorized_payments: send both
         if (isset($data['authorized_payment']) && !isset($data['authorized_payments'])) {

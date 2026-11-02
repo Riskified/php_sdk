@@ -54,19 +54,6 @@ class GoldenSchemaTest extends TestCase {
      */
     public static function knownGaps(): array {
         return array_merge(
-            // A string vendor is sent as is until question 6 is answered; order_1_14 sends a Vendor model
-            self::gap(
-                array_diff(self::PHYSICAL_ORDERS, ['order_1_14']),
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.vendor type object',
-                'question 6'
-            ),
-            self::gap(
-                ['checkout_denied'],
-                ['post-auth-checkout_denied'],
-                'checkout.line_items.0.vendor type object',
-                'question 6'
-            ),
             self::gap(
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
@@ -79,18 +66,18 @@ class GoldenSchemaTest extends TestCase {
                 'checkout.line_items.0.seller.starting_price type string',
                 'kept: the SDK sends a float (question 7)'
             ),
-            // The docs give recipient_ACH dates as "type: number, format: date-time"; every other date is a string
+            // The docs give recipient_ACH dates as "type: number, format: date-time"; the server also takes a string
             self::gap(
                 ['order_1_14'],
                 self::ORDER_SCHEMAS,
                 'order.line_items.2.recipient.created_at type number',
-                'question 9'
+                'kept: the server accepts a string (question 9)'
             ),
             self::gap(
                 ['order_1_14'],
                 self::ORDER_SCHEMAS,
                 'order.line_items.2.recipient.updated_at type number',
-                'question 9'
+                'kept: the server accepts a string (question 9)'
             )
         );
     }
