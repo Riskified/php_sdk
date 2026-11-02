@@ -69,10 +69,8 @@ planned to restore strict specs with those types, so values the SDK converts tod
 | `LineItem` `latitude`, `longitude` | Any value; numeric values are sent as floats | A float, e.g. `40.7505` |
 | `LineItem` `rating` | Any value; numbers are sent as strings | A string, e.g. `'4.5'` |
 | `ChargeFreePaymentDetails` `amount` | Any value; numeric values are sent as floats | A float, e.g. `5.25` |
-| `LineItem` `vendor` | A string or a `Vendor` | A `Model\Vendor` |
+| `LineItem` `vendor` | A string (sent as `{"vendor_name": …}`) or a `Vendor` | A `Model\Vendor` |
 | `Order` `charge_free_payment_details` | Any value | A list of `Model\ChargeFreePaymentDetails` |
-
-How a string `vendor` is sent until then also depends on an open question with the Riskified API team.
 
 ## Validation
 
