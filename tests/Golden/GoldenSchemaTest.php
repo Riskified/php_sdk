@@ -34,14 +34,16 @@ class GoldenSchemaTest extends TestCase {
         'accommodation_order' => self::ORDER_SCHEMAS,
         'checkout_denied' => self::CHECKOUT_DENIED_SCHEMAS,
         'decision' => ['pre-auth-decision'],
+        'order_1_14' => self::ORDER_SCHEMAS,
+        'decision_1_14' => ['pre-auth-decision'],
     ];
 
     const ORDERS = [
         'card_order', 'paypal_order', 'bank_transfer_order', 'digital_order',
-        'travel_order', 'ride_order', 'event_order', 'accommodation_order',
+        'travel_order', 'ride_order', 'event_order', 'accommodation_order', 'order_1_14',
     ];
     // Orders whose line item is the physical one, which carries vendor and seller.
-    const PHYSICAL_ORDERS = ['card_order', 'paypal_order', 'bank_transfer_order'];
+    const PHYSICAL_ORDERS = ['card_order', 'paypal_order', 'bank_transfer_order', 'order_1_14'];
 
     /** @var array<string, mixed> */
     public array $riskifiedSnapshot = [];
@@ -56,7 +58,12 @@ class GoldenSchemaTest extends TestCase {
             self::gap(self::ORDERS, self::ORDER_SCHEMAS, 'order.shipping_address type array', 'step 3.1'),
             self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.pickup_address type array', 'step 3.2'),
             self::gap(['ride_order'], self::ORDER_SCHEMAS, 'order.line_items.0.dropoff_address type array', 'step 3.2'),
-            self::gap(['decision'], ['pre-auth-decision'], 'order.payment_details type array', 'step 3.3'),
+            self::gap(
+                ['decision', 'decision_1_14'],
+                ['pre-auth-decision'],
+                'order.payment_details type array',
+                'step 3.3'
+            ),
             self::gap(
                 self::ORDERS,
                 self::ORDER_SCHEMAS,
@@ -101,7 +108,10 @@ class GoldenSchemaTest extends TestCase {
                 ['post-auth-checkout_denied'],
                 'checkout.line_items.0.seller.starting_price type string',
                 'step 3.10 / question 7'
-            )
+            ),
+            // The docs give recipient_ACH dates as "type: number, format: date-time"; every other date is a string
+            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.created_at type number', 'question 9'),
+            self::gap(['order_1_14'], self::ORDER_SCHEMAS, 'order.line_items.2.recipient.updated_at type number', 'question 9')
         );
     }
 
