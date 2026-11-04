@@ -104,10 +104,12 @@ class LineItem extends AbstractModel {
         'pickup_date' => 'date optional',
         'pickup_latitude' => 'float optional',
         'pickup_longitude' => 'float optional',
+        // @deprecated since 1.16.0: a single Address; pass a list. 2.0.0 accepts only lists
         'pickup_address' => 'array object \Address optional',
         'dropoff_date' => 'date optional',
         'dropoff_latitude' => 'float optional',
         'dropoff_longitude' => 'float optional',
+        // @deprecated since 1.16.0: a single Address; pass a list. 2.0.0 accepts only lists
         'dropoff_address' => 'array object \Address optional',
         'price_by' => 'string optional',
         'vehicle_class' => 'string optional',
@@ -115,6 +117,7 @@ class LineItem extends AbstractModel {
         'tariff' => 'string optional',
         'note_to_driver' => 'string optional',
         'meet_n_greet' => 'string optional',
+        // @deprecated since 1.16.0, removed in 2.0.0: use authorized_payment, the documented key
         'authorized_payments' => 'float optional',
 
 
@@ -145,6 +148,9 @@ class LineItem extends AbstractModel {
         $data = $this->as_lists($data, array('pickup_address', 'dropoff_address'));
         $data = $this->as_floats($data, array('latitude', 'longitude'));
         $data = $this->as_strings($data, array('rating'));
+        if (isset($data['vendor']) && is_string($data['vendor'])) {
+            $data['vendor'] = array('vendor_name' => $data['vendor']);
+        }
 
         // The docs name authorized_payment, the SDKs have always sent authorized_payments: send both
         if (isset($data['authorized_payment']) && !isset($data['authorized_payments'])) {
