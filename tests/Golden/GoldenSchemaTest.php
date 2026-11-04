@@ -54,18 +54,6 @@ class GoldenSchemaTest extends TestCase {
      */
     public static function knownGaps(): array {
         return array_merge(
-            self::gap(
-                self::PHYSICAL_ORDERS,
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.seller.starting_price type string',
-                'kept: the SDK sends a float (question 7)'
-            ),
-            self::gap(
-                ['checkout_denied'],
-                ['post-auth-checkout_denied'],
-                'checkout.line_items.0.seller.starting_price type string',
-                'kept: the SDK sends a float (question 7)'
-            ),
             // The docs give recipient_ACH dates as "type: number, format: date-time"; the server also takes a string
             self::gap(
                 ['order_1_14'],
