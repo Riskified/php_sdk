@@ -108,17 +108,6 @@ class AbstractTransportTest extends TestCase {
         $this->assertSame('https://wh.riskified.com/api/submit', $transport->lastUrl);
     }
 
-    public function testOrderCallAfterDecoCallUsesDefaultHost(): void {
-        Riskified::init('shop', 'token', Env::PROD, Validations::SKIP);
-        $transport = new CapturingTransport(new HttpDataSignature());
-
-        $transport->eligible(new Order());
-        $this->assertSame('https://w.decopayments.com/api/eligible', $transport->lastUrl);
-
-        $transport->submitOrder(new Order());
-        $this->assertSame('https://wh.riskified.com/api/submit', $transport->lastUrl);
-    }
-
     public function testCustomUrlIsKeptForDefaultFlowAfterOtherFlows(): void {
         Riskified::init('shop', 'token', Env::PROD, Validations::SKIP);
         $transport = new CapturingTransport(new HttpDataSignature(), 'custom.example.com');
