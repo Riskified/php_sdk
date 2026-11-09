@@ -42,8 +42,8 @@ class Riskified {
      */
     public static $validations;
     /**
-     * @var bool when true, models are sent in their pre-1.15.0 JSON form instead of the documented one
-     * @deprecated since 1.15.0, removed in 2.0.0. Only a fallback while moving to the documented JSON.
+     * @var bool when true, models are sent in their pre-1.14.0 JSON form instead of the documented one
+     * @deprecated since 1.14.0, removed in 2.0.0. Only a fallback while moving to the documented JSON.
      */
     public static $legacy_wire_format = false;
 
