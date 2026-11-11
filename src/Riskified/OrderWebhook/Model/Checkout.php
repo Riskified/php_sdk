@@ -30,7 +30,7 @@ class Checkout extends Order {
      */
     protected function wire_transform($data) {
         $data = $this->as_lists($data, array('charge_free_payment_details'));
-        return $this->authorization_error_in_payment_details($data);
+        return $this->update_authorization_error_in_payment_details($data);
     }
 
     /**
@@ -39,7 +39,7 @@ class Checkout extends Order {
      * @param array $data Serialized fields of this checkout
      * @return array Fields to send
      */
-    private function authorization_error_in_payment_details($data) {
+    private function update_authorization_error_in_payment_details($data) {
         $payments = isset($data['payment_details']) ? $data['payment_details'] : null;
         if (empty($data['authorization_error']) || empty($payments) || !is_array($payments)) {
             return $data;
