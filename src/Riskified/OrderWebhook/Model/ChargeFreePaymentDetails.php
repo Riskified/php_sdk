@@ -25,6 +25,15 @@ namespace Riskified\OrderWebhook\Model;
 class ChargeFreePaymentDetails extends AbstractModel {
     protected $_fields = array(
         'gateway' => 'string',
-        'amount' => 'string'
+        'amount' => 'mixed'
     );
+
+    /**
+     * Sends a numeric amount as a float, as the API documents
+     * @param array $data Serialized fields of this charge free payment
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $this->as_floats($data, array('amount'));
+    }
 }
