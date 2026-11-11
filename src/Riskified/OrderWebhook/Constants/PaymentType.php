@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class PaymentType
- * Values of PaymentDetails.payment_type. The field accepts other values too.
+ * Values of PaymentDetails.payment_type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class PaymentType {

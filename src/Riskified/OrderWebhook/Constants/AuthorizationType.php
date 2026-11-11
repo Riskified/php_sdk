@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class AuthorizationType
- * Values of PaymentDetails.authorization_type. The field accepts other values too.
+ * Values of PaymentDetails.authorization_type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class AuthorizationType {

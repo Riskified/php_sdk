@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class DeliveredTo
- * Values of LineItem.delivered_to. The field accepts other values too.
+ * Values of LineItem.delivered_to.
  * @package Riskified\OrderWebhook\Constants
  */
 final class DeliveredTo {

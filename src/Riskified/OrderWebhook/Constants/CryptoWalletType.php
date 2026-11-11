@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class CryptoWalletType
- * Values of CryptoWallet.type. The field accepts other values too.
+ * Values of CryptoWallet.type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class CryptoWalletType {

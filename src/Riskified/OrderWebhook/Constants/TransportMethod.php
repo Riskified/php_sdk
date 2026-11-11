@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class TransportMethod
- * Values of LineItem.transport_method. The field accepts other values too.
+ * Values of LineItem.transport_method.
  * @package Riskified\OrderWebhook\Constants
  */
 final class TransportMethod {

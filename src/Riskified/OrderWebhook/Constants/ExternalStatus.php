@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class ExternalStatus
- * Values of DecisionDetails.external_status. The field accepts other values too.
+ * Values of DecisionDetails.external_status.
  * @package Riskified\OrderWebhook\Constants
  */
 final class ExternalStatus {

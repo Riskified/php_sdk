@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class AcquirerRegion
- * Values of PaymentDetails.acquirer_region. The field accepts other values too.
+ * Values of PaymentDetails.acquirer_region.
  * @package Riskified\OrderWebhook\Constants
  */
 final class AcquirerRegion {

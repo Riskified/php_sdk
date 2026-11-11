@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class SocialSignupType
- * Values of Customer.social_signup_type. The field accepts other values too.
+ * Values of Customer.social_signup_type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class SocialSignupType {

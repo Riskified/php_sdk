@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class KycType
- * Values of KycDetails.kyc_type. The field accepts other values too.
+ * Values of KycDetails.kyc_type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class KycType {

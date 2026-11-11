@@ -19,7 +19,7 @@ namespace Riskified\OrderWebhook\Constants;
 
 /**
  * Class ProductType
- * Values of LineItem.product_type. The field accepts other values too.
+ * Values of LineItem.product_type.
  * @package Riskified\OrderWebhook\Constants
  */
 final class ProductType {
