@@ -459,9 +459,6 @@
                     "initial_payment_amount": 30.125
                 },
                 {
-                    "payment_type": "gift_card"
-                },
-                {
                     "account_number": "000123456789",
                     "routing_number": "021000021",
                     "payment_type": "bank_transfer",

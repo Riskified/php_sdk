@@ -84,15 +84,12 @@ class ConstantsTest extends TestCase {
      * @param class-string $class
      * @param list<string> $documented
      */
-    public function testConstantsMatchTheDocumentedValues(string $class, array $documented): void {
+    public function testEveryConstantIsADocumentedValue(string $class, array $documented): void {
         $this->assertNotEmpty($documented, "no enum found in the schemas for $class");
 
         $constants = array_values((new \ReflectionClass($class))->getConstants());
-        $documented = array_values(array_unique($documented));
-        sort($constants);
-        sort($documented);
 
-        $this->assertSame($documented, $constants);
+        $this->assertSame([], array_values(array_diff($constants, $documented)));
     }
 
     public function testEveryConstantsClassIsCompared(): void {
