@@ -28,7 +28,6 @@ final class PaymentType {
     const ACH = 'ach';
     const BANK_TRANSFER = 'bank_transfer';
     const BNPL = 'bnpl';
-    const STORE_CREDIT = 'store_credit';
     const ALIPAY = 'alipay';
     const AMAZON_PAY = 'amazon_pay';
     const APPLE_PAY = 'apple_pay';
