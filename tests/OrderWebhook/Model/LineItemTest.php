@@ -78,37 +78,44 @@ class LineItemTest extends TestCase {
         $this->assertArrayNotHasKey('authorized_payment', $json);
     }
 
-    public function testSingleRideAddressesAreSentAsLists(): void {
-        $lineItem = new LineItem(['pickup_address' => self::address('NYC'), 'dropoff_address' => self::address('JFK')]);
-
-        $lineItem->validate(false);
-        $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame('NYC', $json['pickup_address'][0]['city']);
-        $this->assertSame('JFK', $json['dropoff_address'][0]['city']);
-        $this->assertCount(1, $json['pickup_address']);
-    }
-
-    public function testAListOfRideAddressesIsAcceptedAndSentAsIs(): void {
-        $lineItem = new LineItem(['pickup_address' => [self::address('NYC'), self::address('Newark')]]);
-
-        $lineItem->validate(false);
-        $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame(['NYC', 'Newark'], array_column($json['pickup_address'], 'city'));
-    }
-
-    public function testCheckoutLineItemsAlsoSendRideAddressesAsLists(): void {
-        $checkout = new Checkout(['line_items' => [new LineItem(['pickup_address' => self::address('NYC')])]]);
-
-        $json = json_decode($checkout->toJson(), true);
-        $this->assertSame('NYC', $json['line_items'][0]['pickup_address'][0]['city']);
-    }
-
-    public function testLegacyWireFormatKeepsASingleRideAddress(): void {
-        Riskified::$legacy_wire_format = true;
+    public function testASinglePickupAddressIsSentAsAnObject(): void {
         $lineItem = new LineItem(['pickup_address' => self::address('NYC')]);
 
+        $lineItem->validate(false);
         $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('NYC', $json['pickup_address']['city']);
+    }
+
+    public function testASingleDropoffAddressIsSentAsAList(): void {
+        $lineItem = new LineItem(['dropoff_address' => self::address('JFK')]);
+
+        $lineItem->validate(false);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame('JFK', $json['dropoff_address'][0]['city']);
+        $this->assertCount(1, $json['dropoff_address']);
+    }
+
+    public function testAListOfDropoffAddressesIsAcceptedAndSentAsIs(): void {
+        $lineItem = new LineItem(['dropoff_address' => [self::address('JFK'), self::address('Newark')]]);
+
+        $lineItem->validate(false);
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame(['JFK', 'Newark'], array_column($json['dropoff_address'], 'city'));
+    }
+
+    public function testCheckoutLineItemsAlsoSendDropoffAddressesAsLists(): void {
+        $checkout = new Checkout(['line_items' => [new LineItem(['dropoff_address' => self::address('JFK')])]]);
+
+        $json = json_decode($checkout->toJson(), true);
+        $this->assertSame('JFK', $json['line_items'][0]['dropoff_address'][0]['city']);
+    }
+
+    public function testLegacyWireFormatKeepsASingleDropoffAddress(): void {
+        Riskified::$legacy_wire_format = true;
+        $lineItem = new LineItem(['dropoff_address' => self::address('JFK')]);
+
+        $json = json_decode($lineItem->toJson(), true);
+        $this->assertSame('JFK', $json['dropoff_address']['city']);
     }
 
     public function testNumericCoordinatesAreSentAsFloats(): void {

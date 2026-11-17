@@ -55,6 +55,12 @@ class GoldenSchemaTest extends TestCase {
     public static function knownGaps(): array {
         return array_merge(
             self::gap(
+                ['ride_order'],
+                self::ORDER_SCHEMAS,
+                'order.line_items.0.pickup_address type array',
+                'kept: the docs are wrong, the API takes an object'
+            ),
+            self::gap(
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
                 'order.line_items.0.seller.starting_price type string',

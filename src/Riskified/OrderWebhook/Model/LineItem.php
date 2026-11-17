@@ -104,7 +104,6 @@ class LineItem extends AbstractModel {
         'pickup_date' => 'date optional',
         'pickup_latitude' => 'float optional',
         'pickup_longitude' => 'float optional',
-        // @deprecated since 1.14.0: a single Address; pass a list. 2.0.0 accepts only lists
         'pickup_address' => 'array object \Address optional',
         'dropoff_date' => 'date optional',
         'dropoff_latitude' => 'float optional',
@@ -145,7 +144,7 @@ class LineItem extends AbstractModel {
      * @return array Fields to send
      */
     protected function wire_transform($data) {
-        $data = $this->as_lists($data, array('pickup_address', 'dropoff_address'));
+        $data = $this->as_lists($data, array('dropoff_address'));
         $data = $this->as_floats($data, array('latitude', 'longitude'));
         $data = $this->as_strings($data, array('rating'));
         if (isset($data['vendor']) && is_string($data['vendor'])) {
