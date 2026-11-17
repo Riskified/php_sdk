@@ -12,8 +12,7 @@ use Riskified\Common\Validations;
 /**
  * Validates every golden sample against the request-body schema of each endpoint it's sent to, taken
  * from the OpenAPI definitions in the API reference (schema/, refreshed by schema/update-schemas.sh).
- * Keys the docs don't list are allowed. Known gaps are listed in knownGaps(); remove an entry when the
- * step that fixes it lands.
+ * Keys the docs don't list are allowed. Fields the docs type wrongly are corrected by SCHEMA_OVERRIDES.
  */
 class GoldenSchemaTest extends TestCase {
     const SCHEMA_DIR = __DIR__ . '/schema';
@@ -38,77 +37,21 @@ class GoldenSchemaTest extends TestCase {
         'decision_1_14' => ['pre-auth-decision'],
     ];
 
-    const ORDERS = [
-        'card_order', 'paypal_order', 'bank_transfer_order', 'digital_order',
-        'travel_order', 'ride_order', 'event_order', 'accommodation_order', 'order_1_14',
+    // Component.property => the definition the API actually takes, replacing the documented one before
+    // validating, so the field is still checked. Delete an entry once the docs are fixed.
+    const SCHEMA_OVERRIDES = [
+        // docs: string (float)
+        'seller.starting_price' => ['type' => 'number'],
+        // docs: array of address
+        'rides_line_item.pickup_address' => ['$ref' => '#/components/schemas/address'],
+        'rides_line_item.dropoff_address' => ['$ref' => '#/components/schemas/address'],
+        // docs: number (date-time); the server accepts a string too
+        'recipient_ACH.created_at' => ['type' => 'string', 'format' => 'date-time'],
+        'recipient_ACH.updated_at' => ['type' => 'string', 'format' => 'date-time'],
     ];
-    // Orders whose line item is the physical one, which carries vendor and seller.
-    const PHYSICAL_ORDERS = ['card_order', 'paypal_order', 'bank_transfer_order', 'order_1_14'];
 
     /** @var array<string, mixed> */
     public array $riskifiedSnapshot = [];
-
-    /**
-     * Each entry names the plan step (PHP_API_ALIGNMENT_PLAN.md) or open question that resolves it, or why it's kept.
-     * @return string[]
-     */
-    public static function knownGaps(): array {
-        return array_merge(
-            self::gap(
-                ['ride_order'],
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.pickup_address type array',
-                'kept: the docs are wrong, the API takes an object'
-            ),
-            self::gap(
-                ['ride_order'],
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.dropoff_address type array',
-                'kept: the docs are wrong, the API takes an object'
-            ),
-            self::gap(
-                self::PHYSICAL_ORDERS,
-                self::ORDER_SCHEMAS,
-                'order.line_items.0.seller.starting_price type string',
-                'kept: the docs are wrong, the API takes a decimal'
-            ),
-            self::gap(
-                ['checkout_denied'],
-                ['post-auth-checkout_denied'],
-                'checkout.line_items.0.seller.starting_price type string',
-                'kept: the docs are wrong, the API takes a decimal'
-            ),
-            // The docs give recipient_ACH dates as "type: number, format: date-time"; the server also takes a string
-            self::gap(
-                ['order_1_14'],
-                self::ORDER_SCHEMAS,
-                'order.line_items.2.recipient.created_at type number',
-                'kept: the server accepts a string (question 9)'
-            ),
-            self::gap(
-                ['order_1_14'],
-                self::ORDER_SCHEMAS,
-                'order.line_items.2.recipient.updated_at type number',
-                'kept: the server accepts a string (question 9)'
-            )
-        );
-    }
-
-    /**
-     * $fixedBy is documentation only; it isn't part of the matched string.
-     * @param string[] $samples
-     * @param string[] $schemas
-     * @return string[]
-     */
-    public static function gap(array $samples, array $schemas, string $error, string $fixedBy): array {
-        $gaps = [];
-        foreach ($samples as $sample) {
-            foreach ($schemas as $schema) {
-                $gaps[] = "$sample $schema: $error";
-            }
-        }
-        return $gaps;
-    }
 
     protected function setUp(): void {
         $this->riskifiedSnapshot = [
@@ -143,24 +86,32 @@ class GoldenSchemaTest extends TestCase {
     /**
      * @dataProvider sampleSchemaPairs
      */
-    public function testSampleMatchesApiSchemaExceptKnownGaps(string $sample, string $schema): void {
+    public function testSampleMatchesApiSchema(string $sample, string $schema): void {
         [$method, $model] = GoldenSamples::all()[$sample];
         $body = json_decode(CapturingTransport::capture($method, $model)->lastJson);
 
         $result = (new Validator(null, PHP_INT_MAX, false))->validate($body, self::loadRequestSchema($schema));
-        $actual = $result->error() === null ? [] : self::flatten($result->error());
-        $actual = array_map(fn ($error) => "$sample $schema: $error", array_unique($actual));
-        $expected = array_filter(self::knownGaps(), fn ($gap) => str_starts_with($gap, "$sample $schema: "));
+        $errors = $result->error() === null ? [] : array_values(array_unique(self::flatten($result->error())));
+        sort($errors);
 
-        $new = array_diff($actual, $expected);
-        $fixed = array_diff($expected, $actual);
-        sort($new);
-        sort($fixed);
-        $this->assertTrue(
-            $new === [] && $fixed === [],
-            "New schema errors:\n  " . implode("\n  ", $new)
-                . "\nKnown gaps that no longer occur (remove them from knownGaps()):\n  " . implode("\n  ", $fixed)
-        );
+        $this->assertSame([], $errors, "Schema errors in $sample against $schema");
+    }
+
+    public function testEveryOverrideMatchesADocumentedProperty(): void {
+        $unmatched = [];
+        foreach (array_keys(self::SCHEMA_OVERRIDES) as $path) {
+            [$component, $property] = explode('.', $path);
+            $found = false;
+            foreach (array_unique(array_merge(...array_values(self::SCHEMAS_BY_SAMPLE))) as $schema) {
+                $definition = json_decode(file_get_contents(self::SCHEMA_DIR . "/$schema.json"));
+                $found = $found || isset($definition->components->schemas->$component->properties->$property);
+            }
+            if (!$found) {
+                $unmatched[] = $path;
+            }
+        }
+
+        $this->assertSame([], $unmatched, 'Overrides with no matching property in the vendored schemas');
     }
 
     public function testEverySampleWithAnEndpointInScopeIsValidated(): void {
@@ -171,9 +122,17 @@ class GoldenSchemaTest extends TestCase {
 
     /**
      * The request-body schema becomes the root; components ride along so its #/components/schemas refs resolve.
+     * SCHEMA_OVERRIDES replace the documented definitions they name.
      */
     public static function loadRequestSchema(string $schema): object {
         $definition = json_decode(file_get_contents(self::SCHEMA_DIR . "/$schema.json"));
+        foreach (self::SCHEMA_OVERRIDES as $path => $override) {
+            [$component, $property] = explode('.', $path);
+            $properties = $definition->components->schemas->$component->properties ?? null;
+            if (isset($properties->$property)) {
+                $properties->$property = json_decode(json_encode($override));
+            }
+        }
         $operation = current((array) current((array) $definition->paths));
 
         $root = clone $operation->requestBody->content->{'application/json'}->schema;
