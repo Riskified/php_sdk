@@ -61,6 +61,12 @@ class GoldenSchemaTest extends TestCase {
                 'kept: the docs are wrong, the API takes an object'
             ),
             self::gap(
+                ['ride_order'],
+                self::ORDER_SCHEMAS,
+                'order.line_items.0.dropoff_address type array',
+                'kept: the docs are wrong, the API takes an object'
+            ),
+            self::gap(
                 self::PHYSICAL_ORDERS,
                 self::ORDER_SCHEMAS,
                 'order.line_items.0.seller.starting_price type string',

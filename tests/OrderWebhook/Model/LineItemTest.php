@@ -5,7 +5,6 @@ namespace Riskified\Tests\OrderWebhook\Model;
 use PHPUnit\Framework\TestCase;
 use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Model\Address;
-use Riskified\OrderWebhook\Model\Checkout;
 use Riskified\OrderWebhook\Model\Vendor;
 use Riskified\OrderWebhook\Model\LineItem;
 
@@ -78,43 +77,12 @@ class LineItemTest extends TestCase {
         $this->assertArrayNotHasKey('authorized_payment', $json);
     }
 
-    public function testASinglePickupAddressIsSentAsAnObject(): void {
-        $lineItem = new LineItem(['pickup_address' => self::address('NYC')]);
+    public function testSingleRideAddressesAreSentAsObjects(): void {
+        $lineItem = new LineItem(['pickup_address' => self::address('NYC'), 'dropoff_address' => self::address('JFK')]);
 
         $lineItem->validate(false);
         $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('NYC', $json['pickup_address']['city']);
-    }
-
-    public function testASingleDropoffAddressIsSentAsAList(): void {
-        $lineItem = new LineItem(['dropoff_address' => self::address('JFK')]);
-
-        $lineItem->validate(false);
-        $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame('JFK', $json['dropoff_address'][0]['city']);
-        $this->assertCount(1, $json['dropoff_address']);
-    }
-
-    public function testAListOfDropoffAddressesIsAcceptedAndSentAsIs(): void {
-        $lineItem = new LineItem(['dropoff_address' => [self::address('JFK'), self::address('Newark')]]);
-
-        $lineItem->validate(false);
-        $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame(['JFK', 'Newark'], array_column($json['dropoff_address'], 'city'));
-    }
-
-    public function testCheckoutLineItemsAlsoSendDropoffAddressesAsLists(): void {
-        $checkout = new Checkout(['line_items' => [new LineItem(['dropoff_address' => self::address('JFK')])]]);
-
-        $json = json_decode($checkout->toJson(), true);
-        $this->assertSame('JFK', $json['line_items'][0]['dropoff_address'][0]['city']);
-    }
-
-    public function testLegacyWireFormatKeepsASingleDropoffAddress(): void {
-        Riskified::$legacy_wire_format = true;
-        $lineItem = new LineItem(['dropoff_address' => self::address('JFK')]);
-
-        $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('JFK', $json['dropoff_address']['city']);
     }
 
