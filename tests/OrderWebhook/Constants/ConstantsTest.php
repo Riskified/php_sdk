@@ -5,6 +5,7 @@ namespace Riskified\Tests\OrderWebhook\Constants;
 use PHPUnit\Framework\TestCase;
 use Riskified\OrderWebhook\Constants;
 use Riskified\OrderWebhook\Model\Order;
+use Riskified\Tests\Golden\GoldenSchemaTest;
 
 class ConstantsTest extends TestCase {
     // Class => the property whose enum it mirrors, found in every vendored schema
@@ -22,9 +23,9 @@ class ConstantsTest extends TestCase {
         Constants\SocialSignupType::class => 'social_signup_type',
     ];
 
-    // Classes whose enum is a named component rather than a property
+    // Classes whose enum belongs to one component, as component or component.property
     const COMPONENTS = [
-        Constants\ExternalStatus::class => 'decision_type',
+        Constants\ExternalStatus::class => 'decision_details.external_status',
         Constants\CryptoWalletType::class => 'crypto_wallet.type',
     ];
 
@@ -32,9 +33,10 @@ class ConstantsTest extends TestCase {
      * @return array<string, array{class-string, list<string>}>
      */
     public static function documentedValues(): array {
+        // Loaded with GoldenSchemaTest's overrides, so values the docs leave out are included
         $schemas = [];
-        foreach (glob(__DIR__ . '/../../Golden/schema/*.json') as $file) {
-            $schemas[] = json_decode(file_get_contents($file), true);
+        foreach (glob(GoldenSchemaTest::SCHEMA_DIR . '/*.json') as $file) {
+            $schemas[] = json_decode(json_encode(GoldenSchemaTest::loadDefinition(basename($file, '.json'))), true);
         }
 
         $cases = [];

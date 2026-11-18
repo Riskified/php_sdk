@@ -48,6 +48,11 @@ class GoldenSchemaTest extends TestCase {
         // docs: number (date-time); the server accepts a string too
         'recipient_ACH.created_at' => ['type' => 'string', 'format' => 'date-time'],
         'recipient_ACH.updated_at' => ['type' => 'string', 'format' => 'date-time'],
+        // docs: 5 of the 10 values
+        'decision_details.external_status' => ['type' => 'string', 'enum' => [
+            'approved', 'declined', 'declined_fraud', 'declined_business', 'cancelled', 'suspected_fraud',
+            'checkout_denied', 'chargeback', 'chargeback_fraud', 'chargeback_not_fraud',
+        ]],
     ];
 
     /** @var array<string, mixed> */
@@ -122,9 +127,20 @@ class GoldenSchemaTest extends TestCase {
 
     /**
      * The request-body schema becomes the root; components ride along so its #/components/schemas refs resolve.
-     * SCHEMA_OVERRIDES replace the documented definitions they name.
      */
     public static function loadRequestSchema(string $schema): object {
+        $definition = self::loadDefinition($schema);
+        $operation = current((array) current((array) $definition->paths));
+
+        $root = clone $operation->requestBody->content->{'application/json'}->schema;
+        $root->components = $definition->components;
+        return $root;
+    }
+
+    /**
+     * The vendored OpenAPI definition, with SCHEMA_OVERRIDES replacing the documented definitions they name.
+     */
+    public static function loadDefinition(string $schema): object {
         $definition = json_decode(file_get_contents(self::SCHEMA_DIR . "/$schema.json"));
         foreach (self::SCHEMA_OVERRIDES as $path => $override) {
             [$component, $property] = explode('.', $path);
@@ -133,11 +149,7 @@ class GoldenSchemaTest extends TestCase {
                 $properties->$property = json_decode(json_encode($override));
             }
         }
-        $operation = current((array) current((array) $definition->paths));
-
-        $root = clone $operation->requestBody->content->{'application/json'}->schema;
-        $root->components = $definition->components;
-        return $root;
+        return $definition;
     }
 
     /**

@@ -28,4 +28,9 @@ final class ExternalStatus {
     const DECLINED_FRAUD = 'declined_fraud';
     const DECLINED_BUSINESS = 'declined_business';
     const CANCELLED = 'cancelled';
+    const SUSPECTED_FRAUD = 'suspected_fraud';
+    const CHECKOUT_DENIED = 'checkout_denied';
+    const CHARGEBACK = 'chargeback';
+    const CHARGEBACK_FRAUD = 'chargeback_fraud';
+    const CHARGEBACK_NOT_FRAUD = 'chargeback_not_fraud';
 }
