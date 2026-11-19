@@ -121,10 +121,10 @@ class Notification {
         //    $this->$key = $value;
         $this->id = $order["id"];
         $this->status = $order["status"];
-        $this->oldStatus = $order["old_status"];
+        $this->oldStatus = isset($order["old_status"]) ? $order["old_status"] : null;
         $this->riskScore = isset($order["risk_score"]) ? $order["risk_score"] : 0;
         $this->riskIndicators = isset($order["risk_indicators"]) ? $order["risk_indicators"] : array();
-        $this->description = $order["description"];
+        $this->description = isset($order["description"]) ? $order["description"] : null;
 
         if (isset($order["category"])) {
             $this->category = $order["category"];

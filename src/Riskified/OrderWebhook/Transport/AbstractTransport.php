@@ -102,8 +102,9 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
     */
     public function decideOrder($order) {
-        $this->url = Riskified::getHost('sync');
-        return $this->send_order($order, 'decide', true);
+        return $this->send_to_host('sync', function () use ($order) {
+            return $this->send_order($order, 'decide', true);
+        });
     }
 
     /**
@@ -201,8 +202,9 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function eligible($order) {
-        $this->url = Riskified::getHost('deco');
-        return $this->send_order($order, 'eligible', false);
+        return $this->send_to_host('deco', function () use ($order) {
+            return $this->send_order($order, 'eligible', false);
+        });
     }
 
     /**
@@ -212,48 +214,57 @@ abstract class AbstractTransport {
      * @throws \Riskified\Common\Exception\BaseException on any issue
      */
     public function opt_in($order) {
-        $this->url = Riskified::getHost('deco');
-        return $this->send_order($order, 'opt_in', false);
+        return $this->send_to_host('deco', function () use ($order) {
+            return $this->send_order($order, 'opt_in', false);
+        });
     }
 
     public function login($login) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($login, 'login');
+        return $this->send_to_host('account', function () use ($login) {
+            return $this->send_account_event($login, 'login');
+        });
     }
 
     public function customerCreate($customer_create) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($customer_create, 'customer_create');
+        return $this->send_to_host('account', function () use ($customer_create) {
+            return $this->send_account_event($customer_create, 'customer_create');
+        });
     }
 
     public function verification($event) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($event, 'verification');
+        return $this->send_to_host('account', function () use ($event) {
+            return $this->send_account_event($event, 'verification');
+        });
     }
 
     public function customerUpdate($customer_update) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($customer_update, 'customer_update');
+        return $this->send_to_host('account', function () use ($customer_update) {
+            return $this->send_account_event($customer_update, 'customer_update');
+        });
     }
 
     public function logout($logout) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($logout, 'logout');
+        return $this->send_to_host('account', function () use ($logout) {
+            return $this->send_account_event($logout, 'logout');
+        });
     }
 
     public function resetPasswordRequest($reset_password_request) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($reset_password_request, 'reset_password');
+        return $this->send_to_host('account', function () use ($reset_password_request) {
+            return $this->send_account_event($reset_password_request, 'reset_password');
+        });
     }
 
     public function wishlistChanges($wishlist_changes) {
-        $this->url = Riskified::getHost('account');
-        return $this->send_account_event($wishlist_changes, 'wishlist');
+        return $this->send_to_host('account', function () use ($wishlist_changes) {
+            return $this->send_account_event($wishlist_changes, 'wishlist');
+        });
     }
 
     public function redeem($redeem) {
-        $this->url = riskified::gethost('account');
-        return $this->send_account_event($redeem, 'redeem');
+        return $this->send_to_host('account', function () use ($redeem) {
+            return $this->send_account_event($redeem, 'redeem');
+        });
     }
 
     public function sendHistoricalOrders($orders) {
@@ -262,6 +273,23 @@ abstract class AbstractTransport {
         }, $orders));
         $json = '{"orders":[' . $joined . ']}';
         return $this->send_json_request($json, 'historical');
+    }
+
+    /**
+     * Sends a request to the host of another flow, then restores the configured host, so later calls
+     * (and a custom host passed to the constructor) aren't affected.
+     * @param $flow string host flow passed to Riskified::getHost
+     * @param $send callable performs the request
+     * @return object Response object
+     */
+    private function send_to_host($flow, $send) {
+        $configured_url = $this->url;
+        $this->url = Riskified::getHost($flow);
+        try {
+            return $send();
+        } finally {
+            $this->url = $configured_url;
+        }
     }
 
     protected function send_order($order, $endpoint, $enforce_required_keys) {

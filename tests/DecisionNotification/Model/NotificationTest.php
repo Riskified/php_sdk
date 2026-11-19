@@ -125,6 +125,26 @@ JSON;
         $this->assertNull($notification->decisionCode);
     }
 
+    public function testOldStatusAndDescriptionNullWhenAbsentFromPayload(): void {
+        $body = '{"order":{"id":"1","status":"approved"}}';
+
+        set_error_handler(function (int $severity, string $message): bool {
+            throw new \ErrorException($message, 0, $severity);
+        });
+        try {
+            $notification = new Notification(
+                $this->signature(),
+                $this->authorizedHeadersForBody($body),
+                $body
+            );
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertNull($notification->oldStatus);
+        $this->assertNull($notification->description);
+    }
+
     public function testThrowsBadPostJsonWhenOrderKeyMissing(): void {
         $this->expectException(BadPostJsonException::class);
 
