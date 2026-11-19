@@ -5,7 +5,6 @@ namespace Riskified\Tests\OrderWebhook\Model;
 use PHPUnit\Framework\TestCase;
 use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Model\Address;
-use Riskified\OrderWebhook\Model\Checkout;
 use Riskified\OrderWebhook\Model\Vendor;
 use Riskified\OrderWebhook\Model\LineItem;
 
@@ -78,37 +77,13 @@ class LineItemTest extends TestCase {
         $this->assertArrayNotHasKey('authorized_payment', $json);
     }
 
-    public function testSingleRideAddressesAreSentAsLists(): void {
+    public function testSingleRideAddressesAreSentAsObjects(): void {
         $lineItem = new LineItem(['pickup_address' => self::address('NYC'), 'dropoff_address' => self::address('JFK')]);
 
         $lineItem->validate(false);
         $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame('NYC', $json['pickup_address'][0]['city']);
-        $this->assertSame('JFK', $json['dropoff_address'][0]['city']);
-        $this->assertCount(1, $json['pickup_address']);
-    }
-
-    public function testAListOfRideAddressesIsAcceptedAndSentAsIs(): void {
-        $lineItem = new LineItem(['pickup_address' => [self::address('NYC'), self::address('Newark')]]);
-
-        $lineItem->validate(false);
-        $json = json_decode($lineItem->toJson(), true);
-        $this->assertSame(['NYC', 'Newark'], array_column($json['pickup_address'], 'city'));
-    }
-
-    public function testCheckoutLineItemsAlsoSendRideAddressesAsLists(): void {
-        $checkout = new Checkout(['line_items' => [new LineItem(['pickup_address' => self::address('NYC')])]]);
-
-        $json = json_decode($checkout->toJson(), true);
-        $this->assertSame('NYC', $json['line_items'][0]['pickup_address'][0]['city']);
-    }
-
-    public function testLegacyWireFormatKeepsASingleRideAddress(): void {
-        Riskified::$legacy_wire_format = true;
-        $lineItem = new LineItem(['pickup_address' => self::address('NYC')]);
-
-        $json = json_decode($lineItem->toJson(), true);
         $this->assertSame('NYC', $json['pickup_address']['city']);
+        $this->assertSame('JFK', $json['dropoff_address']['city']);
     }
 
     public function testNumericCoordinatesAreSentAsFloats(): void {

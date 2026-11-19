@@ -28,9 +28,6 @@ final class PaymentType {
     const ACH = 'ach';
     const BANK_TRANSFER = 'bank_transfer';
     const BNPL = 'bnpl';
-    const GIFT_CARD = 'gift_card';
-    const REWARDS_POINTS = 'rewards_points';
-    const STORE_CREDIT = 'store_credit';
     const ALIPAY = 'alipay';
     const AMAZON_PAY = 'amazon_pay';
     const APPLE_PAY = 'apple_pay';

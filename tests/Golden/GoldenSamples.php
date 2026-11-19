@@ -50,7 +50,6 @@ final class GoldenSamples {
             self::cardPayment114(),
             self::digitalWalletPayment(),
             self::bnplPayment(),
-            new Model\PaymentDetails(['payment_type' => 'gift_card']),
             self::bankTransferPayment114(),
         ]);
         $props['customer'] = self::customer114();

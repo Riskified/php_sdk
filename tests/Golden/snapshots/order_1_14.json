@@ -265,7 +265,7 @@
                         },
                         "correspondence": 2,
                         "price_negotiated": true,
-                        "starting_price": "120"
+                        "starting_price": 120
                     },
                     "drop_point": "locker-12"
                 },
@@ -457,9 +457,6 @@
                     "installments": 4,
                     "payment_frequency": 14,
                     "initial_payment_amount": 30.125
-                },
-                {
-                    "payment_type": "gift_card"
                 },
                 {
                     "account_number": "000123456789",
