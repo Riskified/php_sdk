@@ -29,4 +29,13 @@ class Seller extends AbstractModel {
         'price_negotiated' => 'boolean optional',
         'starting_price' => 'float optional'
     );
+
+    /**
+     * Sends a numeric starting price as a string, as the API documents
+     * @param array $data Serialized fields of this seller
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $this->as_strings($data, array('starting_price'));
+    }
 }

@@ -161,10 +161,17 @@ class LineItemTest extends TestCase {
         $this->assertSame(['vendor_id' => 'VNDR7890', 'vendor_name' => 'Acme'], $json['vendor']);
     }
 
-    public function testAStringVendorIsStillAcceptedAndSentAsIs(): void {
+    public function testAStringVendorIsSentAsAVendorName(): void {
         $lineItem = new LineItem(['vendor' => 'Acme']);
 
         $lineItem->validate(false);
+        $this->assertSame(['vendor_name' => 'Acme'], json_decode($lineItem->toJson(), true)['vendor']);
+    }
+
+    public function testLegacyWireFormatKeepsAStringVendor(): void {
+        Riskified::$legacy_wire_format = true;
+        $lineItem = new LineItem(['vendor' => 'Acme']);
+
         $this->assertSame('Acme', json_decode($lineItem->toJson(), true)['vendor']);
     }
 }
