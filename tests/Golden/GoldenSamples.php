@@ -28,6 +28,8 @@ final class GoldenSamples {
             'checkout_denied' => ['deniedCheckout', self::deniedCheckout()],
             'decision' => ['decisionOrder', self::decision()],
             'chargeback' => ['chargebackOrder', self::chargeback()],
+            'order_1_14' => ['submitOrder', self::order114()],
+            'decision_1_14' => ['decisionOrder', self::decision114()],
         ];
     }
 
@@ -37,6 +39,139 @@ final class GoldenSamples {
 
     public static function paypalOrder(): Model\Order {
         return new Model\Order(self::fullOrderProps([self::paypalPayment()]));
+    }
+
+    /**
+     * Fields added in 1.14.0, on top of the card order. Each Release 2 step extends this sample;
+     * the 1.13.x samples above stay unchanged.
+     */
+    public static function order114(): Model\Order {
+        $props = self::fullOrderProps([
+            self::cardPayment114(),
+            self::digitalWalletPayment(),
+            self::bnplPayment(),
+            new Model\PaymentDetails(['payment_type' => 'gift_card']),
+            self::bankTransferPayment114(),
+        ]);
+        $props['customer'] = self::customer114();
+        $props['invoice_id'] = 'north-america';
+        $props['shipping_address'] = self::address114();
+        $props['line_items'] = [
+            self::physicalLineItem114(),
+            self::rideLineItem114(),
+            self::remittanceLineItem(),
+            self::cryptoLineItem(),
+        ];
+        return new Model\Order($props);
+    }
+
+    public static function decision114(): Model\Decision {
+        return new Model\Decision([
+            'id' => 'order-1',
+            'decision' => self::decisionDetails(),
+            'payment_details' => self::cardPayment(),
+            'gateway' => 'adyen_3ds',
+        ]);
+    }
+
+    public static function physicalLineItem114(): Model\LineItem {
+        $lineItem = self::physicalLineItem();
+        $lineItem->drop_point = 'locker-12';
+        return $lineItem;
+    }
+
+    public static function rideLineItem114(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 80.0,
+            'quantity' => 1,
+            'title' => 'Car rental',
+            'product_type' => 'ride',
+            'product_id' => 'prod-rental',
+            'category' => 'car_rental',
+            'requires_shipping' => false,
+            'pickup_date' => '2024-03-01T15:00:00+00:00',
+            'route_index' => 1,
+            'leg_index' => 1,
+            'authorized_payment' => 300.0,
+            'damage_excess' => 1000.0,
+        ]);
+    }
+
+    public static function remittanceLineItem(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 150.0,
+            'quantity' => 1,
+            'title' => 'ACH Transfer',
+            'product_type' => 'remittance',
+            'product_id' => 'prod-remittance',
+            'category' => 'ACH',
+            'requires_shipping' => true,
+            'recipient' => new Model\Recipient([
+                'email' => 'friend@example.com',
+                'account_number' => '113401075211',
+                'routing_number' => '345342175111',
+                'bank_code' => 'ABCD-UYTD-34567000',
+                'created_at' => self::CREATED_AT,
+                'updated_at' => self::UPDATED_AT,
+                'self_recipient' => false,
+            ]),
+        ]);
+    }
+
+    public static function cryptoLineItem(): Model\LineItem {
+        return new Model\LineItem([
+            'price' => 200.0,
+            'quantity' => 1,
+            'title' => 'Bitcoin',
+            'product_type' => 'crypto',
+            'product_id' => 'prod-crypto',
+            'category' => 'one_time_buy',
+            'requires_shipping' => false,
+            'recipient' => new Model\Recipient([
+                'email' => 'friend@example.com',
+                'crypto_wallet' => new Model\CryptoWallet([
+                    'address' => '0xc0ffee254729296a45a3885639AC7E10F9d54979',
+                    'network' => 'ethereum',
+                    'type' => 'exchange',
+                ]),
+            ]),
+        ]);
+    }
+
+    public static function address114(): Model\Address {
+        $address = self::address();
+        $address->neighborhood = 'Chelsea';
+        return $address;
+    }
+
+    public static function customer114(): Model\Customer {
+        $customer = self::customer();
+        $customer->buyer_anonymous_id = 'anon-1';
+        $customer->referrer_customer_id = 'cust-0';
+        $customer->social_signup_type = 'google';
+        $customer->has_defaulted = false;
+        $customer->kyc_verified = true;
+        $customer->phone_mandatory = true;
+        $customer->spending_limit = 1500.5;
+        $customer->kyc_details = [
+            new Model\KycDetails([
+                'vendor_name' => 'socure',
+                'update_at' => '2025-03-11T09:42:11+00:00',
+                'kyc_verified' => true,
+                'kyc_type' => 'soft',
+            ]),
+        ];
+        $customer->crypto_wallets = [
+            new Model\CryptoWallet([
+                'address' => '0xc0ffee254729296a45a3885639AC7E10F9d54979',
+                'network' => 'ethereum',
+                'type' => 'primary',
+            ]),
+        ];
+        $social = self::socialDetails();
+        $social->social_data = ['followers' => 200, 'verified' => true];
+        $customer->social = [$social];
+        return $customer;
     }
 
     public static function bankTransferOrder(): Model\Order {
@@ -383,6 +518,47 @@ final class GoldenSamples {
                 'currency_code' => 'USD',
             ]),
         ]);
+    }
+
+    public static function cardPayment114(): Model\PaymentDetails {
+        $payment = self::cardPayment();
+        $payment->id = 'pay-1';
+        $payment->mid = 'mid-123';
+        $payment->acquirer_bin = '411111';
+        $payment->acquirer_region = 'EU';
+        $payment->authorization_type = 'authorization';
+        $payment->billing_address_id = 'addr-1';
+        $payment->credit_card_country = 'US';
+        $payment->expiry_month = 12;
+        $payment->expiry_year = 2030;
+        return $payment;
+    }
+
+    public static function digitalWalletPayment(): Model\PaymentDetails {
+        return new Model\PaymentDetails([
+            'payment_type' => 'apple_pay',
+            'authorization_id' => 'wallet-auth-1',
+            'avs_result_code' => 'Y',
+            'credit_card_company' => 'visa',
+            'credit_card_token' => 'wallet-token-1',
+            'authorization_type' => 'verification',
+            'acquirer_region' => 'NONEU',
+        ]);
+    }
+
+    public static function bnplPayment(): Model\PaymentDetails {
+        return new Model\PaymentDetails([
+            'payment_type' => 'bnpl',
+            'installments' => 4,
+            'payment_frequency' => 14,
+            'initial_payment_amount' => 30.125,
+        ]);
+    }
+
+    public static function bankTransferPayment114(): Model\PaymentDetails {
+        $payment = self::bankTransferPayment();
+        $payment->token = 'bank-token-1';
+        return $payment;
     }
 
     public static function physicalLineItem(): Model\LineItem {

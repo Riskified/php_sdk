@@ -4,6 +4,7 @@ namespace Riskified\Tests\OrderWebhook\Model;
 
 use PHPUnit\Framework\TestCase;
 use Riskified\OrderWebhook\Exception\MultiplePropertiesException;
+use Riskified\OrderWebhook\Model\Checkout;
 use Riskified\OrderWebhook\Model\Order;
 
 class OrderTest extends TestCase {
@@ -46,5 +47,19 @@ class OrderTest extends TestCase {
 
         $this->expectException(MultiplePropertiesException::class);
         $order->validate(false);
+    }
+
+    public function testInvoiceIdSerializes(): void {
+        $order = new Order(['invoice_id' => 'north-america']);
+
+        $order->validate(false);
+        $this->assertStringContainsString('"invoice_id":"north-america"', $order->toJson());
+    }
+
+    public function testCheckoutAcceptsInvoiceId(): void {
+        $checkout = new Checkout(['invoice_id' => 'europe']);
+
+        $checkout->validate(false);
+        $this->assertSame('europe', $checkout->invoice_id);
     }
 }

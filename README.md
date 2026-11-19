@@ -4,7 +4,7 @@ A PHP client for the [Riskified](https://www.riskified.com) API. It lets you sen
 account/lifecycle events to Riskified for fraud and chargeback protection, and verify the decision
 notifications Riskified sends back to your application.
 
-- **Current version:** v1.13.1
+- **Current version:** v1.14.0
 - **API version:** 2
 
 For full API details, see the [Riskified API reference](https://developers.riskified.com/reference/api-overview).
@@ -48,6 +48,23 @@ The fourth argument controls how strictly the SDK validates models before sendin
 | `Validations::SKIP`            | No client-side validation                       |
 | `Validations::IGNORE_MISSING`  | Validate present fields, ignore missing (default) |
 | `Validations::ALL`             | Require all mandatory fields                    |
+
+### Value constants
+
+`Riskified\OrderWebhook\Constants` has a class for each set of values the API documents, such as
+`OrderSource`, `PaymentType`, `ProductType`, `KycType` and `SocialSignupType`:
+
+```php
+use Riskified\OrderWebhook\Constants;
+
+$paymentDetails = new Model\PaymentDetails(array(
+    'payment_type' => Constants\PaymentType::APPLE_PAY,
+    'authorization_type' => Constants\AuthorizationType::AUTHORIZATION,
+));
+```
+
+They are helpers only: apart from `Order.source` and `Order.ai_agent`, which already accept only the documented
+values, fields still accept any string.
 
 ## Available operations
 

@@ -22,7 +22,7 @@ namespace Riskified\Common;
  * @package Riskified\Common
  */
 class Riskified {
-    const VERSION = '1.13.1';
+    const VERSION = '1.14.0';
     const API_VERSION = '2';
 
     /**

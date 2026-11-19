@@ -129,6 +129,10 @@ class LineItem extends AbstractModel {
         'registry_type' => 'string /^(:?wedding|baby|other)$/ optional',
         'shipping_address_id' => 'string optional',
 
-        'recipient' => 'object \Recipient optional'
+        'recipient' => 'object \Recipient optional',
+
+        'drop_point' => 'string optional',
+        'authorized_payment' => 'float optional',
+        'damage_excess' => 'float optional'
     );
 }

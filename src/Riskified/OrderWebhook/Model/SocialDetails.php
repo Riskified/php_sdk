@@ -35,6 +35,7 @@ class SocialDetails extends AbstractModel {
         'following' => 'number optional',
         'followed' => 'number optional',
         'posts' => 'number optional',
-        'auth_token' => 'string optional'
+        'auth_token' => 'string optional',
+        'social_data' => 'mixed optional'
     );
 }

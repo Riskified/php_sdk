@@ -62,6 +62,16 @@ class Customer extends AbstractModel {
         'document_id' => 'string optional',
         'document_type' => 'string optional',
 
-        'address' => 'object \Address optional'
+        'address' => 'object \Address optional',
+
+        'buyer_anonymous_id' => 'string optional',
+        'referrer_customer_id' => 'string optional',
+        'social_signup_type' => 'string optional',
+        'has_defaulted' => 'boolean optional',
+        'kyc_verified' => 'boolean optional',
+        'phone_mandatory' => 'boolean optional',
+        'spending_limit' => 'float optional',
+        'kyc_details' => 'array object \KycDetails optional',
+        'crypto_wallets' => 'array object \CryptoWallet optional'
     );
 }
