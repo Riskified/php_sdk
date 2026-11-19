@@ -1,0 +1,432 @@
+{
+    "endpoint": "submit",
+    "body": {
+        "order": {
+            "id": "order-1",
+            "email": "buyer@example.com",
+            "created_at": "2024-01-01T10:00:00+00:00",
+            "updated_at": "2024-01-01T10:05:00+00:00",
+            "currency": "USD",
+            "gateway": "stripe",
+            "total_price": 120.5,
+            "browser_ip": "203.0.113.10",
+            "customer": {
+                "email": "buyer@example.com",
+                "first_name": "Test",
+                "last_name": "User",
+                "created_at": "2023-06-01T00:00:00+00:00",
+                "updated_at": "2024-01-01T10:00:00+00:00",
+                "id": "cust-1",
+                "group_id": "group-1",
+                "group_name": "Retail",
+                "note": "Returning customer",
+                "orders_count": 3,
+                "verified_email": true,
+                "verified_email_at": "2023-06-01T00:00:00+00:00",
+                "phone": "+15551234567",
+                "verified_phone": true,
+                "verified_phone_at": "2023-06-01T00:00:00+00:00",
+                "date_of_birth": "1990-05-01",
+                "gender": "female",
+                "user_name": "testuser",
+                "accepts_marketing": true,
+                "last_order_id": "order-0",
+                "last_order_name": "#1000",
+                "state": "enabled",
+                "total_spent": 300,
+                "tags": "loyal",
+                "account_type": "registered",
+                "first_purchase_at": "2023-06-02T00:00:00+00:00",
+                "linked_accounts": 1,
+                "default_address": {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true
+                },
+                "social": [
+                    {
+                        "network": "facebook",
+                        "public_username": "testuser",
+                        "id": "social-1",
+                        "community_score": 10,
+                        "profile_picture": "https://img.example.com/p.png",
+                        "email": "buyer@example.com",
+                        "bio": "Hello",
+                        "account_url": "https://facebook.com/testuser",
+                        "following": 100,
+                        "followed": 200,
+                        "posts": 50,
+                        "auth_token": "social-token"
+                    }
+                ],
+                "buy_attempts": 4,
+                "sell_attempts": 0,
+                "document_id": "doc-1",
+                "document_type": "passport",
+                "address": {
+                    "id": "addr-1",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "city": "New York",
+                    "phone": "+15551234567",
+                    "additional_phone": "+15557654321",
+                    "country": "United States",
+                    "country_code": "US",
+                    "name": "Test User",
+                    "company": "Example Inc",
+                    "address1": "1 Main St",
+                    "address2": "Apt 2",
+                    "province": "New York",
+                    "province_code": "NY",
+                    "zip": "10001",
+                    "latitude": 40.7128,
+                    "longitude": -74.006,
+                    "verified_phone": true
+                }
+            },
+            "line_items": [
+                {
+                    "price": 100,
+                    "quantity": 1,
+                    "title": "Sneakers",
+                    "sku": "SKU-1",
+                    "product_id": "prod-1",
+                    "fulfillment_service": "manual",
+                    "fulfillment_status": "fulfilled",
+                    "grams": 500,
+                    "id": "li-1",
+                    "variant_id": "var-1",
+                    "variant_title": "Size 42",
+                    "variant_inventory_management": "shopify",
+                    "vendor": "Example Brand",
+                    "name": "Sneakers - Size 42",
+                    "requires_shipping": true,
+                    "taxable": true,
+                    "product_exists": true,
+                    "condition": "new",
+                    "product_type": "physical",
+                    "category": "shoes",
+                    "brand": "Example Brand",
+                    "policy": {
+                        "evaluate": true
+                    },
+                    "delivered_at": "2024-01-05T00:00:00+00:00",
+                    "release_date": "2023-12-01",
+                    "size": "42",
+                    "registry_type": "other",
+                    "shipping_address_id": "addr-1",
+                    "delivered_to": "shipping_address",
+                    "properties": [
+                        {
+                            "name": "color",
+                            "value": "red"
+                        }
+                    ],
+                    "tax_lines": [
+                        {
+                            "price": 10.5,
+                            "rate": 0.1,
+                            "title": "VAT"
+                        }
+                    ],
+                    "seller": {
+                        "customer": {
+                            "email": "buyer@example.com",
+                            "first_name": "Test",
+                            "last_name": "User",
+                            "created_at": "2023-06-01T00:00:00+00:00",
+                            "updated_at": "2024-01-01T10:00:00+00:00",
+                            "id": "cust-1",
+                            "group_id": "group-1",
+                            "group_name": "Retail",
+                            "note": "Returning customer",
+                            "orders_count": 3,
+                            "verified_email": true,
+                            "verified_email_at": "2023-06-01T00:00:00+00:00",
+                            "phone": "+15551234567",
+                            "verified_phone": true,
+                            "verified_phone_at": "2023-06-01T00:00:00+00:00",
+                            "date_of_birth": "1990-05-01",
+                            "gender": "female",
+                            "user_name": "testuser",
+                            "accepts_marketing": true,
+                            "last_order_id": "order-0",
+                            "last_order_name": "#1000",
+                            "state": "enabled",
+                            "total_spent": 300,
+                            "tags": "loyal",
+                            "account_type": "registered",
+                            "first_purchase_at": "2023-06-02T00:00:00+00:00",
+                            "linked_accounts": 1,
+                            "default_address": {
+                                "id": "addr-1",
+                                "first_name": "Test",
+                                "last_name": "User",
+                                "city": "New York",
+                                "phone": "+15551234567",
+                                "additional_phone": "+15557654321",
+                                "country": "United States",
+                                "country_code": "US",
+                                "name": "Test User",
+                                "company": "Example Inc",
+                                "address1": "1 Main St",
+                                "address2": "Apt 2",
+                                "province": "New York",
+                                "province_code": "NY",
+                                "zip": "10001",
+                                "latitude": 40.7128,
+                                "longitude": -74.006,
+                                "verified_phone": true
+                            },
+                            "social": [
+                                {
+                                    "network": "facebook",
+                                    "public_username": "testuser",
+                                    "id": "social-1",
+                                    "community_score": 10,
+                                    "profile_picture": "https://img.example.com/p.png",
+                                    "email": "buyer@example.com",
+                                    "bio": "Hello",
+                                    "account_url": "https://facebook.com/testuser",
+                                    "following": 100,
+                                    "followed": 200,
+                                    "posts": 50,
+                                    "auth_token": "social-token"
+                                }
+                            ],
+                            "buy_attempts": 4,
+                            "sell_attempts": 0,
+                            "document_id": "doc-1",
+                            "document_type": "passport",
+                            "address": {
+                                "id": "addr-1",
+                                "first_name": "Test",
+                                "last_name": "User",
+                                "city": "New York",
+                                "phone": "+15551234567",
+                                "additional_phone": "+15557654321",
+                                "country": "United States",
+                                "country_code": "US",
+                                "name": "Test User",
+                                "company": "Example Inc",
+                                "address1": "1 Main St",
+                                "address2": "Apt 2",
+                                "province": "New York",
+                                "province_code": "NY",
+                                "zip": "10001",
+                                "latitude": 40.7128,
+                                "longitude": -74.006,
+                                "verified_phone": true
+                            }
+                        },
+                        "correspondence": 2,
+                        "price_negotiated": true,
+                        "starting_price": 120
+                    }
+                }
+            ],
+            "name": "#1001",
+            "additional_emails": [
+                "alt@example.com"
+            ],
+            "note": "Leave at the door",
+            "number": 1001,
+            "order_number": 1001,
+            "cancel_reason": "customer",
+            "cancelled_at": "2024-01-02T10:00:00+00:00",
+            "closed_at": "2024-01-03T10:00:00+00:00",
+            "cart_token": "cart-token-1",
+            "device_id": "device-1",
+            "checkout_token": "checkout-token-1",
+            "token": "order-token-1",
+            "referring_site": "https://ref.example.com",
+            "confirmed": true,
+            "buyer_accepts_marketing": false,
+            "financial_status": "paid",
+            "fulfillment_status": "fulfilled",
+            "landing_site": "/landing",
+            "landing_site_ref": "ref-1",
+            "location_id": "loc-1",
+            "source": "desktop_web",
+            "source_identifier": "src-1",
+            "source_name": "web",
+            "source_url": "https://shop.example.com",
+            "subtotal_price": 100,
+            "taxes_included": true,
+            "total_discounts": 5,
+            "total_line_items_price": 105,
+            "total_price_usd": 120.5,
+            "total_tax": 10.5,
+            "total_weight": 500,
+            "user_id": "user-1",
+            "processing_method": "direct",
+            "checkout_id": "checkout-1",
+            "tags": "vip",
+            "vendor_id": "vendor-1",
+            "vendor_name": "Example Vendor",
+            "vendor_integration_type": "api",
+            "order_type": "test",
+            "partner_sub_merchant_id": "sub-merchant-1",
+            "submission_reason": "manual_decision",
+            "ai_agent": "chatgpt",
+            "shipping_address": {
+                "id": "addr-1",
+                "first_name": "Test",
+                "last_name": "User",
+                "city": "New York",
+                "phone": "+15551234567",
+                "additional_phone": "+15557654321",
+                "country": "United States",
+                "country_code": "US",
+                "name": "Test User",
+                "company": "Example Inc",
+                "address1": "1 Main St",
+                "address2": "Apt 2",
+                "province": "New York",
+                "province_code": "NY",
+                "zip": "10001",
+                "latitude": 40.7128,
+                "longitude": -74.006,
+                "verified_phone": true
+            },
+            "billing_address": {
+                "id": "addr-1",
+                "first_name": "Test",
+                "last_name": "User",
+                "city": "New York",
+                "phone": "+15551234567",
+                "additional_phone": "+15557654321",
+                "country": "United States",
+                "country_code": "US",
+                "name": "Test User",
+                "company": "Example Inc",
+                "address1": "1 Main St",
+                "address2": "Apt 2",
+                "province": "New York",
+                "province_code": "NY",
+                "zip": "10001",
+                "latitude": 40.7128,
+                "longitude": -74.006,
+                "verified_phone": true
+            },
+            "payment_details": [
+                {
+                    "account_number": "000123456789",
+                    "routing_number": "021000021",
+                    "payment_type": "bank_transfer",
+                    "account_identity": {
+                        "names": [
+                            "Test User"
+                        ],
+                        "addresses": [
+                            {
+                                "id": "addr-1",
+                                "first_name": "Test",
+                                "last_name": "User",
+                                "city": "New York",
+                                "phone": "+15551234567",
+                                "additional_phone": "+15557654321",
+                                "country": "United States",
+                                "country_code": "US",
+                                "name": "Test User",
+                                "company": "Example Inc",
+                                "address1": "1 Main St",
+                                "address2": "Apt 2",
+                                "province": "New York",
+                                "province_code": "NY",
+                                "zip": "10001",
+                                "latitude": 40.7128,
+                                "longitude": -74.006,
+                                "verified_phone": true
+                            }
+                        ],
+                        "phone_numbers": [
+                            "+15551234567"
+                        ],
+                        "emails": [
+                            "buyer@example.com"
+                        ]
+                    },
+                    "account_balance": {
+                        "available_balance": 2500,
+                        "service_name": "plaid",
+                        "updated_at": "2024-01-01T10:00:00+00:00",
+                        "currency_code": "USD"
+                    }
+                }
+            ],
+            "client_details": {
+                "accept_language": "en-US",
+                "user_agent": "Mozilla/5.0",
+                "browser_ip": "203.0.113.10",
+                "session_hash": "session-hash-1"
+            },
+            "discount_codes": [
+                {
+                    "code": "SAVE5",
+                    "amount": 5,
+                    "policy": {
+                        "evaluate": true
+                    }
+                }
+            ],
+            "shipping_lines": [
+                {
+                    "price": 10,
+                    "title": "Express",
+                    "code": "EXP",
+                    "company": "UPS",
+                    "shipping_address_id": "addr-1"
+                }
+            ],
+            "note_attributes": [
+                {
+                    "name": "gift",
+                    "value": "yes"
+                }
+            ],
+            "tax_lines": [
+                {
+                    "price": 10.5,
+                    "rate": 0.1,
+                    "title": "VAT"
+                }
+            ],
+            "nocharge_amount": {
+                "refund_id": "refund-1",
+                "amount": 5,
+                "currency": "USD",
+                "sku": "SKU-1",
+                "refunded_at": "2024-01-01T10:05:00+00:00",
+                "reason": "goodwill"
+            },
+            "decision": {
+                "external_status": "approved",
+                "decided_at": "2024-01-01T10:05:00+00:00",
+                "reason": "trusted customer",
+                "amount": 120.5,
+                "currency": "USD",
+                "notes": "Approved manually"
+            },
+            "charge_free_payment_details": {
+                "gateway": "gift_card",
+                "amount": "5.00"
+            }
+        }
+    }
+}
