@@ -77,6 +77,7 @@ final class GoldenSamples {
     public static function physicalLineItem114(): Model\LineItem {
         $lineItem = self::physicalLineItem();
         $lineItem->drop_point = 'locker-12';
+        $lineItem->vendor = new Model\Vendor(['vendor_id' => 'VNDR7890', 'vendor_name' => 'Example Brand']);
         return $lineItem;
     }
 

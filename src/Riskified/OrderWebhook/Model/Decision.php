@@ -26,7 +26,16 @@ class Decision extends AbstractModel {
     protected $_fields = array(
         'id' => 'string',
         'decision' => 'object \DecisionDetails',
-        'payment_details' => 'object \PaymentDetails optional',
+        'payment_details' => 'array object \PaymentDetails optional',
         'gateway' => 'string optional'
     );
+
+    /**
+     * Sends a single payment details as a one-element list, as the API documents
+     * @param array $data Serialized fields of this decision
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $this->as_lists($data, array('payment_details'));
+    }
 }

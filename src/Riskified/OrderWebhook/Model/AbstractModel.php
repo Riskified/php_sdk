@@ -17,6 +17,7 @@
 
 namespace Riskified\OrderWebhook\Model;
 
+use Riskified\Common\Riskified;
 use Riskified\OrderWebhook\Exception;
 
 /**
@@ -257,7 +258,63 @@ abstract class AbstractModel {
      * @return array List of all fields
      */
     private function to_array() {
-        return $this->process_array($this->_propertyBag);
+        $data = $this->process_array($this->_propertyBag);
+        return Riskified::$legacy_wire_format ? $data : $this->wire_transform($data);
+    }
+
+    /**
+     * Hook to convert this model's serialized fields to the form the API documents.
+     * Nested models are already converted. Skipped when Riskified::$legacy_wire_format is true.
+     * @param array $data Serialized fields of this model
+     * @return array Fields to send
+     */
+    protected function wire_transform($data) {
+        return $data;
+    }
+
+    /**
+     * Wraps each listed field that holds a single serialized model into a one-element list
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as lists
+     * @return array Fields with those values as lists
+     */
+    protected function as_lists($data, $keys) {
+        foreach ($keys as $key) {
+            if (!empty($data[$key]) && !isset($data[$key][0])) {
+                $data[$key] = array($data[$key]);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Sends each listed field that holds a numeric value (e.g. "40.75") as a float; other values pass through
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as numbers
+     * @return array Fields with those numeric values as floats
+     */
+    protected function as_floats($data, $keys) {
+        foreach ($keys as $key) {
+            if (isset($data[$key]) && is_numeric($data[$key])) {
+                $data[$key] = (float) $data[$key];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Sends each listed field that holds a number as a string; other values pass through
+     * @param array $data Serialized fields
+     * @param array $keys Fields the API documents as strings
+     * @return array Fields with those numbers as strings
+     */
+    protected function as_strings($data, $keys) {
+        foreach ($keys as $key) {
+            if (isset($data[$key]) && (is_int($data[$key]) || is_float($data[$key]))) {
+                $data[$key] = (string) $data[$key];
+            }
+        }
+        return $data;
     }
 
     /**
